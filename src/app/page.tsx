@@ -46,6 +46,17 @@ type ParsedHand = {
   tag: "3-bet" | "river" | "all-in" | "standard";
 };
 
+/** Main factice uniquement quand aucune main n’est importée (évite les accès undefined). */
+const EMPTY_HAND: ParsedHand = {
+  id: "__empty__",
+  players: [],
+  blinds: {},
+  actions: { preflop: [], flop: [], turn: [], river: [] },
+  board: { flop: [], turn: [], river: [] },
+  holeCardsByPlayer: {},
+  tag: "standard",
+};
+
 type ReplayStep = {
   index: number;
   action: ParsedAction;
@@ -1099,36 +1110,8 @@ function playTableChipSound(ctx: AudioContext) {
 }
 
 export default function Home() {
-  const mockHand = useMemo<ParsedHand>(
-    () => ({
-      id: "mock-1",
-      heroName: "Hero",
-      players: [
-        { name: "Villain1", position: "SB", stack: 100 },
-        { name: "Hero", position: "BB", stack: 100 },
-        { name: "Villain2", position: "BTN", stack: 100 },
-      ],
-      blinds: { sb: 0.5, bb: 1 },
-      actions: {
-        preflop: [
-          { street: "preflop", actor: "Villain2", type: "raise", amount: 2.5, raw: "Raises to 2.5" },
-          { street: "preflop", actor: "Hero", type: "call", amount: 2.5, raw: "Calls 2.5" },
-        ],
-        flop: [{ street: "flop", actor: "Hero", type: "bet", amount: 2, raw: "Bets 2" }],
-        turn: [{ street: "turn", actor: "Villain2", type: "fold", raw: "Folds" }],
-        river: [],
-      },
-      board: { flop: ["Ah", "7c", "2d"], turn: ["Ah", "7c", "2d", "Kd"], river: [] },
-      holeCardsByPlayer: { Hero: ["As", "Qh"] },
-      totalPot: 6,
-      tag: "standard",
-      dateTime: "Mock Hand",
-    }),
-    [],
-  );
-
-  const [hands, setHands] = useState<ParsedHand[]>([mockHand]);
-  const [selectedHandId, setSelectedHandId] = useState<string>(mockHand.id);
+  const [hands, setHands] = useState<ParsedHand[]>([]);
+  const [selectedHandId, setSelectedHandId] = useState<string>("");
   const [stepIndex, setStepIndex] = useState(0);
   const [importError, setImportError] = useState<string | null>(null);
   const [chipTick, setChipTick] = useState(0);
@@ -1214,7 +1197,11 @@ export default function Home() {
     });
   }, [heroMoveFilter, heroPositionFilter, tournamentFilteredHands, versusPositionFilter]);
   const selectedHand = useMemo(
-    () => filteredHands.find((hand) => hand.id === selectedHandId) ?? filteredHands[0] ?? hands[0],
+    () =>
+      filteredHands.find((hand) => hand.id === selectedHandId) ??
+      filteredHands[0] ??
+      hands[0] ??
+      EMPTY_HAND,
     [filteredHands, hands, selectedHandId],
   );
   const selectedHandIndex = useMemo(
@@ -1913,6 +1900,13 @@ export default function Home() {
 
           <div className="relative min-h-[340px] flex-1 rounded-[28px] border border-zinc-700/80 bg-[#25242a] p-3 pb-8">
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-zinc-200/80 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45)]" />
+            {hands.length === 0 && (
+              <div className="pointer-events-none absolute inset-4 z-[5] flex items-center justify-center rounded-[999px] bg-black/25 px-6 text-center">
+                <p className="max-w-sm text-sm font-semibold leading-relaxed text-zinc-200 drop-shadow-md">
+                  Aucune main chargée. Utilisez « Importer fichiers » pour ajouter des historiques (.txt).
+                </p>
+              </div>
+            )}
             {chipAnimation && !sweepAnimation && (
               <div
                 key={chipAnimation.key}
@@ -2031,7 +2025,7 @@ export default function Home() {
                 )}
               </div>
             </div>
-            {!potWinAnimation && (
+            {!potWinAnimation && hands.length > 0 && (
               <div className="absolute left-1/2 top-[32%] -translate-x-1/2 -translate-y-1/2 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
                 Pot {formatAmount(currentPot)}
               </div>
@@ -2162,7 +2156,9 @@ export default function Home() {
                 </button>
               </div>
               <span className="text-xs font-semibold tabular-nums text-zinc-400">
-                Main {Math.max(selectedHandIndex + 1, 1)} / {Math.max(filteredHands.length, 1)}
+                {hands.length === 0
+                  ? "0 main — importez des fichiers"
+                  : `Main ${Math.max(selectedHandIndex + 1, 1)} / ${Math.max(filteredHands.length, 1)}`}
               </span>
             </div>
           </div>
