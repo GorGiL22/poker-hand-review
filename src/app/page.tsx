@@ -71,6 +71,37 @@ const PHR_DOCK_TILE_ACTIVE = `${PHR_DOCK_TILE} border-emerald-400/40 from-emeral
 const PHR_DOCK_POD =
   "rounded-2xl border border-white/10 bg-zinc-950/40 p-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.38)] backdrop-blur-lg";
 
+// --- Design global (hors dock) ---
+const PHR_PAGE_BG =
+  "bg-zinc-950 bg-[radial-gradient(ellipse_110%_65%_at_50%_-12%,rgba(139,92,246,0.1),transparent_52%)] bg-[radial-gradient(ellipse_80%_50%_at_100%_100%,rgba(16,185,129,0.04),transparent_45%)]";
+
+const PHR_APP_SHELL =
+  "flex min-h-0 flex-1 flex-col rounded-[1.75rem] border border-white/10 bg-gradient-to-b from-zinc-900/88 via-zinc-950/95 to-[#0f0e12] p-3 shadow-[0_28px_100px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md sm:rounded-3xl sm:p-4";
+
+const PHR_TOOLBAR_RAIL =
+  "mb-3 rounded-2xl border border-white/10 bg-black/25 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md";
+
+const PHR_BTN_TOOL =
+  "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
+
+const PHR_BTN_TOOL_ACCENT =
+  "rounded-xl border border-violet-500/40 bg-violet-600/18 px-3.5 py-2 text-sm font-semibold text-violet-100 shadow-sm transition hover:border-violet-400/55 hover:bg-violet-600/28 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
+
+const PHR_POPOVER =
+  "absolute left-0 top-12 z-40 w-[min(100vw-2rem,22rem)] rounded-2xl border border-white/12 bg-zinc-950/96 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.58)] backdrop-blur-xl sm:top-14";
+
+const PHR_TOURNAMENT_RAIL =
+  "mb-2 flex flex-col gap-1 rounded-2xl border border-white/10 bg-zinc-950/45 px-2.5 py-1.5 shadow-inner backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:gap-2";
+
+const PHR_TABLE_FRAME =
+  "relative min-h-[340px] flex-1 rounded-3xl border border-white/10 bg-gradient-to-b from-[#2f2d38] via-[#232228] to-[#141318] p-3 pb-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.05),0_12px_40px_rgba(0,0,0,0.35)]";
+
+const PHR_TRANSPORT_BTN =
+  "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/12 bg-gradient-to-b from-zinc-600/35 to-zinc-900/92 text-sm font-black text-zinc-100 shadow-md transition hover:border-white/22 hover:from-zinc-500/42 active:scale-[0.95] disabled:pointer-events-none disabled:opacity-35";
+
+const PHR_TRANSPORT_READOUT =
+  "inline-flex h-11 min-w-[4.75rem] items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 px-2 text-sm font-bold tabular-nums text-zinc-200 shadow-inner backdrop-blur-sm";
+
 type ReplayStep = {
   index: number;
   action: ParsedAction;
