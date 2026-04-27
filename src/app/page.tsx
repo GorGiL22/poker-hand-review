@@ -2712,6 +2712,7 @@ export default function Home() {
                 className="h-4 w-4 rounded border-zinc-500 accent-emerald-500"
               />
             </label>
+            <PhrAccountSettingsCard />
           </div>
         ) : null}
         <button
