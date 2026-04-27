@@ -2118,16 +2118,6 @@ export default function Home() {
           {importError && <p className="mb-2 text-xs text-rose-400">{importError}</p>}
           {hands.length > 0 && (
           <>
-          <div className="mb-2 flex justify-end">
-            <div className="rounded-lg border border-zinc-800 bg-zinc-900/80 px-3 py-1.5 text-xs font-semibold text-zinc-200">
-              <p>
-                Blinds actuelles: <span className="text-zinc-100">{selectedHand.levelLabel ?? selectedHand.blinds.bb ? `${selectedHand.blinds.sb ?? "-"} / ${selectedHand.blinds.bb ?? "-"}` : "-"}</span>
-              </p>
-              <p>
-                Format: <span className="text-zinc-100">{selectedHand.tournamentVariant ?? "VANILLA"}</span>
-              </p>
-            </div>
-          </div>
           {allInTriggered && (
             <div className="mb-2 rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-1.5 text-xs">
               <p className="font-medium text-amber-200">Equite all-in</p>
