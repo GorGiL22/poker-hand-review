@@ -1925,19 +1925,6 @@ export default function Home() {
         </div>
       )}
       <div className="mx-auto flex min-h-0 w-full max-w-[1520px] flex-1 flex-col px-3 pb-3 pt-2 sm:px-5 sm:pb-4 sm:pt-3">
-        {hands.length > 0 && (
-          <PhrReviewChromeBar
-            active={showMesMainsFullPage}
-            onOpen={() => {
-              setShowFilters(false);
-              setShowCalcToolsMenu(false);
-              setShowOddsModule(false);
-              setShowBountyModule(false);
-              setShowGeometricModule(false);
-              setShowMesMainsFullPage(true);
-            }}
-          />
-        )}
         <section className={PHR_APP_SHELL}>
           <input
             ref={fileInputRef}
