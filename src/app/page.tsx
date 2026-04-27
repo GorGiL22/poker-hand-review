@@ -1303,6 +1303,7 @@ export default function Home() {
     lastActionSoundSigRef.current = sig;
 
     void (async () => {
+      if (!soundEnabled) return;
       const ctx = await getOrResumeAudioContext(audioCtxRef);
       if (!ctx) return;
       const { type, amount } = currentStep.action;
