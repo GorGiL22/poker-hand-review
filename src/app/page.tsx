@@ -1180,9 +1180,7 @@ export default function Home() {
   const [showGeometricModule, setShowGeometricModule] = useState(false);
   /** Menu du gros bouton « Outils de calculs » (Cotes / Bounty / Géométrique). */
   const [showCalcToolsMenu, setShowCalcToolsMenu] = useState(false);
-  const [heroMoveFilter, setHeroMoveFilter] = useState<HeroMoveFilter>("ALL");
-  const [heroPositionFilter, setHeroPositionFilter] = useState<string>("ALL");
-  const [versusPositionFilter, setVersusPositionFilter] = useState<string>("ALL");
+  const [handFilters, setHandFilters] = useState<PhrHandFilterSelection>(EMPTY_PHR_HAND_FILTER_SELECTION);
   const [oddsPotInput, setOddsPotInput] = useState<string>("10");
   const [oddsCallInput, setOddsCallInput] = useState<string>("5");
   const [oddsOutsInput, setOddsOutsInput] = useState<string>("9");
