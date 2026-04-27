@@ -1227,31 +1227,9 @@ export default function Home() {
     if (selectedTournament === "ALL") return hands;
     return hands.filter((hand) => deriveTournamentKey(hand) === selectedTournament);
   }, [hands, selectedTournament]);
-  const availableHeroPositions = useMemo(() => {
-    const set = new Set<string>();
-    tournamentFilteredHands.forEach((hand) => {
-      const meta = heroSpotMeta(hand);
-      if (meta.heroPosition && meta.heroPosition !== "UNKNOWN") set.add(meta.heroPosition);
-    });
-    return ["ALL", ...Array.from(set).sort((a, b) => a.localeCompare(b, "fr"))];
-  }, [tournamentFilteredHands]);
-  const availableVersusPositions = useMemo(() => {
-    const set = new Set<string>();
-    tournamentFilteredHands.forEach((hand) => {
-      const meta = heroSpotMeta(hand);
-      if (meta.versusPosition) set.add(meta.versusPosition);
-    });
-    return ["ALL", ...Array.from(set).sort((a, b) => a.localeCompare(b, "fr"))];
-  }, [tournamentFilteredHands]);
   const filteredHands = useMemo(() => {
-    return tournamentFilteredHands.filter((hand) => {
-      const meta = heroSpotMeta(hand);
-      const moveOk = heroMoveFilter === "ALL" || meta.heroMove === heroMoveFilter;
-      const heroPosOk = heroPositionFilter === "ALL" || meta.heroPosition === heroPositionFilter;
-      const versusOk = versusPositionFilter === "ALL" || meta.versusPosition === versusPositionFilter;
-      return moveOk && heroPosOk && versusOk;
-    });
-  }, [heroMoveFilter, heroPositionFilter, tournamentFilteredHands, versusPositionFilter]);
+    return tournamentFilteredHands.filter((hand) => handMatchesPhrFilters(hand, handFilters));
+  }, [handFilters, tournamentFilteredHands]);
   const selectedHand = useMemo(
     () =>
       filteredHands.find((hand) => hand.id === selectedHandId) ??
