@@ -2370,7 +2370,7 @@ export default function Home() {
             </button>
             {hands.length === 0 && (
               <div
-                className="absolute inset-4 z-[30] flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[999px] bg-black/25 px-4 py-8 text-center backdrop-blur-[1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400/80"
+                className="absolute inset-4 z-[30] flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[999px] bg-black/35 px-4 py-8 text-center ring-1 ring-white/10 backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400/80"
                 onClick={() => fileInputRef.current?.click()}
                 onDragOver={onWelcomeDragOver}
                 onDragLeave={onWelcomeDragLeave}
