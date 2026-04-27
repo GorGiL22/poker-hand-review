@@ -1844,7 +1844,9 @@ export default function Home() {
                   setShowCalcToolsMenu(false);
                   setShowFilters((v) => !v);
                 }}
-                className={`${PHR_TOOLBAR_BTN} ${showFilters ? PHR_TOOLBAR_BTN_ON_FILTERS : ""}`}
+                className={`${PHR_TOOLBAR_BTN} ${
+                  showFilters || phrFiltersAreActive(handFilters) ? PHR_TOOLBAR_BTN_ON_FILTERS : ""
+                }`}
               >
                 Filtres
               </button>
