@@ -2364,7 +2364,7 @@ export default function Home() {
               type="button"
               onClick={() => setDisplayUnit((u) => (u === "bb" ? "chips" : "bb"))}
               title={displayUnit === "bb" ? "Passer en jetons" : "Passer en BB"}
-              className="absolute bottom-2 right-2 z-[45] rounded-full border border-zinc-500/90 bg-zinc-900/90 px-3 py-2 text-xs font-bold text-zinc-100 shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-sm transition hover:border-zinc-400 hover:bg-zinc-800/95 sm:bottom-3 sm:right-3 sm:px-3.5 sm:py-2.5 sm:text-sm"
+              className="absolute bottom-2 right-2 z-[45] rounded-full border border-white/12 bg-gradient-to-b from-zinc-700/50 to-zinc-950/90 px-3 py-2 text-xs font-bold text-zinc-100 shadow-[0_4px_20px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition hover:border-white/20 sm:bottom-3 sm:right-3 sm:px-3.5 sm:py-2.5 sm:text-sm"
             >
               {displayUnit === "bb" ? "BB ◎" : "Jetons ◉"}
             </button>
