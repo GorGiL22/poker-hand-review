@@ -1768,16 +1768,18 @@ export default function Home() {
       )}
       <div className="mx-auto h-full max-w-[1520px] p-3">
         <section className="flex h-full flex-col rounded-[28px] border border-zinc-800/90 bg-[#222127] p-3 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            accept=".txt,text/plain"
+            onChange={onImportFile}
+            className="hidden"
+            aria-hidden
+          />
+          {hands.length > 0 && (
           <div className="mb-2 flex items-start justify-between gap-2">
             <div className="relative flex items-center gap-2">
-              <input
-                ref={fileInputRef}
-                type="file"
-                multiple
-                accept=".txt,text/plain"
-                onChange={onImportFile}
-                className="hidden"
-              />
               <button
                 onClick={() => fileInputRef.current?.click()}
                 className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
