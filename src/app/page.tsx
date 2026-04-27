@@ -652,6 +652,14 @@ function parseHandHistoryText(rawText: string, sourceFile?: string): ParsedHand[
   return parsed;
 }
 
+/** Titre court pour une ligne de la bibliothèque de mains. */
+function mesMainsRowLabel(hand: ParsedHand): string {
+  const lvl = hand.levelLabel?.trim();
+  const dt = hand.dateTime?.replace("T", " ").slice(0, 16);
+  const idShort = hand.id.length > 24 ? `…${hand.id.slice(-20)}` : hand.id;
+  return [lvl, dt, idShort].filter(Boolean).join(" · ");
+}
+
 function deriveTournamentKey(hand: ParsedHand): string {
   if (hand.tournamentName && hand.tournamentName.trim().length > 0) return hand.tournamentName.trim();
   const raw = hand.sourceFile ?? "Tournoi inconnu";
@@ -1119,6 +1127,7 @@ export default function Home() {
   const [selectedTournament, setSelectedTournament] = useState<string>("ALL");
   const [showTournamentList, setShowTournamentList] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [showMesMainsFullPage, setShowMesMainsFullPage] = useState(false);
   const [showOddsModule, setShowOddsModule] = useState(false);
   const [showBountyModule, setShowBountyModule] = useState(false);
   const [showGeometricModule, setShowGeometricModule] = useState(false);
@@ -1269,6 +1278,23 @@ export default function Home() {
       }
     })();
   }, [clampedStepIndex, currentStep, selectedHand.id]);
+
+  useEffect(() => {
+    if (!showMesMainsFullPage) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setShowMesMainsFullPage(false);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showMesMainsFullPage]);
+
+  useEffect(() => {
+    if (hands.length === 0) setShowMesMainsFullPage(false);
+  }, [hands.length]);
+
   const currentStacks = currentStep?.stacksByPlayer ?? initialForcedState.stacksByPlayer;
   const activePlayer = currentStep?.action.actor;
   const visibleBoard = useMemo(() => currentStep?.visibleBoard ?? [], [currentStep]);
@@ -1583,8 +1609,138 @@ export default function Home() {
     });
   }
 
+  const mesMainsFiltersColumn = (
+    <div className="space-y-3">
+      <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">Filtres (même logique que le panneau Filtres)</p>
+      <select
+        value={heroMoveFilter}
+        onChange={(event) => {
+          setHeroMoveFilter(event.target.value as HeroMoveFilter);
+          setStepIndex(0);
+        }}
+        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+      >
+        <option value="ALL">Action hero: toutes</option>
+        <option value="OPEN">Action hero: open</option>
+        <option value="3BET">Action hero: 3bet</option>
+        <option value="XR_FLOP">Action hero: check-raise flop</option>
+        <option value="ALLIN">Action hero: all-in</option>
+      </select>
+      <select
+        value={heroPositionFilter}
+        onChange={(event) => {
+          setHeroPositionFilter(event.target.value);
+          setStepIndex(0);
+        }}
+        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+      >
+        {availableHeroPositions.map((position) => (
+          <option key={`mesmains-hero-pos-${position}`} value={position}>
+            {position === "ALL" ? "Position hero: toutes" : `Position hero: ${position}`}
+          </option>
+        ))}
+      </select>
+      <select
+        value={versusPositionFilter}
+        onChange={(event) => {
+          setVersusPositionFilter(event.target.value);
+          setStepIndex(0);
+        }}
+        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+      >
+        {availableVersusPositions.map((position) => (
+          <option key={`mesmains-vs-pos-${position}`} value={position}>
+            {position === "ALL" ? "Vs position: toutes" : `Vs position: ${position}`}
+          </option>
+        ))}
+      </select>
+      <p className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-2 py-2 text-center text-xs text-zinc-400">
+        {filteredHands.length} main{filteredHands.length !== 1 ? "s" : ""} après filtres
+      </p>
+    </div>
+  );
+
   return (
     <main className="h-screen overflow-hidden bg-[#1b1a1f] text-zinc-100">
+      {hands.length > 0 && showMesMainsFullPage && (
+        <div
+          data-phr-mes-mains-page
+          className="fixed inset-0 z-[90] flex flex-col bg-[#121118] text-zinc-100 shadow-[0_0_0_1px_rgba(0,0,0,0.4)]"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="phr-mes-mains-title"
+        >
+          <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-zinc-800/90 bg-zinc-950/80 px-4 py-3 backdrop-blur-sm">
+            <button
+              type="button"
+              onClick={() => setShowMesMainsFullPage(false)}
+              className="rounded-full border border-zinc-600 bg-zinc-800/80 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/80"
+            >
+              Fermer
+            </button>
+            <h1 id="phr-mes-mains-title" className="text-lg font-black tracking-tight text-zinc-50">
+              Mes mains
+            </h1>
+            <div className="ml-auto flex min-w-[12rem] flex-1 flex-wrap items-center justify-end gap-2 sm:max-w-md">
+              <label className="flex min-w-0 flex-1 flex-col gap-1 text-[10px] font-bold uppercase tracking-wide text-zinc-500 sm:flex-none sm:min-w-[14rem]">
+                Tournoi
+                <select
+                  value={selectedTournament}
+                  onChange={(event) => {
+                    setSelectedTournament(event.target.value);
+                    setStepIndex(0);
+                  }}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-xs font-semibold text-zinc-100"
+                >
+                  {tournamentOptions.map((option) => (
+                    <option key={`mesmains-t-${option.key}`} value={option.key}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          </header>
+          <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[minmax(17rem,22rem)_1fr]">
+            <aside className="max-h-[40vh] overflow-y-auto border-b border-zinc-800/80 bg-zinc-950/40 p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-zinc-800/80">
+              {mesMainsFiltersColumn}
+            </aside>
+            <div className="flex min-h-0 flex-col gap-2 p-4">
+              <h2 className="shrink-0 text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-500">Toutes les mains filtrées</h2>
+              {filteredHands.length === 0 ? (
+                <p className="rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-8 text-center text-sm text-zinc-500">
+                  Aucune main ne correspond à ces filtres.
+                </p>
+              ) : (
+                <ul className="min-h-0 flex-1 space-y-0.5 overflow-y-auto rounded-xl border border-zinc-800/80 bg-black/25 py-1">
+                  {filteredHands.map((hand) => {
+                    const active = hand.id === selectedHand.id;
+                    return (
+                      <li key={`mesmains-li-${hand.sourceFile ?? "local"}::${hand.id}`}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            loadHand(hand.id);
+                            setShowMesMainsFullPage(false);
+                          }}
+                          className={`w-full px-3 py-2.5 text-left text-sm transition hover:bg-zinc-800/60 ${
+                            active ? "bg-violet-600/20 text-violet-100" : "text-zinc-200"
+                          }`}
+                        >
+                          <span className="block truncate font-medium">{mesMainsRowLabel(hand)}</span>
+                          {hand.tournamentName && (
+                            <span className="mt-0.5 block truncate text-[11px] text-zinc-500">{hand.tournamentName}</span>
+                          )}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       <div className="mx-auto h-full max-w-[1520px] p-3">
         <section className="flex h-full flex-col rounded-[28px] border border-zinc-800/90 bg-[#222127] p-3 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
           <div className="mb-2 flex items-start justify-between gap-2">
@@ -1614,6 +1770,21 @@ export default function Home() {
                 className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
               >
                 Filtres
+              </button>
+              <button
+                type="button"
+                disabled={hands.length === 0}
+                onClick={() => {
+                  setShowTournamentList(false);
+                  setShowFilters(false);
+                  setShowOddsModule(false);
+                  setShowBountyModule(false);
+                  setShowGeometricModule(false);
+                  setShowMesMainsFullPage(true);
+                }}
+                className="rounded-full border border-violet-600/50 bg-violet-600/20 px-4 py-2 text-sm font-bold text-violet-100 transition hover:border-violet-500 hover:bg-violet-600/30 disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                Mes mains
               </button>
               <button
                 onClick={() => setShowOddsModule((v) => !v)}
