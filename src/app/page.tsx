@@ -2580,6 +2580,60 @@ export default function Home() {
           </button>
         </div>
       </div>
+
+      <div className="pointer-events-none fixed bottom-4 right-4 z-[70] flex flex-col items-end gap-2 sm:bottom-5 sm:right-5">
+        {showSettingsPanel ? (
+          <div
+            className="pointer-events-auto w-[min(calc(100vw-2rem),18rem)] rounded-xl border border-zinc-600/90 bg-zinc-900/98 p-4 shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm"
+            role="dialog"
+            aria-labelledby="phr-settings-title"
+          >
+            <div className="mb-3 flex items-center justify-between gap-2">
+              <h2 id="phr-settings-title" className="text-sm font-bold text-zinc-50">
+                Paramètres
+              </h2>
+              <button
+                type="button"
+                onClick={() => setShowSettingsPanel(false)}
+                className="rounded-lg border border-zinc-600 px-2 py-1 text-xs font-semibold text-zinc-300 hover:bg-zinc-800"
+              >
+                Fermer
+              </button>
+            </div>
+            <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-zinc-700/80 bg-zinc-950/60 px-3 py-2.5">
+              <span className="text-sm text-zinc-200">Sons des actions</span>
+              <input
+                type="checkbox"
+                checked={soundEnabled}
+                onChange={(e) => setSoundEnabled(e.target.checked)}
+                className="h-4 w-4 rounded border-zinc-500 accent-emerald-500"
+              />
+            </label>
+          </div>
+        ) : null}
+        <button
+          type="button"
+          onClick={() => setShowSettingsPanel((v) => !v)}
+          title={showSettingsPanel ? "Fermer les paramètres" : "Paramètres"}
+          aria-expanded={showSettingsPanel}
+          className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-zinc-500/90 bg-zinc-800/95 text-zinc-100 shadow-lg transition hover:border-zinc-400 hover:bg-zinc-700/95"
+        >
+          <svg
+            className="h-6 w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden
+          >
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+          <span className="sr-only">Paramètres</span>
+        </button>
+      </div>
     </main>
   );
 }
