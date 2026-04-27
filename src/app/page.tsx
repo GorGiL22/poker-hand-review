@@ -2142,6 +2142,74 @@ export default function Home() {
           </>
           )}
 
+          {hands.length > 0 && (
+            <div className="mb-2 flex flex-col gap-2.5 rounded-xl border border-zinc-700/80 bg-zinc-900/40 px-3 py-2.5 shadow-inner sm:flex-row sm:items-stretch sm:justify-between sm:gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+                  Tournois
+                </p>
+                <div
+                  className="flex gap-1.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-600"
+                  role="tablist"
+                  aria-label="Filtrer par tournoi"
+                >
+                  {tournamentOptions.map((option) => {
+                    const active = selectedTournament === option.key;
+                    return (
+                      <button
+                        key={`tbar-${option.key}`}
+                        type="button"
+                        role="tab"
+                        aria-selected={active}
+                        onClick={() => {
+                          setSelectedTournament(option.key);
+                          setStepIndex(0);
+                        }}
+                        title={option.label}
+                        className={`max-w-[min(100%,14rem)] shrink-0 truncate rounded-full border px-3 py-1.5 text-left text-xs font-semibold transition sm:max-w-[18rem] ${
+                          active
+                            ? "border-violet-500/70 bg-violet-600/25 text-violet-100 shadow-[0_0_0_1px_rgba(139,92,246,0.25)]"
+                            : "border-zinc-600/80 bg-zinc-800/70 text-zinc-200 hover:border-zinc-500 hover:bg-zinc-800"
+                        }`}
+                      >
+                        {option.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="flex shrink-0 flex-col gap-1.5 border-t border-zinc-700/70 pt-2 sm:w-auto sm:min-w-[11rem] sm:border-l sm:border-t-0 sm:pl-3 sm:pt-0">
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+                  Main affichée
+                </p>
+                <div className="rounded-lg border border-zinc-700/90 bg-zinc-950/70 px-2.5 py-2 text-[11px] font-semibold leading-snug text-zinc-200">
+                  <p>
+                    <span className="text-zinc-500">Blinds </span>
+                    <span className="text-zinc-100">
+                      {selectedHand.blinds.sb != null && selectedHand.blinds.bb != null
+                        ? `${selectedHand.blinds.sb} / ${selectedHand.blinds.bb}`
+                        : "—"}
+                    </span>
+                    {selectedHand.levelLabel?.trim() ? (
+                      <span className="block truncate text-zinc-400" title={selectedHand.levelLabel}>
+                        {selectedHand.levelLabel.trim()}
+                      </span>
+                    ) : null}
+                  </p>
+                  <p className="mt-1 border-t border-zinc-800/80 pt-1">
+                    <span className="text-zinc-500">Format </span>
+                    <span className="text-zinc-100">{selectedHand.tournamentVariant ?? "VANILLA"}</span>
+                  </p>
+                  <p className="mt-1 border-t border-zinc-800/80 pt-1 text-zinc-400">
+                    {selectedTournament === "ALL"
+                      ? `${hands.length} main${hands.length !== 1 ? "s" : ""} importée${hands.length !== 1 ? "s" : ""}`
+                      : `${tournamentFilteredHands.length} main${tournamentFilteredHands.length !== 1 ? "s" : ""} dans ce tournoi`}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div className="relative min-h-[340px] flex-1 rounded-[28px] border border-zinc-700/80 bg-[#25242a] p-3 pb-8">
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-zinc-200/80 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45)]" />
             <button
