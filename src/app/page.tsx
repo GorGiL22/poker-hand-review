@@ -1885,11 +1885,11 @@ export default function Home() {
             <div className="flex min-h-0 flex-col gap-2 p-4">
               <h2 className="shrink-0 text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-500">Toutes les mains filtrées</h2>
               {filteredHands.length === 0 ? (
-                <p className="rounded-xl border border-zinc-800 bg-zinc-900/50 px-4 py-8 text-center text-sm text-zinc-500">
+                <p className="rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-8 text-center text-sm text-zinc-500 backdrop-blur-sm">
                   Aucune main ne correspond à ces filtres.
                 </p>
               ) : (
-                <ul className="min-h-0 flex-1 space-y-0.5 overflow-y-auto rounded-xl border border-zinc-800/80 bg-black/25 py-1">
+                <ul className="min-h-0 flex-1 space-y-0.5 overflow-y-auto rounded-2xl border border-white/10 bg-black/25 py-1 backdrop-blur-sm">
                   {filteredHands.map((hand) => {
                     const active = hand.id === selectedHand.id;
                     return (
