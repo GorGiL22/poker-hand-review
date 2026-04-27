@@ -1321,7 +1321,7 @@ export default function Home() {
         playTableChipSound(ctx);
       }
     })();
-  }, [clampedStepIndex, currentStep, selectedHand.id]);
+  }, [clampedStepIndex, currentStep, selectedHand.id, soundEnabled]);
 
   useEffect(() => {
     if (!showMesMainsFullPage) return;
