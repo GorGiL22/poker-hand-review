@@ -1879,7 +1879,7 @@ export default function Home() {
             </div>
           </header>
           <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[minmax(17rem,22rem)_1fr]">
-            <aside className="max-h-[40vh] overflow-y-auto border-b border-zinc-800/80 bg-zinc-950/40 p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-zinc-800/80">
+            <aside className="max-h-[40vh] overflow-y-auto border-b border-white/10 bg-black/20 p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-white/10">
               {mesMainsFiltersColumn}
             </aside>
             <div className="flex min-h-0 flex-col gap-2 p-4">
