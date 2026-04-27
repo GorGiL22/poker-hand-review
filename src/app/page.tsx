@@ -751,10 +751,6 @@ function formatTournamentDate(dateTime?: string): string | null {
   return `${isoMatch[3]}/${isoMatch[2]}/${isoMatch[1]}`;
 }
 
-function playerPositionByName(hand: ParsedHand): Record<string, string> {
-  return Object.fromEntries(hand.players.map((player) => [player.name, player.position]));
-}
-
 function buildReplaySteps(hand: ParsedHand): ReplayStep[] {
   const stacks: Record<string, number> = {};
   hand.players.forEach((player) => {
