@@ -1942,12 +1942,12 @@ export default function Home() {
             aria-hidden
           />
           {hands.length > 0 && (
-          <div className={`${PHR_TOOLBAR_RAIL} flex flex-wrap items-start justify-between gap-2`}>
+          <div className={`${PHR_TOOLBAR_RAIL} flex flex-wrap items-center gap-2`}>
             <div className="relative flex min-w-0 flex-1 flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className={PHR_BTN_TOOL}
+                className={PHR_TOOLBAR_BTN}
               >
                 Importer fichiers
               </button>
@@ -1957,7 +1957,7 @@ export default function Home() {
                   setShowCalcToolsMenu(false);
                   setShowFilters((v) => !v);
                 }}
-                className={PHR_BTN_TOOL}
+                className={`${PHR_TOOLBAR_BTN} ${showFilters ? PHR_TOOLBAR_BTN_ON_FILTERS : ""}`}
               >
                 Filtres
               </button>
@@ -1972,7 +1972,7 @@ export default function Home() {
                   setShowGeometricModule(false);
                   setShowMesMainsFullPage(true);
                 }}
-                className={PHR_BTN_TOOL_ACCENT}
+                className={`${PHR_TOOLBAR_BTN} ${showMesMainsFullPage ? PHR_TOOLBAR_BTN_ON_MES_MAINS : ""}`}
               >
                 Mes mains
               </button>
@@ -1984,21 +1984,21 @@ export default function Home() {
                   setShowFilters(false);
                   setShowCalcToolsMenu((v) => !v);
                 }}
-                className={`rounded-2xl border-2 px-4 py-2.5 text-left text-sm font-black leading-tight shadow-md transition sm:min-w-[11rem] sm:px-5 sm:py-3 sm:text-base ${
+                className={`${PHR_TOOLBAR_BTN_CALC} ${
                   showOddsModule || showBountyModule || showGeometricModule || showCalcToolsMenu
-                    ? "border-amber-400/55 bg-gradient-to-b from-amber-950/50 to-zinc-950/95 text-amber-50 shadow-[0_0_0_1px_rgba(251,191,36,0.12)] hover:border-amber-300/65 hover:from-amber-950/60"
-                    : "border-white/12 bg-gradient-to-b from-zinc-800/45 to-zinc-950/95 text-zinc-50 hover:border-amber-500/30"
+                    ? PHR_TOOLBAR_BTN_ON_CALC
+                    : ""
                 }`}
               >
-                <span className="block">Outils de calculs</span>
+                <span className="text-sm font-bold leading-none">Outils de calculs</span>
                 <span
-                  className={`mt-0.5 block text-[10px] font-semibold uppercase tracking-wide sm:text-[11px] ${
+                  className={`mt-0.5 block text-[9px] font-semibold uppercase tracking-[0.08em] leading-none ${
                     showOddsModule || showBountyModule || showGeometricModule || showCalcToolsMenu
-                      ? "text-amber-200/75"
+                      ? "text-amber-200/80"
                       : "text-zinc-500"
                   }`}
                 >
-                  Cotes · Bounty · Géométrique
+                  Cotes · Bounty · Géo
                 </span>
               </button>
               {showFilters && (
