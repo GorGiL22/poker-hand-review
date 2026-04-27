@@ -1129,6 +1129,8 @@ export default function Home() {
   const [showTournamentList, setShowTournamentList] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [showMesMainsFullPage, setShowMesMainsFullPage] = useState(false);
+  /** Mise en avant de la zone drop sur l’accueil (aucune main). */
+  const [welcomeDropActive, setWelcomeDropActive] = useState(false);
   const [showOddsModule, setShowOddsModule] = useState(false);
   const [showBountyModule, setShowBountyModule] = useState(false);
   const [showGeometricModule, setShowGeometricModule] = useState(false);
