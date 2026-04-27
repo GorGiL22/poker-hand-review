@@ -2098,14 +2098,38 @@ export default function Home() {
               )}
             </div>
           )}
+          </>
+          )}
 
           <div className="relative min-h-[340px] flex-1 rounded-[28px] border border-zinc-700/80 bg-[#25242a] p-3 pb-8">
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-zinc-200/80 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45)]" />
             {hands.length === 0 && (
-              <div className="pointer-events-none absolute inset-4 z-[5] flex items-center justify-center rounded-[999px] bg-black/25 px-6 text-center">
-                <p className="max-w-sm text-sm font-semibold leading-relaxed text-zinc-200 drop-shadow-md">
-                  Aucune main chargée. Utilisez « Importer fichiers » pour ajouter des historiques (.txt).
-                </p>
+              <div className="absolute inset-4 z-[5] flex flex-col items-center justify-center gap-4 rounded-[999px] bg-black/20 px-4 py-8 text-center backdrop-blur-[1px]">
+                <div className="pointer-events-none space-y-2">
+                  <h1 className="text-balance text-xl font-bold tracking-tight text-zinc-50 drop-shadow-md sm:text-2xl">
+                    Bienvenue sur PokerReview Hand
+                  </h1>
+                  <p className="text-balance text-sm text-zinc-200/95 drop-shadow">
+                    Analyse simplement tes mains pour progresser
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  onDragOver={onWelcomeDragOver}
+                  onDragLeave={onWelcomeDragLeave}
+                  onDrop={onWelcomeDrop}
+                  className={`mx-auto flex min-h-[140px] w-[min(92%,420px)] max-w-full cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-8 text-center transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400/80 ${
+                    welcomeDropActive
+                      ? "border-emerald-400/90 bg-emerald-500/15 text-emerald-50 shadow-[0_0_0_1px_rgba(52,211,153,0.35)]"
+                      : "border-zinc-400/45 bg-zinc-900/35 text-zinc-100 hover:border-zinc-300/60 hover:bg-zinc-900/50"
+                  }`}
+                >
+                  <span className="text-lg font-semibold sm:text-xl">Glisse tes fichiers ici</span>
+                  <span className="text-xs font-normal text-zinc-300 sm:text-sm">
+                    ou clique pour choisir des historiques (.txt)
+                  </span>
+                </button>
               </div>
             )}
             {chipAnimation && !sweepAnimation && (
