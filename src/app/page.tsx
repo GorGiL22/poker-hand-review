@@ -1708,54 +1708,14 @@ export default function Home() {
   }
 
   const mesMainsFiltersColumn = (
-    <div className="space-y-3">
-      <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">Filtres (même logique que le panneau Filtres)</p>
-      <select
-        value={heroMoveFilter}
-        onChange={(event) => {
-          setHeroMoveFilter(event.target.value as HeroMoveFilter);
-          setStepIndex(0);
-        }}
-        className={PHR_FIELD_SELECT}
-      >
-        <option value="ALL">Action hero: toutes</option>
-        <option value="OPEN">Action hero: open</option>
-        <option value="3BET">Action hero: 3bet</option>
-        <option value="XR_FLOP">Action hero: check-raise flop</option>
-        <option value="ALLIN">Action hero: all-in</option>
-      </select>
-      <select
-        value={heroPositionFilter}
-        onChange={(event) => {
-          setHeroPositionFilter(event.target.value);
-          setStepIndex(0);
-        }}
-        className={PHR_FIELD_SELECT}
-      >
-        {availableHeroPositions.map((position) => (
-          <option key={`mesmains-hero-pos-${position}`} value={position}>
-            {position === "ALL" ? "Position hero: toutes" : `Position hero: ${position}`}
-          </option>
-        ))}
-      </select>
-      <select
-        value={versusPositionFilter}
-        onChange={(event) => {
-          setVersusPositionFilter(event.target.value);
-          setStepIndex(0);
-        }}
-        className={PHR_FIELD_SELECT}
-      >
-        {availableVersusPositions.map((position) => (
-          <option key={`mesmains-vs-pos-${position}`} value={position}>
-            {position === "ALL" ? "Vs position: toutes" : `Vs position: ${position}`}
-          </option>
-        ))}
-      </select>
-      <p className="rounded-xl border border-white/10 bg-black/25 px-2 py-2 text-center text-xs text-zinc-400 backdrop-blur-sm">
-        {filteredHands.length} main{filteredHands.length !== 1 ? "s" : ""} après filtres
-      </p>
-    </div>
+    <PhrHandFiltersPanel
+      value={handFilters}
+      onChange={(next) => {
+        setHandFilters(next);
+        setStepIndex(0);
+      }}
+      filteredCount={filteredHands.length}
+    />
   );
 
   return (
