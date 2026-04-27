@@ -2797,7 +2797,7 @@ export default function Home() {
             className={showSettingsPanel ? PHR_DOCK_TILE_ACTIVE : PHR_DOCK_TILE}
           >
             <svg
-              className="h-6 w-6 text-zinc-200"
+              className={PHR_DOCK_ICON}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
