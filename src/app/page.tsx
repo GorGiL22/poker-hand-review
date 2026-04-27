@@ -1830,7 +1830,7 @@ export default function Home() {
           </option>
         ))}
       </select>
-      <p className="rounded-lg border border-zinc-800 bg-zinc-900/60 px-2 py-2 text-center text-xs text-zinc-400">
+      <p className="rounded-xl border border-white/10 bg-black/25 px-2 py-2 text-center text-xs text-zinc-400 backdrop-blur-sm">
         {filteredHands.length} main{filteredHands.length !== 1 ? "s" : ""} après filtres
       </p>
     </div>
