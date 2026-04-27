@@ -1970,21 +1970,6 @@ export default function Home() {
               </button>
               <button
                 type="button"
-                disabled={hands.length === 0}
-                onClick={() => {
-                  setShowFilters(false);
-                  setShowCalcToolsMenu(false);
-                  setShowOddsModule(false);
-                  setShowBountyModule(false);
-                  setShowGeometricModule(false);
-                  setShowMesMainsFullPage(true);
-                }}
-                className={`${PHR_TOOLBAR_BTN} ${showMesMainsFullPage ? PHR_TOOLBAR_BTN_ON_MES_MAINS : ""}`}
-              >
-                Mes mains
-              </button>
-              <button
-                type="button"
                 aria-expanded={showCalcToolsMenu}
                 aria-haspopup="menu"
                 onClick={() => {
