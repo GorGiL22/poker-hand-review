@@ -1842,7 +1842,7 @@ export default function Home() {
       {hands.length > 0 && showMesMainsFullPage && (
         <div
           data-phr-mes-mains-page
-          className="fixed inset-0 z-[90] flex flex-col bg-[#121118] text-zinc-100 shadow-[0_0_0_1px_rgba(0,0,0,0.4)]"
+          className="fixed inset-0 z-[90] flex flex-col border border-white/10 bg-zinc-950/98 text-zinc-100 shadow-[0_0_0_1px_rgba(0,0,0,0.5)] backdrop-blur-xl"
           role="dialog"
           aria-modal="true"
           aria-labelledby="phr-mes-mains-title"
