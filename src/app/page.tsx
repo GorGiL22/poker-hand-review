@@ -2314,19 +2314,6 @@ export default function Home() {
                   <span className="whitespace-nowrap text-zinc-500">
                     Fmt <span className="text-zinc-200">{selectedHand.tournamentVariant ?? "VANILLA"}</span>
                   </span>
-                  <span
-                    className="whitespace-nowrap text-zinc-500"
-                    title={
-                      selectedTournament === "ALL"
-                        ? "Mains importées au total"
-                        : "Mains dans le tournoi sélectionné"
-                    }
-                  >
-                    <span className="text-zinc-200">
-                      {selectedTournament === "ALL" ? hands.length : tournamentFilteredHands.length}
-                    </span>{" "}
-                    mains
-                  </span>
                   {(heroMoveFilter !== "ALL" ||
                     heroPositionFilter !== "ALL" ||
                     versusPositionFilter !== "ALL") && (
