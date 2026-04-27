@@ -1641,8 +1641,7 @@ export default function Home() {
   }
 
   const discordInviteHref =
-    (typeof process !== "undefined" && process.env.NEXT_PUBLIC_DISCORD_INVITE_URL?.trim()) ||
-    "https://discord.com";
+    process.env.NEXT_PUBLIC_DISCORD_INVITE_URL?.trim() || "https://discord.com";
 
   async function shareCurrentHand() {
     const text = formatHandForShare(selectedHand);
