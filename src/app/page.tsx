@@ -1890,6 +1890,7 @@ export default function Home() {
                 disabled={hands.length === 0}
                 onClick={() => {
                   setShowFilters(false);
+                  setShowCalcToolsMenu(false);
                   setShowOddsModule(false);
                   setShowBountyModule(false);
                   setShowGeometricModule(false);
