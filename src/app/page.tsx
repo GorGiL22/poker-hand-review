@@ -66,17 +66,6 @@ const EMPTY_HAND: ParsedHand = {
   tag: "standard",
 };
 
-/** Pastille dock : même gabarit que Paramètres (48px), verre + léger relief. */
-const PHR_DOCK_TILE =
-  "pointer-events-auto inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/12 bg-gradient-to-b from-zinc-600/28 to-zinc-900/92 text-zinc-100 shadow-[0_4px_22px_rgba(0,0,0,0.45),inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-md transition-[transform,box-shadow,border-color,background-color] duration-200 outline-none hover:border-white/22 hover:from-zinc-500/38 hover:to-zinc-800/95 hover:shadow-[0_8px_32px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.14)] active:scale-[0.94] focus-visible:ring-2 focus-visible:ring-emerald-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#1b1a1f]";
-
-const PHR_DOCK_TILE_DISCORD = `${PHR_DOCK_TILE} hover:shadow-[0_6px_28px_rgba(88,101,242,0.2),0_8px_32px_rgba(0,0,0,0.52),inset_0_1px_0_rgba(255,255,255,0.1)]`;
-
-const PHR_DOCK_TILE_ACTIVE = `${PHR_DOCK_TILE} border-emerald-400/40 from-emerald-900/25 to-zinc-900/95 shadow-[0_4px_26px_rgba(16,185,129,0.18),inset_0_1px_0_rgba(255,255,255,0.1)]`;
-
-const PHR_DOCK_POD =
-  "rounded-2xl border border-white/10 bg-zinc-950/40 p-1.5 shadow-[0_10px_40px_rgba(0,0,0,0.38)] backdrop-blur-lg";
-
 // --- Design global (hors dock) ---
 const PHR_PAGE_BG =
   "bg-zinc-950 bg-[radial-gradient(ellipse_110%_65%_at_50%_-12%,rgba(139,92,246,0.1),transparent_52%)] bg-[radial-gradient(ellipse_80%_50%_at_100%_100%,rgba(16,185,129,0.04),transparent_45%)]";
