@@ -2347,6 +2347,7 @@ export default function Home() {
               );
             })}
           </div>
+          {hands.length > 0 && (
           <div className="mt-2 border-t border-zinc-700/70 pt-2.5">
             <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-1.5 px-1">
               <div className="flex items-center justify-center gap-3">
