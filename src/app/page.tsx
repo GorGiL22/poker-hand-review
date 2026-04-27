@@ -1988,7 +1988,7 @@ export default function Home() {
               </button>
               {showFilters && (
                 <div className={PHR_POPOVER}>
-                  <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Filtres mains</div>
+                  <div className={PHR_POPOVER_TITLE}>Filtres mains</div>
                   <div className="space-y-2">
                     <select
                       value={heroMoveFilter}
