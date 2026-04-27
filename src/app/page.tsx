@@ -143,8 +143,6 @@ type ReplayStep = {
 type PendingContributionState = {
   pendingByPlayer: Record<string, number>;
 };
-type HeroMoveFilter = "ALL" | "OPEN" | "3BET" | "XR_FLOP" | "ALLIN";
-
 const STREET_ORDER: Street[] = ["preflop", "flop", "turn", "river"];
 type CanonicalSeat = "BTN" | "SB" | "BB" | "UTG" | "MP" | "CO";
 const SEAT_ORDER: CanonicalSeat[] = ["BTN", "SB", "BB", "UTG", "MP", "CO"];
