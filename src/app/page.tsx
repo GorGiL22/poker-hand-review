@@ -2152,7 +2152,7 @@ export default function Home() {
                         setShowCalcToolsMenu(false);
                         setShowOddsModule(false);
                         setShowGeometricModule(false);
-                        setShowBountyModule((v) => !v);
+                        setShowBountyModule(true);
                       }}
                       className="w-full rounded-lg border border-zinc-700 bg-zinc-900/90 px-3 py-2.5 text-left text-sm font-bold text-zinc-100 transition hover:border-violet-500/50 hover:bg-zinc-800"
                     >
