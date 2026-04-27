@@ -2703,7 +2703,7 @@ export default function Home() {
       <div className="pointer-events-none fixed bottom-4 right-4 z-[70] flex flex-col items-end gap-2 sm:bottom-5 sm:right-5">
         {showSettingsPanel ? (
           <div
-            className="pointer-events-auto w-[min(calc(100vw-2rem),18rem)] rounded-xl border border-zinc-600/90 bg-zinc-900/98 p-4 shadow-[0_12px_40px_rgba(0,0,0,0.5)] backdrop-blur-sm"
+            className="pointer-events-auto w-[min(calc(100vw-2rem),18rem)] rounded-2xl border border-white/12 bg-zinc-950/95 p-4 shadow-[0_12px_48px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-xl"
             role="dialog"
             aria-labelledby="phr-settings-title"
           >
