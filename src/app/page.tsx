@@ -3,6 +3,7 @@
 import {
   type CSSProperties,
   type ChangeEvent,
+  type DragEvent,
   type MutableRefObject,
   useEffect,
   useMemo,
