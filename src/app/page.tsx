@@ -116,6 +116,9 @@ const PHR_FORM_RESULT =
 
 const PHR_POPOVER_TITLE = "mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500";
 
+const PHR_CALC_MENU_ITEM =
+  "w-full rounded-xl border border-white/10 bg-zinc-900/65 px-3 py-2.5 text-left text-sm font-bold text-zinc-100 transition hover:border-violet-400/35 hover:bg-zinc-800/80 active:scale-[0.99]";
+
 type ReplayStep = {
   index: number;
   action: ParsedAction;
