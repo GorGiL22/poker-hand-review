@@ -1162,7 +1162,6 @@ export default function Home() {
   const [chipTick, setChipTick] = useState(0);
   const [displayUnit, setDisplayUnit] = useState<"bb" | "chips">("bb");
   const [selectedTournament, setSelectedTournament] = useState<string>("ALL");
-  const [showTournamentList, setShowTournamentList] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
   const [showMesMainsFullPage, setShowMesMainsFullPage] = useState(false);
   /** Mise en avant de la zone drop sur l’accueil (aucune main). */
