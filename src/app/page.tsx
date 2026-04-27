@@ -2165,7 +2165,7 @@ export default function Home() {
               )}
               {showCalcToolsMenu && (
                 <div
-                  className="absolute left-0 top-[3.25rem] z-[50] w-[min(100vw-2rem,20rem)] rounded-xl border border-zinc-600/90 bg-zinc-950/98 p-2 shadow-2xl backdrop-blur-sm sm:top-14"
+                  className={`${PHR_POPOVER} z-[50] w-[min(100vw-2rem,20rem)] p-2`}
                   role="menu"
                   aria-label="Choisir un outil de calcul"
                 >
