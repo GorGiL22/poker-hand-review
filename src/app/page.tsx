@@ -1887,7 +1887,6 @@ export default function Home() {
                 type="button"
                 disabled={hands.length === 0}
                 onClick={() => {
-                  setShowTournamentList(false);
                   setShowFilters(false);
                   setShowOddsModule(false);
                   setShowBountyModule(false);
