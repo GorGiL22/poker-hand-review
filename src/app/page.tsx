@@ -1688,7 +1688,8 @@ export default function Home() {
   );
 
   return (
-    <main className="h-screen overflow-hidden bg-[#1b1a1f] text-zinc-100">
+    <main className="flex h-screen flex-col overflow-hidden bg-[#1b1a1f] text-zinc-100">
+      <PhrAuthBar />
       {hands.length > 0 && showMesMainsFullPage && (
         <div
           data-phr-mes-mains-page
