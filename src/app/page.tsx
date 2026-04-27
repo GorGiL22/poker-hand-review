@@ -1769,8 +1769,8 @@ export default function Home() {
           </div>
         </div>
       )}
-      <div className="mx-auto h-full max-w-[1520px] p-3">
-        <section className="flex h-full flex-col rounded-[28px] border border-zinc-800/90 bg-[#222127] p-3 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
+      <div className="mx-auto flex min-h-0 w-full max-w-[1520px] flex-1 flex-col p-3">
+        <section className="flex min-h-0 flex-1 flex-col rounded-[28px] border border-zinc-800/90 bg-[#222127] p-3 shadow-[0_18px_60px_rgba(0,0,0,0.35)]">
           <input
             ref={fileInputRef}
             type="file"
