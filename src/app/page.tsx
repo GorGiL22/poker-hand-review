@@ -2293,7 +2293,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="flex shrink-0 items-center border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
-                <div className="flex max-w-full flex-wrap items-baseline gap-x-2 gap-y-0.5 rounded-md border border-zinc-700/80 bg-zinc-950/60 px-2 py-0.5 text-[10px] font-medium leading-tight text-zinc-300">
+                <div className="flex max-w-full flex-wrap items-baseline gap-x-2 gap-y-0.5 rounded-xl border border-white/10 bg-black/30 px-2 py-1 text-[10px] font-medium leading-tight text-zinc-300 backdrop-blur-sm">
                   <span className="whitespace-nowrap">
                     <span className="text-zinc-500">Blinds </span>
                     <span className="text-zinc-100">
