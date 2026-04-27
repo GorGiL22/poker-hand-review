@@ -11,7 +11,7 @@ import {
   useState,
 } from "react";
 
-import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
+import { PhrAccountSettingsCard, PhrAuthBar, PhrReviewChromeBar } from "@/components/phr-auth-bar";
 import {
   PHR_DOCK_ICON,
   PHR_DOCK_POD,
