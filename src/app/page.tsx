@@ -1541,8 +1541,7 @@ export default function Home() {
     return `${base} ${formatAmount(action.amount)}`;
   }
 
-  async function onImportFile(event: ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(event.target.files ?? []);
+  async function importHandHistoryFiles(files: File[]) {
     if (files.length === 0) return;
     try {
       const parsedAll: ParsedHand[] = [];
@@ -1575,9 +1574,20 @@ export default function Home() {
       setImportError(null);
     } catch (error) {
       setImportError(error instanceof Error ? error.message : "Import impossible");
-    } finally {
-      event.target.value = "";
     }
+  }
+
+  async function onImportFile(event: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(event.target.files ?? []);
+    await importHandHistoryFiles(files);
+    event.target.value = "";
+  }
+
+  async function onWelcomeDrop(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    setWelcomeDropActive(false);
+    const files = Array.from(event.dataTransfer.files ?? []);
+    await importHandHistoryFiles(files);
   }
 
   function loadHand(handId: string) {
