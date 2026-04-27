@@ -2105,7 +2105,7 @@ export default function Home() {
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-zinc-200/80 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45)]" />
             {hands.length === 0 && (
               <div
-                className="absolute inset-4 z-[30] flex flex-col items-center justify-center gap-4 rounded-[999px] bg-black/25 px-4 py-8 text-center backdrop-blur-[1px]"
+                className="absolute inset-4 z-[30] flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[999px] bg-black/25 px-4 py-8 text-center backdrop-blur-[1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400/80"
                 onClick={() => fileInputRef.current?.click()}
                 onDragOver={onWelcomeDragOver}
                 onDragLeave={onWelcomeDragLeave}
