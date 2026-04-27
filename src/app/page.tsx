@@ -2180,8 +2180,39 @@ export default function Home() {
                       ? `${hands.length} main${hands.length !== 1 ? "s" : ""} importée${hands.length !== 1 ? "s" : ""}`
                       : `${tournamentFilteredHands.length} main${tournamentFilteredHands.length !== 1 ? "s" : ""} dans ce tournoi`}
                   </p>
+                  {(heroMoveFilter !== "ALL" ||
+                    heroPositionFilter !== "ALL" ||
+                    versusPositionFilter !== "ALL") && (
+                    <p className="mt-1 border-t border-zinc-800/80 pt-1 text-zinc-500">
+                      Après filtres :{" "}
+                      <span className="font-semibold text-zinc-300">{filteredHands.length}</span> /{" "}
+                      {tournamentFilteredHands.length} mains
+                    </p>
+                  )}
                 </div>
               </div>
+            </div>
+          )}
+
+          {hands.length > 0 && allInTriggered && (
+            <div className="mb-2 rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-1.5 text-xs">
+              <p className="font-medium text-amber-200">Equite all-in</p>
+              {equityByPlayer ? (
+                <div className="mt-1 flex flex-wrap gap-2">
+                  {Object.entries(equityByPlayer).map(([name, equity]) => (
+                    <span
+                      key={`equity-${name}`}
+                      className="rounded-full border border-amber-300/40 bg-black/30 px-2 py-0.5 text-amber-100"
+                    >
+                      {name}: {equity.toFixed(1)}%
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <p className="mt-1 text-amber-100/90">
+                  Equite dispo quand au moins 2 mains sont connues.
+                </p>
+              )}
             </div>
           )}
 
