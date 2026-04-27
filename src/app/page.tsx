@@ -76,7 +76,7 @@ const PHR_APP_SHELL =
 const PHR_TOOLBAR_RAIL =
   "mb-3 rounded-2xl border border-white/10 bg-black/25 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md";
 
-/** Boutons barre principale (import / filtres / mes mains / outils) — même hauteur et même base visuelle. */
+/** Boutons barre principale (import / filtres / outils) — même hauteur et même base visuelle. */
 const PHR_TOOLBAR_BTN =
   "inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
 
