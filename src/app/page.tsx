@@ -2250,7 +2250,11 @@ export default function Home() {
             </div>
           </div>
           )}
-          {importError && <p className="mb-2 text-xs text-rose-400">{importError}</p>}
+          {importError && (
+            <p className="mb-2 rounded-xl border border-rose-500/25 bg-rose-950/25 px-3 py-2 text-xs text-rose-200 backdrop-blur-sm">
+              {importError}
+            </p>
+          )}
 
           {hands.length > 0 && (
             <div className="mb-1 flex flex-col gap-1 rounded-lg border border-zinc-700/70 bg-zinc-900/35 px-2 py-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:py-1 sm:pl-2 sm:pr-2">
