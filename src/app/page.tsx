@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
+import { PhrHandFiltersPanel } from "@/components/phr-hand-filters";
 import {
   PHR_DOCK_ICON,
   PHR_DOCK_POD,
