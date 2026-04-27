@@ -1878,12 +1878,6 @@ export default function Home() {
                 Importer fichiers
               </button>
               <button
-                onClick={() => setShowTournamentList((v) => !v)}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
-              >
-                Mes tournois
-              </button>
-              <button
                 onClick={() => setShowFilters((v) => !v)}
                 className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
               >
