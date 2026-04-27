@@ -12,6 +12,12 @@ import {
 } from "react";
 
 import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
+import {
+  PHR_DOCK_ICON,
+  PHR_DOCK_POD,
+  PHR_DOCK_TILE,
+  PHR_DOCK_TILE_ACTIVE,
+} from "@/lib/phr-chrome";
 
 type Street = "preflop" | "flop" | "turn" | "river";
 type ActionType = "post" | "fold" | "check" | "call" | "bet" | "raise" | "all-in";
