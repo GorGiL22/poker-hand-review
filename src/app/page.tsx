@@ -83,9 +83,6 @@ const PHR_TOOLBAR_BTN =
 const PHR_TOOLBAR_BTN_ON_FILTERS =
   "border-emerald-500/45 bg-emerald-950/25 text-emerald-50 shadow-[0_0_0_1px_rgba(16,185,129,0.12)] hover:border-emerald-400/55 hover:bg-emerald-950/35";
 
-const PHR_TOOLBAR_BTN_ON_MES_MAINS =
-  "border-violet-500/45 bg-violet-950/25 text-violet-100 shadow-[0_0_0_1px_rgba(139,92,246,0.12)] hover:border-violet-400/55 hover:bg-violet-950/35";
-
 const PHR_TOOLBAR_BTN_ON_CALC =
   "border-amber-500/45 bg-gradient-to-b from-amber-950/40 to-zinc-950/90 text-amber-50 shadow-[0_0_0_1px_rgba(245,158,11,0.14)] hover:border-amber-400/55 hover:from-amber-950/50";
 
