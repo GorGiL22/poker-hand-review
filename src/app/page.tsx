@@ -11,6 +11,8 @@ import {
   useState,
 } from "react";
 
+import { PhrAuthBar } from "@/components/phr-auth-bar";
+
 type Street = "preflop" | "flop" | "turn" | "river";
 type ActionType = "post" | "fold" | "check" | "call" | "bet" | "raise" | "all-in";
 
