@@ -2169,7 +2169,7 @@ export default function Home() {
                       <select
                         value={geoStreetsInput}
                         onChange={(event) => setGeoStreetsInput(event.target.value as "1" | "2" | "3")}
-                        className={PHR_FIELD_INPUT}
+                        className={PHR_FIELD_SELECT}
                       >
                         <option value="1">1 street</option>
                         <option value="2">2 streets</option>
