@@ -2596,8 +2596,10 @@ export default function Home() {
                     )}
                   </div>
                   <div
-                    className={`mx-auto w-fit rounded-[16px] border px-2.5 py-1.5 text-center shadow-md ${
-                      isActive ? "border-cyan-300 bg-zinc-700/95" : "border-zinc-700 bg-zinc-700/90"
+                    className={`mx-auto w-fit rounded-2xl border px-2.5 py-1.5 text-center shadow-md backdrop-blur-sm ${
+                      isActive
+                        ? "border-cyan-400/50 bg-cyan-950/35 ring-1 ring-cyan-400/25"
+                        : "border-white/10 bg-zinc-900/75"
                     }`}
                   >
                     <p className="font-semibold text-zinc-100">{player.name}</p>
