@@ -2392,12 +2392,11 @@ export default function Home() {
                 </button>
               </div>
               <span className="text-xs font-semibold tabular-nums text-zinc-400">
-                {hands.length === 0
-                  ? "0 main — importez des fichiers"
-                  : `Main ${Math.max(selectedHandIndex + 1, 1)} / ${Math.max(filteredHands.length, 1)}`}
+                {`Main ${Math.max(selectedHandIndex + 1, 1)} / ${Math.max(filteredHands.length, 1)}`}
               </span>
             </div>
           </div>
+          )}
           <style jsx>{`
             @keyframes chip-to-pot {
               from {
