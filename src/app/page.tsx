@@ -11,12 +11,15 @@ import {
   useState,
 } from "react";
 
-import { PhrAccountSettingsCard, PhrAuthBar, PhrReviewChromeBar } from "@/components/phr-auth-bar";
+import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
 import {
   PHR_DOCK_ICON,
   PHR_DOCK_POD,
   PHR_DOCK_TILE,
   PHR_DOCK_TILE_ACTIVE,
+  PHR_MON_ESPACE_BTN,
+  PHR_MON_ESPACE_BTN_ACTIVE,
+  PHR_REVIEW_TOPBAR,
 } from "@/lib/phr-chrome";
 
 type Street = "preflop" | "flop" | "turn" | "river";
