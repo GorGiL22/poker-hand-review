@@ -1904,22 +1904,23 @@ export default function Home() {
                 Mes mains
               </button>
               <button
-                onClick={() => setShowOddsModule((v) => !v)}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
+                type="button"
+                aria-expanded={showCalcToolsMenu}
+                aria-haspopup="menu"
+                onClick={() => {
+                  setShowFilters(false);
+                  setShowCalcToolsMenu((v) => !v);
+                }}
+                className={`rounded-2xl border-2 px-5 py-3 text-left text-sm font-black leading-tight shadow-md transition sm:min-w-[11.5rem] sm:px-6 sm:py-3.5 sm:text-base ${
+                  showOddsModule || showBountyModule || showGeometricModule || showCalcToolsMenu
+                    ? "border-amber-500/70 bg-amber-950/50 text-amber-50 ring-2 ring-amber-500/25 hover:border-amber-400/90 hover:bg-amber-950/65"
+                    : "border-zinc-500/70 bg-zinc-700/55 text-zinc-50 hover:border-amber-500/50 hover:bg-zinc-600/60"
+                }`}
               >
-                Cotes
-              </button>
-              <button
-                onClick={() => setShowBountyModule((v) => !v)}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
-              >
-                Bounty
-              </button>
-              <button
-                onClick={() => setShowGeometricModule((v) => !v)}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
-              >
-                Geometrique
+                <span className="block">Outils de calculs</span>
+                <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-wide text-zinc-400 sm:text-[11px]">
+                  Cotes · Bounty · Géométrique
+                </span>
               </button>
               {showFilters && (
                 <div className="absolute left-0 top-12 z-40 w-[320px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
