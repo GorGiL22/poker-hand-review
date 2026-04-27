@@ -2063,7 +2063,10 @@ export default function Home() {
               </button>
             </div>
           </div>
+          )}
           {importError && <p className="mb-2 text-xs text-rose-400">{importError}</p>}
+          {hands.length > 0 && (
+          <>
           <div className="mb-2 flex justify-end">
             <div className="rounded-lg border border-zinc-800 bg-zinc-900/80 px-3 py-1.5 text-xs font-semibold text-zinc-200">
               <p>
