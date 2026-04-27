@@ -2256,7 +2256,7 @@ export default function Home() {
                 </div>
               )}
             </div>
-          </div>
+          </header>
           )}
           {importError && (
             <p className="mb-2 rounded-xl border border-rose-500/25 bg-rose-950/25 px-3 py-2 text-xs text-rose-200 backdrop-blur-sm">
