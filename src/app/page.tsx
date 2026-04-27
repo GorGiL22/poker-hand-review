@@ -2078,7 +2078,7 @@ export default function Home() {
                         <option value="TURN">Turn (1 carte a venir)</option>
                       </select>
                     </label>
-                    <div className="rounded border border-zinc-700 bg-zinc-900/70 px-2 py-1.5 text-xs text-zinc-200">
+                    <div className={PHR_FORM_RESULT}>
                       <p>Equite requise: {(requiredEquity * 100).toFixed(1)}%</p>
                       <p>Proba de hit: {(hitProbability * 100).toFixed(1)}%</p>
                       <p className={callIsPlusEv ? "text-emerald-300" : "text-rose-300"}>
@@ -2129,7 +2129,7 @@ export default function Home() {
                         className={PHR_FIELD_INPUT}
                       />
                     </label>
-                    <div className="rounded border border-zinc-700 bg-zinc-900/70 px-2 py-1.5 text-xs text-zinc-200">
+                    <div className={PHR_FORM_RESULT}>
                       <p>Etape 1 (KO moyen / 2): {koMoyenDiv2.toFixed(2)}</p>
                       <p>Etape 2 ((Etape 1 / buy-in) * stack depart): {jetonsEquivalents.toFixed(0)} jetons</p>
                       <p className="text-emerald-300">
@@ -2173,7 +2173,7 @@ export default function Home() {
                         <option value="3">3 streets</option>
                       </select>
                     </label>
-                    <div className="rounded border border-zinc-700 bg-zinc-900/70 px-2 py-1.5 text-xs text-zinc-200">
+                    <div className={PHR_FORM_RESULT}>
                       <p>Sizing de base: {(geoRatio * 100).toFixed(1)}% pot</p>
                       {geoSizes[0] !== undefined && <p>Bet 1: {geoSizes[0].toFixed(2)}</p>}
                       {geoSizes[1] !== undefined && <p>Bet 2: {geoSizes[1].toFixed(2)}</p>}
