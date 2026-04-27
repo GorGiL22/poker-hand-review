@@ -831,27 +831,21 @@ function formatHandForShare(hand: ParsedHand): string {
   const boardLine =
     finalBoard.length > 0 ? `Plateau: ${finalBoard.join(" ")}` : "Plateau: (preflop)";
 
-  const lines: string[] = [
-    "--- Poker Hand Review ---",
-    hand.tournamentName ? `Tournoi: ${hand.tournamentName}` : null,
-    hand.dateTime ? `Date: ${hand.dateTime}` : null,
-    hand.levelLabel ? `Niveau: ${hand.levelLabel}` : null,
-    hand.blinds.sb != null && hand.blinds.bb != null
-      ? `Blinds: ${hand.blinds.sb} / ${hand.blinds.bb}`
-      : null,
-    "",
-    "Joueurs:",
-    ...hand.players.map((p) => {
-      const cards = hand.holeCardsByPlayer[p.name];
-      const shown = cards?.length ? cards.join(" ") : "?";
-      const hero = p.name === hand.heroName ? " (Hero)" : "";
-      return `- ${p.name}${hero} [${p.position}] — ${shown} — stack ${p.stack}`;
-    }),
-    "",
-    boardLine,
-    "",
-    "Actions:",
-  ].filter((l): l is string => l != null);
+  const lines: string[] = ["--- Poker Hand Review ---"];
+  if (hand.tournamentName) lines.push(`Tournoi: ${hand.tournamentName}`);
+  if (hand.dateTime) lines.push(`Date: ${hand.dateTime}`);
+  if (hand.levelLabel) lines.push(`Niveau: ${hand.levelLabel}`);
+  if (hand.blinds.sb != null && hand.blinds.bb != null) {
+    lines.push(`Blinds: ${hand.blinds.sb} / ${hand.blinds.bb}`);
+  }
+  lines.push("", "Joueurs:");
+  hand.players.forEach((p) => {
+    const cards = hand.holeCardsByPlayer[p.name];
+    const shown = cards?.length ? cards.join(" ") : "?";
+    const hero = p.name === hand.heroName ? " (Hero)" : "";
+    lines.push(`- ${p.name}${hero} [${p.position}] — ${shown} — stack ${p.stack}`);
+  });
+  lines.push("", boardLine, "", "Actions:");
 
   for (const street of STREET_ORDER) {
     const acts = hand.actions[street];
