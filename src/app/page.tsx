@@ -1913,20 +1913,22 @@ export default function Home() {
             aria-hidden
           />
           {hands.length > 0 && (
-          <div className="mb-2 flex items-start justify-between gap-2">
-            <div className="relative flex items-center gap-2">
+          <div className={`${PHR_TOOLBAR_RAIL} flex flex-wrap items-start justify-between gap-2`}>
+            <div className="relative flex min-w-0 flex-1 flex-wrap items-center gap-2">
               <button
+                type="button"
                 onClick={() => fileInputRef.current?.click()}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
+                className={PHR_BTN_TOOL}
               >
                 Importer fichiers
               </button>
               <button
+                type="button"
                 onClick={() => {
                   setShowCalcToolsMenu(false);
                   setShowFilters((v) => !v);
                 }}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/45 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/60"
+                className={PHR_BTN_TOOL}
               >
                 Filtres
               </button>
@@ -1941,7 +1943,7 @@ export default function Home() {
                   setShowGeometricModule(false);
                   setShowMesMainsFullPage(true);
                 }}
-                className="rounded-full border border-violet-600/50 bg-violet-600/20 px-4 py-2 text-sm font-bold text-violet-100 transition hover:border-violet-500 hover:bg-violet-600/30 disabled:cursor-not-allowed disabled:opacity-40"
+                className={PHR_BTN_TOOL_ACCENT}
               >
                 Mes mains
               </button>
