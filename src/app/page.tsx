@@ -1640,6 +1640,45 @@ export default function Home() {
     setWelcomeDropActive(false);
   }
 
+  const discordInviteHref =
+    (typeof process !== "undefined" && process.env.NEXT_PUBLIC_DISCORD_INVITE_URL?.trim()) ||
+    "https://discord.com";
+
+  async function shareCurrentHand() {
+    const text = formatHandForShare(selectedHand);
+    const clearToast = () => {
+      window.setTimeout(() => setShareToast(null), 2800);
+    };
+    if (!text) {
+      setShareToast("Importe une main pour la partager.");
+      clearToast();
+      return;
+    }
+    try {
+      if (typeof navigator !== "undefined" && typeof navigator.share === "function") {
+        try {
+          await navigator.share({ title: "Main poker", text });
+          setShareToast("Partage effectué.");
+          clearToast();
+          return;
+        } catch (err) {
+          if (err instanceof DOMException && err.name === "AbortError") return;
+        }
+      }
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+        setShareToast("Main copiée dans le presse-papiers.");
+      } else {
+        window.prompt("Copie ce texte :", text);
+        setShareToast("Utilise Ctrl+C dans la fenêtre pour copier.");
+      }
+      clearToast();
+    } catch {
+      setShareToast("Copie impossible (permissions navigateur ?).");
+      clearToast();
+    }
+  }
+
   function loadHand(handId: string) {
     setSelectedHandId(handId);
     setStepIndex(0);
