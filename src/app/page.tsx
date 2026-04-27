@@ -755,67 +755,6 @@ function playerPositionByName(hand: ParsedHand): Record<string, string> {
   return Object.fromEntries(hand.players.map((player) => [player.name, player.position]));
 }
 
-function heroSpotMeta(hand: ParsedHand): {
-  heroMove: HeroMoveFilter;
-  heroPosition: string;
-  versusPosition: string | null;
-} {
-  const heroName = hand.heroName;
-  const positions = playerPositionByName(hand);
-  const heroPosition = heroName ? positions[heroName] ?? "UNKNOWN" : "UNKNOWN";
-  if (!heroName) return { heroMove: "ALL", heroPosition, versusPosition: null };
-
-  const preflop = hand.actions.preflop;
-  const raisesBeforeHero: string[] = [];
-  let heroMove: HeroMoveFilter = "ALL";
-  let versusPosition: string | null = null;
-  let heroAggressiveIndex = -1;
-  const heroDidAllIn = [...hand.actions.preflop, ...hand.actions.flop, ...hand.actions.turn, ...hand.actions.river]
-    .some(
-      (action) =>
-        action.actor === heroName &&
-        (action.type === "all-in" || action.raw.toLowerCase().includes("all-in")),
-    );
-
-  preflop.forEach((action, index) => {
-    const isRaiseLike = action.type === "raise" || action.type === "bet" || action.type === "all-in";
-    if (isRaiseLike && action.actor !== heroName) raisesBeforeHero.push(action.actor);
-    if (heroAggressiveIndex === -1 && action.actor === heroName && isRaiseLike) {
-      heroAggressiveIndex = index;
-      if (raisesBeforeHero.length === 0) heroMove = "OPEN";
-      else if (raisesBeforeHero.length === 1) {
-        heroMove = "3BET";
-        versusPosition = positions[raisesBeforeHero[0]] ?? null;
-      }
-    }
-  });
-
-  const flop = hand.actions.flop;
-  let heroCheckedFlop = false;
-  for (let i = 0; i < flop.length; i += 1) {
-    const action = flop[i];
-    if (action.actor === heroName && action.type === "check") {
-      heroCheckedFlop = true;
-      continue;
-    }
-    if (
-      heroCheckedFlop &&
-      action.actor !== heroName &&
-      (action.type === "bet" || action.type === "raise" || action.type === "all-in")
-    ) {
-      const heroRaiseAfter = flop
-        .slice(i + 1)
-        .find((next) => next.actor === heroName && (next.type === "raise" || next.type === "all-in"));
-      if (heroRaiseAfter) return { heroMove: "XR_FLOP", heroPosition, versusPosition };
-      break;
-    }
-  }
-
-  if (heroDidAllIn) return { heroMove: "ALLIN", heroPosition, versusPosition };
-
-  return { heroMove, heroPosition, versusPosition };
-}
-
 function buildReplaySteps(hand: ParsedHand): ReplayStep[] {
   const stacks: Record<string, number> = {};
   hand.players.forEach((player) => {
