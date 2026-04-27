@@ -2731,13 +2731,14 @@ export default function Home() {
             <PhrAccountSettingsCard />
           </div>
         ) : null}
-        <button
-          type="button"
-          onClick={() => setShowSettingsPanel((v) => !v)}
-          title={showSettingsPanel ? "Fermer les paramètres" : "Paramètres"}
-          aria-expanded={showSettingsPanel}
-          className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-zinc-500/90 bg-zinc-800/95 text-zinc-100 shadow-lg transition hover:border-zinc-400 hover:bg-zinc-700/95"
-        >
+        <div className={PHR_DOCK_POD}>
+          <button
+            type="button"
+            onClick={() => setShowSettingsPanel((v) => !v)}
+            title={showSettingsPanel ? "Fermer les paramètres" : "Paramètres"}
+            aria-expanded={showSettingsPanel}
+            className={showSettingsPanel ? PHR_DOCK_TILE_ACTIVE : PHR_DOCK_TILE}
+          >
           <svg
             className="h-6 w-6"
             viewBox="0 0 24 24"
