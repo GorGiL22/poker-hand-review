@@ -1339,6 +1339,18 @@ export default function Home() {
     if (hands.length === 0) setShowMesMainsFullPage(false);
   }, [hands.length]);
 
+  useEffect(() => {
+    if (!showSettingsPanel) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        setShowSettingsPanel(false);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [showSettingsPanel]);
+
   const currentStacks = currentStep?.stacksByPlayer ?? initialForcedState.stacksByPlayer;
   const activePlayer = currentStep?.action.actor;
   const visibleBoard = useMemo(() => currentStep?.visibleBoard ?? [], [currentStep]);
