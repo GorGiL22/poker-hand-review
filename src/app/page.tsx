@@ -1915,30 +1915,6 @@ export default function Home() {
               >
                 Geometrique
               </button>
-              {showTournamentList && (
-                <div className="absolute left-0 top-12 z-40 w-[360px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
-                  <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Selection tournoi</div>
-                  <div className="max-h-52 space-y-1 overflow-auto pr-1">
-                    {tournamentOptions.map((option) => (
-                      <button
-                        key={`quick-t-${option.key}`}
-                        onClick={() => {
-                          setSelectedTournament(option.key);
-                          setStepIndex(0);
-                          setShowTournamentList(false);
-                        }}
-                        className={`w-full rounded px-2 py-1.5 text-left text-xs ${
-                          selectedTournament === option.key
-                            ? "bg-violet-500/20 text-violet-100"
-                            : "bg-zinc-900 text-zinc-300 hover:bg-zinc-800"
-                        }`}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
               {showFilters && (
                 <div className="absolute left-0 top-12 z-40 w-[320px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
                   <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Filtres mains</div>
