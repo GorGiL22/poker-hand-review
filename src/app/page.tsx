@@ -2613,15 +2613,15 @@ export default function Home() {
             })}
           </div>
           {hands.length > 0 && (
-          <div className="mt-2 border-t border-zinc-700/70 pt-2.5">
-            <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-1.5 px-1">
-              <div className="flex items-center justify-center gap-3">
+          <div className="mt-3 border-t border-white/10 bg-black/15 pt-3 backdrop-blur-sm">
+            <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-2 px-1">
+              <div className="flex items-center justify-center gap-2 sm:gap-3">
                 <button
                   type="button"
                   onClick={prevHand}
                   disabled={selectedHandIndex <= 0}
                   title="Main precedente"
-                  className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-zinc-600 bg-zinc-300/90 text-lg font-black text-zinc-900 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-40"
+                  className={PHR_TRANSPORT_BTN}
                 >
                   ⏮
                 </button>
@@ -2630,18 +2630,18 @@ export default function Home() {
                     type="button"
                     onClick={prevStep}
                     title="Etape precedente"
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-zinc-600 bg-zinc-300/90 text-lg font-black text-zinc-900 transition hover:bg-zinc-200"
+                    className={PHR_TRANSPORT_BTN}
                   >
                     ◀
                   </button>
-                  <span className="inline-flex h-12 min-w-[5rem] items-center justify-center rounded-full border border-zinc-600 bg-zinc-800/95 px-3 text-sm font-bold tabular-nums text-zinc-100">
+                  <span className={PHR_TRANSPORT_READOUT}>
                     {`${clampedStepIndex + 1} / ${maxUiStepIndex + 1}`}
                   </span>
                   <button
                     type="button"
                     onClick={nextStep}
                     title="Etape suivante"
-                    className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-zinc-600 bg-zinc-300/90 text-lg font-black text-zinc-900 transition hover:bg-zinc-200"
+                    className={PHR_TRANSPORT_BTN}
                   >
                     ▶
                   </button>
@@ -2651,12 +2651,12 @@ export default function Home() {
                   onClick={nextHand}
                   disabled={selectedHandIndex >= filteredHands.length - 1}
                   title="Main suivante"
-                  className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-zinc-600 bg-zinc-300/90 text-lg font-black text-zinc-900 transition hover:bg-zinc-200 disabled:cursor-not-allowed disabled:opacity-40"
+                  className={PHR_TRANSPORT_BTN}
                 >
                   ⏭
                 </button>
               </div>
-              <span className="text-xs font-semibold tabular-nums text-zinc-400">
+              <span className="text-[11px] font-semibold tabular-nums text-zinc-500">
                 {`Main ${Math.max(selectedHandIndex + 1, 1)} / ${Math.max(filteredHands.length, 1)}`}
               </span>
             </div>
