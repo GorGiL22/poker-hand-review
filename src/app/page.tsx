@@ -2753,7 +2753,8 @@ export default function Home() {
             <circle cx="12" cy="12" r="3" />
           </svg>
           <span className="sr-only">Paramètres</span>
-        </button>
+          </button>
+        </div>
       </div>
     </main>
   );
