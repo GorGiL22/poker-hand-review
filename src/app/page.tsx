@@ -102,6 +102,20 @@ const PHR_TRANSPORT_BTN =
 const PHR_TRANSPORT_READOUT =
   "inline-flex h-11 min-w-[4.75rem] items-center justify-center rounded-full border border-white/10 bg-zinc-950/70 px-2 text-sm font-bold tabular-nums text-zinc-200 shadow-inner backdrop-blur-sm";
 
+const PHR_FIELD_SELECT =
+  "w-full rounded-lg border border-white/10 bg-zinc-950/70 px-2 py-2 text-sm font-semibold text-zinc-100 outline-none transition focus:border-emerald-500/45 focus:ring-1 focus:ring-emerald-500/25";
+
+const PHR_FIELD_SELECT_COMPACT =
+  "w-full rounded-lg border border-white/10 bg-zinc-950/70 px-2 py-2 text-xs font-semibold text-zinc-100 outline-none transition focus:border-emerald-500/45 focus:ring-1 focus:ring-emerald-500/25";
+
+const PHR_FIELD_INPUT =
+  "rounded-lg border border-white/10 bg-zinc-950/70 px-2 py-1.5 text-sm text-zinc-100 outline-none transition focus:border-emerald-500/45 focus:ring-1 focus:ring-emerald-500/25";
+
+const PHR_FORM_RESULT =
+  "rounded-lg border border-white/8 bg-zinc-950/55 px-2 py-1.5 text-xs text-zinc-200";
+
+const PHR_POPOVER_TITLE = "mb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500";
+
 type ReplayStep = {
   index: number;
   action: ParsedAction;
