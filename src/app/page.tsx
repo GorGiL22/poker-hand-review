@@ -1851,7 +1851,7 @@ export default function Home() {
           className="fixed inset-0 z-[90] flex flex-col border border-white/10 bg-zinc-950/98 text-zinc-100 shadow-[0_0_0_1px_rgba(0,0,0,0.5)] backdrop-blur-xl"
           role="dialog"
           aria-modal="true"
-          aria-labelledby="phr-mes-mains-title"
+          aria-labelledby="phr-mon-espace-title"
         >
           <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-white/10 bg-black/20 px-4 py-3 backdrop-blur-md">
             <button
@@ -1861,8 +1861,8 @@ export default function Home() {
             >
               Fermer
             </button>
-            <h1 id="phr-mes-mains-title" className="text-lg font-black tracking-tight text-zinc-50">
-              Mes mains
+            <h1 id="phr-mon-espace-title" className="text-lg font-black tracking-tight text-zinc-50">
+              Mon espace
             </h1>
             <div className="ml-auto flex min-w-[12rem] flex-1 flex-wrap items-center justify-end gap-2 sm:max-w-md">
               <label className="flex min-w-0 flex-1 flex-col gap-1 text-[10px] font-bold uppercase tracking-wide text-zinc-500 sm:flex-none sm:min-w-[14rem]">
