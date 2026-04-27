@@ -1874,53 +1874,15 @@ export default function Home() {
                 </span>
               </button>
               {showFilters && (
-                <div className={PHR_POPOVER}>
-                  <div className={PHR_POPOVER_TITLE}>Filtres mains</div>
-                  <div className="space-y-2">
-                    <select
-                      value={heroMoveFilter}
-                      onChange={(event) => {
-                        setHeroMoveFilter(event.target.value as HeroMoveFilter);
-                        setStepIndex(0);
-                      }}
-                      className={PHR_FIELD_SELECT}
-                    >
-                      <option value="ALL">Action hero: toutes</option>
-                      <option value="OPEN">Action hero: open</option>
-                      <option value="3BET">Action hero: 3bet</option>
-                      <option value="XR_FLOP">Action hero: check-raise flop</option>
-                      <option value="ALLIN">Action hero: all-in</option>
-                    </select>
-                    <select
-                      value={heroPositionFilter}
-                      onChange={(event) => {
-                        setHeroPositionFilter(event.target.value);
-                        setStepIndex(0);
-                      }}
-                      className={PHR_FIELD_SELECT}
-                    >
-                      {availableHeroPositions.map((position) => (
-                        <option key={`hero-pos-inline-${position}`} value={position}>
-                          {position === "ALL" ? "Position hero: toutes" : `Position hero: ${position}`}
-                        </option>
-                      ))}
-                    </select>
-                    <select
-                      value={versusPositionFilter}
-                      onChange={(event) => {
-                        setVersusPositionFilter(event.target.value);
-                        setStepIndex(0);
-                      }}
-                      className={PHR_FIELD_SELECT}
-                    >
-                      {availableVersusPositions.map((position) => (
-                        <option key={`vs-pos-inline-${position}`} value={position}>
-                          {position === "ALL" ? "Vs position: toutes" : `Vs position: ${position}`}
-                        </option>
-                      ))}
-                    </select>
-                    <p className="text-xs text-zinc-400">{filteredHands.length} mains apres filtres</p>
-                  </div>
+                <div className={`${PHR_POPOVER} max-h-[min(72vh,34rem)] overflow-y-auto`}>
+                  <PhrHandFiltersPanel
+                    value={handFilters}
+                    onChange={(next) => {
+                      setHandFilters(next);
+                      setStepIndex(0);
+                    }}
+                    filteredCount={filteredHands.length}
+                  />
                 </div>
               )}
               {showOddsModule && (
