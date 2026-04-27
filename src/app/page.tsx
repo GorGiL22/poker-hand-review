@@ -1864,7 +1864,7 @@ export default function Home() {
                     setSelectedTournament(event.target.value);
                     setStepIndex(0);
                   }}
-                  className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-xs font-semibold text-zinc-100"
+                  className={PHR_FIELD_SELECT_COMPACT}
                 >
                   {tournamentOptions.map((option) => (
                     <option key={`mesmains-t-${option.key}`} value={option.key}>
