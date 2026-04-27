@@ -1590,6 +1590,18 @@ export default function Home() {
     await importHandHistoryFiles(files);
   }
 
+  function onWelcomeDragOver(event: DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = "copy";
+    setWelcomeDropActive(true);
+  }
+
+  function onWelcomeDragLeave(event: DragEvent<HTMLDivElement>) {
+    const next = event.relatedTarget as Node | null;
+    if (next && event.currentTarget.contains(next)) return;
+    setWelcomeDropActive(false);
+  }
+
   function loadHand(handId: string) {
     setSelectedHandId(handId);
     setStepIndex(0);
