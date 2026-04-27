@@ -1967,7 +1967,7 @@ export default function Home() {
                 </span>
               </button>
               {showFilters && (
-                <div className="absolute left-0 top-12 z-40 w-[320px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
+                <div className={PHR_POPOVER}>
                   <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Filtres mains</div>
                   <div className="space-y-2">
                     <select
@@ -2017,7 +2017,7 @@ export default function Home() {
                 </div>
               )}
               {showOddsModule && (
-                <div className="absolute left-0 top-12 z-40 w-[320px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
+                <div className={PHR_POPOVER}>
                   <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Calcul cote / outs / EV call</div>
                   <div className="grid gap-2">
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2070,7 +2070,7 @@ export default function Home() {
                 </div>
               )}
               {showBountyModule && (
-                <div className="absolute left-0 top-12 z-40 w-[320px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
+                <div className={PHR_POPOVER}>
                   <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Calcul bounty PKO</div>
                   <div className="grid gap-2">
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2120,7 +2120,7 @@ export default function Home() {
                 </div>
               )}
               {showGeometricModule && (
-                <div className="absolute left-0 top-12 z-40 w-[320px] rounded-lg border border-zinc-700 bg-zinc-950/95 p-2 shadow-xl">
+                <div className={PHR_POPOVER}>
                   <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Sizing geometrique</div>
                   <div className="grid gap-2">
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
