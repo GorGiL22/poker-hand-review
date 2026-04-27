@@ -96,9 +96,6 @@ const PHR_TOOLBAR_BTN_CALC =
 const PHR_BTN_TOOL =
   "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
 
-const PHR_BTN_TOOL_ACCENT =
-  "rounded-xl border border-violet-500/40 bg-violet-600/18 px-3.5 py-2 text-sm font-semibold text-violet-100 shadow-sm transition hover:border-violet-400/55 hover:bg-violet-600/28 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
-
 const PHR_POPOVER =
   "absolute left-0 top-12 z-40 w-[min(100vw-2rem,22rem)] rounded-2xl border border-white/12 bg-zinc-950/96 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.58)] backdrop-blur-xl sm:top-14";
 
