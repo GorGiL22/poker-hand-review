@@ -2145,15 +2145,6 @@ export default function Home() {
                 </div>
               )}
             </div>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setDisplayUnit((u) => (u === "bb" ? "chips" : "bb"))}
-                title={displayUnit === "bb" ? "Passer en jetons" : "Passer en BB"}
-                className="rounded-full border border-zinc-700/80 bg-zinc-700/40 px-3 py-2 text-sm font-bold transition hover:border-zinc-500 hover:bg-zinc-700/60"
-              >
-                {displayUnit === "bb" ? "◎" : "◉"}
-              </button>
-            </div>
           </div>
           )}
           {importError && <p className="mb-2 text-xs text-rose-400">{importError}</p>}
