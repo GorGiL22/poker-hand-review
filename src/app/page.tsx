@@ -2713,16 +2713,16 @@ export default function Home() {
             {shareToast}
           </p>
         ) : null}
-        <div className={`pointer-events-auto flex flex-col gap-2 ${PHR_DOCK_POD}`}>
+        <div className={`pointer-events-auto ${PHR_DOCK_POD}`}>
           <a
             href={discordInviteHref}
             target="_blank"
             rel="noopener noreferrer"
             title="Discord — communauté"
-            className={PHR_DOCK_TILE_DISCORD}
+            className={PHR_DOCK_TILE}
           >
             <svg
-              className="h-[22px] w-[22px] shrink-0 text-[#93a6ff]"
+              className={PHR_DOCK_ICON}
               viewBox="0 0 24 24"
               fill="currentColor"
               aria-hidden
