@@ -2141,7 +2141,7 @@ export default function Home() {
               )}
               {showGeometricModule && (
                 <div className={PHR_POPOVER}>
-                  <div className="mb-2 text-xs uppercase tracking-wide text-zinc-400">Sizing geometrique</div>
+                  <div className={PHR_POPOVER_TITLE}>Sizing geometrique</div>
                   <div className="grid gap-2">
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
                       Pot de depart
