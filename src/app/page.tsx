@@ -2186,6 +2186,14 @@ export default function Home() {
 
           <div className="relative min-h-[340px] flex-1 rounded-[28px] border border-zinc-700/80 bg-[#25242a] p-3 pb-8">
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-zinc-200/80 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45)]" />
+            <button
+              type="button"
+              onClick={() => setDisplayUnit((u) => (u === "bb" ? "chips" : "bb"))}
+              title={displayUnit === "bb" ? "Passer en jetons" : "Passer en BB"}
+              className="absolute bottom-2 right-2 z-[45] rounded-full border border-zinc-500/90 bg-zinc-900/90 px-3 py-2 text-xs font-bold text-zinc-100 shadow-[0_4px_16px_rgba(0,0,0,0.35)] backdrop-blur-sm transition hover:border-zinc-400 hover:bg-zinc-800/95 sm:bottom-3 sm:right-3 sm:px-3.5 sm:py-2.5 sm:text-sm"
+            >
+              {displayUnit === "bb" ? "BB ◎" : "Jetons ◉"}
+            </button>
             {hands.length === 0 && (
               <div
                 className="absolute inset-4 z-[30] flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[999px] bg-black/25 px-4 py-8 text-center backdrop-blur-[1px] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400/80"
