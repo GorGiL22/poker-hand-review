@@ -1167,6 +1167,8 @@ export default function Home() {
   const [showMesMainsFullPage, setShowMesMainsFullPage] = useState(false);
   /** Mise en avant de la zone drop sur l’accueil (aucune main). */
   const [welcomeDropActive, setWelcomeDropActive] = useState(false);
+  /** Message court après partage de main (presse-papiers / partage natif). */
+  const [shareToast, setShareToast] = useState<string | null>(null);
   const [showOddsModule, setShowOddsModule] = useState(false);
   const [showBountyModule, setShowBountyModule] = useState(false);
   const [showGeometricModule, setShowGeometricModule] = useState(false);
