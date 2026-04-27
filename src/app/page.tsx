@@ -2396,8 +2396,8 @@ export default function Home() {
                 <div
                   className={`pointer-events-none mx-auto flex min-h-[160px] w-[min(92%,440px)] max-w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-10 transition ${
                     welcomeDropActive
-                      ? "border-emerald-400/90 bg-emerald-500/15 text-emerald-50 shadow-[0_0_0_1px_rgba(52,211,153,0.35)]"
-                      : "border-zinc-400/50 bg-zinc-900/40 text-zinc-100"
+                      ? "border-emerald-400/85 bg-emerald-500/12 text-emerald-50 shadow-[0_0_24px_rgba(52,211,153,0.2)]"
+                      : "border-white/15 bg-zinc-950/35 text-zinc-100 shadow-inner"
                   }`}
                 >
                   <span className="text-lg font-semibold sm:text-xl">Glisse tes fichiers ici</span>
