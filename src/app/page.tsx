@@ -2257,7 +2257,7 @@ export default function Home() {
           )}
 
           {hands.length > 0 && (
-            <div className="mb-1 flex flex-col gap-1 rounded-lg border border-zinc-700/70 bg-zinc-900/35 px-2 py-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:py-1 sm:pl-2 sm:pr-2">
+            <div className={PHR_TOURNAMENT_RAIL}>
               <div className="flex min-w-0 flex-1 items-center gap-1.5">
                 <span className="shrink-0 text-[9px] font-bold uppercase leading-none tracking-wide text-zinc-500">
                   Tournois
