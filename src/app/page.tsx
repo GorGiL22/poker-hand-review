@@ -823,6 +823,46 @@ function buildReplaySteps(hand: ParsedHand): ReplayStep[] {
   return steps;
 }
 
+/** Texte lisible pour coller sur Discord / forums (reconstruit depuis la main parsée). */
+function formatHandForShare(hand: ParsedHand): string {
+  if (hand.id === "__empty__" || hand.players.length === 0) return "";
+  const steps = buildReplaySteps(hand);
+  const finalBoard = steps.length > 0 ? steps[steps.length - 1]!.visibleBoard : hand.board.flop;
+  const boardLine =
+    finalBoard.length > 0 ? `Plateau: ${finalBoard.join(" ")}` : "Plateau: (preflop)";
+
+  const lines: string[] = [
+    "--- Poker Hand Review ---",
+    hand.tournamentName ? `Tournoi: ${hand.tournamentName}` : null,
+    hand.dateTime ? `Date: ${hand.dateTime}` : null,
+    hand.levelLabel ? `Niveau: ${hand.levelLabel}` : null,
+    hand.blinds.sb != null && hand.blinds.bb != null
+      ? `Blinds: ${hand.blinds.sb} / ${hand.blinds.bb}`
+      : null,
+    "",
+    "Joueurs:",
+    ...hand.players.map((p) => {
+      const cards = hand.holeCardsByPlayer[p.name];
+      const shown = cards?.length ? cards.join(" ") : "?";
+      const hero = p.name === hand.heroName ? " (Hero)" : "";
+      return `- ${p.name}${hero} [${p.position}] — ${shown} — stack ${p.stack}`;
+    }),
+    "",
+    boardLine,
+    "",
+    "Actions:",
+  ].filter((l): l is string => l != null);
+
+  for (const street of STREET_ORDER) {
+    const acts = hand.actions[street];
+    if (acts.length === 0) continue;
+    lines.push(`--- ${street.toUpperCase()} ---`);
+    acts.forEach((a) => lines.push(a.raw));
+  }
+  lines.push("", `Fichier: ${hand.sourceFile ?? "—"}`);
+  return lines.join("\n");
+}
+
 function computePendingContributions(
   steps: ReplayStep[],
   appliedStepCount: number,
