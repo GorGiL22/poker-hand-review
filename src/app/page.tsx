@@ -2739,7 +2739,7 @@ export default function Home() {
             className={`${PHR_DOCK_TILE} disabled:pointer-events-none disabled:opacity-35 disabled:shadow-[0_4px_22px_rgba(0,0,0,0.25)] disabled:grayscale`}
           >
             <svg
-              className="h-6 w-6 shrink-0 text-zinc-200"
+              className={PHR_DOCK_ICON}
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
