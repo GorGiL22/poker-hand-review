@@ -76,9 +76,6 @@ const PHR_PAGE_BG =
 const PHR_APP_SHELL =
   "flex min-h-0 flex-1 flex-col rounded-[1.75rem] border border-white/10 bg-gradient-to-b from-zinc-900/88 via-zinc-950/95 to-[#0f0e12] p-3 shadow-[0_28px_100px_rgba(0,0,0,0.55),inset_0_1px_0_rgba(255,255,255,0.06)] backdrop-blur-md sm:rounded-3xl sm:p-4";
 
-const PHR_TOOLBAR_RAIL =
-  "mb-3 rounded-2xl border border-white/10 bg-black/25 p-1.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-md";
-
 /** Boutons barre principale (import / filtres / outils) — même hauteur et même base visuelle. */
 const PHR_TOOLBAR_BTN =
   "inline-flex h-11 shrink-0 items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
