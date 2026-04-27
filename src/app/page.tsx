@@ -1791,7 +1791,7 @@ export default function Home() {
           setHeroMoveFilter(event.target.value as HeroMoveFilter);
           setStepIndex(0);
         }}
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+        className={PHR_FIELD_SELECT}
       >
         <option value="ALL">Action hero: toutes</option>
         <option value="OPEN">Action hero: open</option>
@@ -1805,7 +1805,7 @@ export default function Home() {
           setHeroPositionFilter(event.target.value);
           setStepIndex(0);
         }}
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+        className={PHR_FIELD_SELECT}
       >
         {availableHeroPositions.map((position) => (
           <option key={`mesmains-hero-pos-${position}`} value={position}>
@@ -1819,7 +1819,7 @@ export default function Home() {
           setVersusPositionFilter(event.target.value);
           setStepIndex(0);
         }}
-        className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+        className={PHR_FIELD_SELECT}
       >
         {availableVersusPositions.map((position) => (
           <option key={`mesmains-vs-pos-${position}`} value={position}>
@@ -1996,7 +1996,7 @@ export default function Home() {
                         setHeroMoveFilter(event.target.value as HeroMoveFilter);
                         setStepIndex(0);
                       }}
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+                      className={PHR_FIELD_SELECT}
                     >
                       <option value="ALL">Action hero: toutes</option>
                       <option value="OPEN">Action hero: open</option>
@@ -2010,7 +2010,7 @@ export default function Home() {
                         setHeroPositionFilter(event.target.value);
                         setStepIndex(0);
                       }}
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+                      className={PHR_FIELD_SELECT}
                     >
                       {availableHeroPositions.map((position) => (
                         <option key={`hero-pos-inline-${position}`} value={position}>
@@ -2024,7 +2024,7 @@ export default function Home() {
                         setVersusPositionFilter(event.target.value);
                         setStepIndex(0);
                       }}
-                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-2 py-2 text-sm font-semibold text-zinc-100"
+                      className={PHR_FIELD_SELECT}
                     >
                       {availableVersusPositions.map((position) => (
                         <option key={`vs-pos-inline-${position}`} value={position}>
