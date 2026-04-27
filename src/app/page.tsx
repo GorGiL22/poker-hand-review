@@ -2186,13 +2186,13 @@ export default function Home() {
           {importError && <p className="mb-2 text-xs text-rose-400">{importError}</p>}
 
           {hands.length > 0 && (
-            <div className="mb-2 flex flex-col gap-2.5 rounded-xl border border-zinc-700/80 bg-zinc-900/40 px-3 py-2.5 shadow-inner sm:flex-row sm:items-stretch sm:justify-between sm:gap-3">
-              <div className="min-w-0 flex-1">
-                <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+            <div className="mb-1 flex flex-col gap-1 rounded-lg border border-zinc-700/70 bg-zinc-900/35 px-2 py-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2 sm:py-1 sm:pl-2 sm:pr-2">
+              <div className="flex min-w-0 flex-1 items-center gap-1.5">
+                <span className="shrink-0 text-[9px] font-bold uppercase leading-none tracking-wide text-zinc-500">
                   Tournois
-                </p>
+                </span>
                 <div
-                  className="flex gap-1.5 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-600"
+                  className="flex min-h-0 min-w-0 gap-1 overflow-x-auto py-0.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:[scrollbar-width:thin] [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-600"
                   role="tablist"
                   aria-label="Filtrer par tournoi"
                 >
@@ -2209,10 +2209,10 @@ export default function Home() {
                           setStepIndex(0);
                         }}
                         title={option.label}
-                        className={`max-w-[min(100%,14rem)] shrink-0 truncate rounded-full border px-3 py-1.5 text-left text-xs font-semibold transition sm:max-w-[18rem] ${
+                        className={`max-w-[min(100%,12rem)] shrink-0 truncate rounded-full border px-2 py-0.5 text-left text-[11px] font-semibold leading-tight transition sm:max-w-[16rem] sm:py-1 ${
                           active
-                            ? "border-violet-500/70 bg-violet-600/25 text-violet-100 shadow-[0_0_0_1px_rgba(139,92,246,0.25)]"
-                            : "border-zinc-600/80 bg-zinc-800/70 text-zinc-200 hover:border-zinc-500 hover:bg-zinc-800"
+                            ? "border-violet-500/70 bg-violet-600/25 text-violet-100"
+                            : "border-zinc-600/70 bg-zinc-800/60 text-zinc-300 hover:border-zinc-500 hover:bg-zinc-800"
                         }`}
                       >
                         {option.label}
@@ -2221,41 +2221,44 @@ export default function Home() {
                   })}
                 </div>
               </div>
-              <div className="flex shrink-0 flex-col gap-1.5 border-t border-zinc-700/70 pt-2 sm:w-auto sm:min-w-[11rem] sm:border-l sm:border-t-0 sm:pl-3 sm:pt-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
-                  Main affichée
-                </p>
-                <div className="rounded-lg border border-zinc-700/90 bg-zinc-950/70 px-2.5 py-2 text-[11px] font-semibold leading-snug text-zinc-200">
-                  <p>
+              <div className="flex shrink-0 items-center border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
+                <div className="flex max-w-full flex-wrap items-baseline gap-x-2 gap-y-0.5 rounded-md border border-zinc-700/80 bg-zinc-950/60 px-2 py-0.5 text-[10px] font-medium leading-tight text-zinc-300">
+                  <span className="whitespace-nowrap">
                     <span className="text-zinc-500">Blinds </span>
                     <span className="text-zinc-100">
                       {selectedHand.blinds.sb != null && selectedHand.blinds.bb != null
-                        ? `${selectedHand.blinds.sb} / ${selectedHand.blinds.bb}`
+                        ? `${selectedHand.blinds.sb}/${selectedHand.blinds.bb}`
                         : "—"}
                     </span>
-                    {selectedHand.levelLabel?.trim() ? (
-                      <span className="block truncate text-zinc-400" title={selectedHand.levelLabel}>
-                        {selectedHand.levelLabel.trim()}
-                      </span>
-                    ) : null}
-                  </p>
-                  <p className="mt-1 border-t border-zinc-800/80 pt-1">
-                    <span className="text-zinc-500">Format </span>
-                    <span className="text-zinc-100">{selectedHand.tournamentVariant ?? "VANILLA"}</span>
-                  </p>
-                  <p className="mt-1 border-t border-zinc-800/80 pt-1 text-zinc-400">
+                  </span>
+                  {selectedHand.levelLabel?.trim() ? (
+                    <span className="max-w-[9rem] truncate text-zinc-500" title={selectedHand.levelLabel}>
+                      {selectedHand.levelLabel.trim()}
+                    </span>
+                  ) : null}
+                  <span className="whitespace-nowrap text-zinc-500">
+                    Fmt <span className="text-zinc-200">{selectedHand.tournamentVariant ?? "VANILLA"}</span>
+                  </span>
+                  <span className="whitespace-nowrap text-zinc-500">
                     {selectedTournament === "ALL"
-                      ? `${hands.length} main${hands.length !== 1 ? "s" : ""} importée${hands.length !== 1 ? "s" : ""}`
-                      : `${tournamentFilteredHands.length} main${tournamentFilteredHands.length !== 1 ? "s" : ""} dans ce tournoi`}
-                  </p>
+                      ? (
+                          <>
+                            <span className="text-zinc-200">{hands.length}</span> mains
+                          </>
+                        )
+                      : (
+                          <>
+                            <span className="text-zinc-200">{tournamentFilteredHands.length}</span> ici
+                          </>
+                        )}
+                  </span>
                   {(heroMoveFilter !== "ALL" ||
                     heroPositionFilter !== "ALL" ||
                     versusPositionFilter !== "ALL") && (
-                    <p className="mt-1 border-t border-zinc-800/80 pt-1 text-zinc-500">
-                      Après filtres :{" "}
-                      <span className="font-semibold text-zinc-300">{filteredHands.length}</span> /{" "}
-                      {tournamentFilteredHands.length} mains
-                    </p>
+                    <span className="whitespace-nowrap text-zinc-500">
+                      filtres <span className="text-zinc-200">{filteredHands.length}</span>/
+                      {tournamentFilteredHands.length}
+                    </span>
                   )}
                 </div>
               </div>
