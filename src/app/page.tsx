@@ -1820,7 +1820,7 @@ export default function Home() {
   );
 
   return (
-    <main className="flex h-screen flex-col overflow-hidden bg-[#1b1a1f] text-zinc-100">
+    <main className={`flex h-screen flex-col overflow-hidden text-zinc-100 ${PHR_PAGE_BG}`}>
       {hands.length === 0 && <PhrAuthBar />}
       {hands.length > 0 && showMesMainsFullPage && (
         <div
