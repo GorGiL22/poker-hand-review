@@ -2337,7 +2337,7 @@ export default function Home() {
           )}
 
           {hands.length > 0 && allInTriggered && (
-            <div className="mb-2 rounded-lg border border-amber-400/30 bg-amber-500/10 px-3 py-1.5 text-xs">
+            <div className="mb-2 rounded-2xl border border-amber-400/25 bg-amber-950/20 px-3 py-2 text-xs shadow-inner backdrop-blur-sm">
               <p className="font-medium text-amber-200">Equite all-in</p>
               {equityByPlayer ? (
                 <div className="mt-1 flex flex-wrap gap-2">
