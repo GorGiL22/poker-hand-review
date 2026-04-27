@@ -14,6 +14,12 @@ import {
 import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
 import { PhrHandFiltersPanel } from "@/components/phr-hand-filters";
 import {
+  EMPTY_PHR_HAND_FILTER_SELECTION,
+  handMatchesPhrFilters,
+  phrFiltersAreActive,
+  type PhrHandFilterSelection,
+} from "@/lib/phr-hand-filter-meta";
+import {
   PHR_DOCK_ICON,
   PHR_DOCK_POD,
   PHR_DOCK_TILE,
