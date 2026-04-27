@@ -2119,6 +2119,67 @@ export default function Home() {
                   </div>
                 </div>
               )}
+              {showCalcToolsMenu && (
+                <div
+                  className="absolute left-0 top-[3.25rem] z-[50] w-[min(100vw-2rem,20rem)] rounded-xl border border-zinc-600/90 bg-zinc-950/98 p-2 shadow-2xl backdrop-blur-sm sm:top-14"
+                  role="menu"
+                  aria-label="Choisir un outil de calcul"
+                >
+                  <p className="mb-2 px-1 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-500">
+                    Ouvrir un panneau
+                  </p>
+                  <div className="flex flex-col gap-1">
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setShowCalcToolsMenu(false);
+                        setShowBountyModule(false);
+                        setShowGeometricModule(false);
+                        setShowOddsModule((v) => !v);
+                      }}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900/90 px-3 py-2.5 text-left text-sm font-bold text-zinc-100 transition hover:border-violet-500/50 hover:bg-zinc-800"
+                    >
+                      Cotes
+                      <span className="mt-0.5 block text-[11px] font-normal text-zinc-500">
+                        Outs, équité requise, EV call
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setShowCalcToolsMenu(false);
+                        setShowOddsModule(false);
+                        setShowGeometricModule(false);
+                        setShowBountyModule((v) => !v);
+                      }}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900/90 px-3 py-2.5 text-left text-sm font-bold text-zinc-100 transition hover:border-violet-500/50 hover:bg-zinc-800"
+                    >
+                      Bounty PKO
+                      <span className="mt-0.5 block text-[11px] font-normal text-zinc-500">
+                        Équivalent jetons / BB
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      onClick={() => {
+                        setShowCalcToolsMenu(false);
+                        setShowOddsModule(false);
+                        setShowBountyModule(false);
+                        setShowGeometricModule((v) => !v);
+                      }}
+                      className="w-full rounded-lg border border-zinc-700 bg-zinc-900/90 px-3 py-2.5 text-left text-sm font-bold text-zinc-100 transition hover:border-violet-500/50 hover:bg-zinc-800"
+                    >
+                      Géométrique
+                      <span className="mt-0.5 block text-[11px] font-normal text-zinc-500">
+                        Sizing % pot par street
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
           )}
