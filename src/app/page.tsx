@@ -2714,12 +2714,12 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setShowSettingsPanel(false)}
-                className="rounded-lg border border-zinc-600 px-2 py-1 text-xs font-semibold text-zinc-300 hover:bg-zinc-800"
+                className="rounded-lg border border-white/12 bg-zinc-800/80 px-2.5 py-1 text-xs font-semibold text-zinc-200 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/90"
               >
                 Fermer
               </button>
             </div>
-            <label className="flex cursor-pointer items-center justify-between gap-3 rounded-lg border border-zinc-700/80 bg-zinc-950/60 px-3 py-2.5">
+            <label className="flex cursor-pointer items-center justify-between gap-3 rounded-xl border border-white/10 bg-zinc-900/70 px-3 py-2.5 shadow-inner transition hover:border-white/16">
               <span className="text-sm text-zinc-200">Sons des actions</span>
               <input
                 type="checkbox"
