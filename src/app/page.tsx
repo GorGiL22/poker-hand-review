@@ -1847,11 +1847,11 @@ export default function Home() {
           aria-modal="true"
           aria-labelledby="phr-mes-mains-title"
         >
-          <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-zinc-800/90 bg-zinc-950/80 px-4 py-3 backdrop-blur-sm">
+          <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-white/10 bg-black/20 px-4 py-3 backdrop-blur-md">
             <button
               type="button"
               onClick={() => setShowMesMainsFullPage(false)}
-              className="rounded-full border border-zinc-600 bg-zinc-800/80 px-4 py-2 text-sm font-bold text-zinc-100 transition hover:border-zinc-500 hover:bg-zinc-700/80"
+              className={PHR_BTN_TOOL}
             >
               Fermer
             </button>
