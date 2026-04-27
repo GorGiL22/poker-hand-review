@@ -2046,7 +2046,7 @@ export default function Home() {
                         value={oddsPotInput}
                         onChange={(event) => setOddsPotInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2055,7 +2055,7 @@ export default function Home() {
                         value={oddsCallInput}
                         onChange={(event) => setOddsCallInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2064,7 +2064,7 @@ export default function Home() {
                         value={oddsOutsInput}
                         onChange={(event) => setOddsOutsInput(event.target.value)}
                         inputMode="numeric"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2072,7 +2072,7 @@ export default function Home() {
                       <select
                         value={oddsStreet}
                         onChange={(event) => setOddsStreet(event.target.value as "FLOP" | "TURN")}
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       >
                         <option value="FLOP">Flop (2 cartes a venir)</option>
                         <option value="TURN">Turn (1 carte a venir)</option>
@@ -2099,7 +2099,7 @@ export default function Home() {
                         value={targetBountyInput}
                         onChange={(event) => setTargetBountyInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2108,7 +2108,7 @@ export default function Home() {
                         value={buyInInput}
                         onChange={(event) => setBuyInInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2117,7 +2117,7 @@ export default function Home() {
                         value={startingStackInput}
                         onChange={(event) => setStartingStackInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2126,7 +2126,7 @@ export default function Home() {
                         value={currentBbInput}
                         onChange={(event) => setCurrentBbInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <div className="rounded border border-zinc-700 bg-zinc-900/70 px-2 py-1.5 text-xs text-zinc-200">
@@ -2149,7 +2149,7 @@ export default function Home() {
                         value={geoPotInput}
                         onChange={(event) => setGeoPotInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2158,7 +2158,7 @@ export default function Home() {
                         value={geoStackInput}
                         onChange={(event) => setGeoStackInput(event.target.value)}
                         inputMode="decimal"
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       />
                     </label>
                     <label className="flex flex-col gap-1 text-xs text-zinc-300">
@@ -2166,7 +2166,7 @@ export default function Home() {
                       <select
                         value={geoStreetsInput}
                         onChange={(event) => setGeoStreetsInput(event.target.value as "1" | "2" | "3")}
-                        className="rounded border border-zinc-700 bg-zinc-900 px-2 py-1.5 text-sm text-zinc-100 outline-none focus:border-zinc-500"
+                        className={PHR_FIELD_INPUT}
                       >
                         <option value="1">1 street</option>
                         <option value="2">2 streets</option>
