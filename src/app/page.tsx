@@ -2156,9 +2156,7 @@ export default function Home() {
                   <span className="whitespace-nowrap text-zinc-500">
                     Fmt <span className="text-zinc-200">{selectedHand.tournamentVariant ?? "VANILLA"}</span>
                   </span>
-                  {(heroMoveFilter !== "ALL" ||
-                    heroPositionFilter !== "ALL" ||
-                    versusPositionFilter !== "ALL") && (
+                  {phrFiltersAreActive(handFilters) && (
                     <span className="whitespace-nowrap text-zinc-500">
                       filtres <span className="text-zinc-200">{filteredHands.length}</span>/
                       {tournamentFilteredHands.length}
