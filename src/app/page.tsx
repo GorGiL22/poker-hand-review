@@ -1169,6 +1169,8 @@ export default function Home() {
   const [welcomeDropActive, setWelcomeDropActive] = useState(false);
   /** Message court après partage de main (presse-papiers / partage natif). */
   const [shareToast, setShareToast] = useState<string | null>(null);
+  const [showSettingsPanel, setShowSettingsPanel] = useState(false);
+  const [soundEnabled, setSoundEnabled] = useState(true);
   const [showOddsModule, setShowOddsModule] = useState(false);
   const [showBountyModule, setShowBountyModule] = useState(false);
   const [showGeometricModule, setShowGeometricModule] = useState(false);
