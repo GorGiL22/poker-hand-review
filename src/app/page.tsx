@@ -1955,14 +1955,20 @@ export default function Home() {
                   setShowFilters(false);
                   setShowCalcToolsMenu((v) => !v);
                 }}
-                className={`rounded-2xl border-2 px-5 py-3 text-left text-sm font-black leading-tight shadow-md transition sm:min-w-[11.5rem] sm:px-6 sm:py-3.5 sm:text-base ${
+                className={`rounded-2xl border-2 px-4 py-2.5 text-left text-sm font-black leading-tight shadow-md transition sm:min-w-[11rem] sm:px-5 sm:py-3 sm:text-base ${
                   showOddsModule || showBountyModule || showGeometricModule || showCalcToolsMenu
-                    ? "border-amber-500/70 bg-amber-950/50 text-amber-50 ring-2 ring-amber-500/25 hover:border-amber-400/90 hover:bg-amber-950/65"
-                    : "border-zinc-500/70 bg-zinc-700/55 text-zinc-50 hover:border-amber-500/50 hover:bg-zinc-600/60"
+                    ? "border-amber-400/55 bg-gradient-to-b from-amber-950/50 to-zinc-950/95 text-amber-50 shadow-[0_0_0_1px_rgba(251,191,36,0.12)] hover:border-amber-300/65 hover:from-amber-950/60"
+                    : "border-white/12 bg-gradient-to-b from-zinc-800/45 to-zinc-950/95 text-zinc-50 hover:border-amber-500/30"
                 }`}
               >
                 <span className="block">Outils de calculs</span>
-                <span className="mt-0.5 block text-[10px] font-semibold uppercase tracking-wide text-zinc-400 sm:text-[11px]">
+                <span
+                  className={`mt-0.5 block text-[10px] font-semibold uppercase tracking-wide sm:text-[11px] ${
+                    showOddsModule || showBountyModule || showGeometricModule || showCalcToolsMenu
+                      ? "text-amber-200/75"
+                      : "text-zinc-500"
+                  }`}
+                >
                   Cotes · Bounty · Géométrique
                 </span>
               </button>
