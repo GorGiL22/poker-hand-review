@@ -1174,6 +1174,7 @@ export default function Home() {
   /** Message court après partage de main (presse-papiers / partage natif). */
   const [shareToast, setShareToast] = useState<string | null>(null);
   const [showSettingsPanel, setShowSettingsPanel] = useState(false);
+  const [blurHandActions, setBlurHandActions] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showOddsModule, setShowOddsModule] = useState(false);
   const [showBountyModule, setShowBountyModule] = useState(false);
@@ -1575,6 +1576,7 @@ export default function Home() {
     if (typeof action.amount !== "number") return base;
     return `${base} ${formatAmount(action.amount)}`;
   }
+  const actionBlurClass = blurHandActions ? " blur-sm" : "";
 
   async function importHandHistoryFiles(files: File[]) {
     if (files.length === 0) return;
@@ -2245,7 +2247,7 @@ export default function Home() {
             {chipAnimation && !sweepAnimation && (
               <div
                 key={chipAnimation.key}
-                className="pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
+                className={`pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
                 style={
                   {
                     left: `${chipAnimation.startX}%`,
@@ -2267,7 +2269,7 @@ export default function Home() {
             {potWinAnimation && (
               <div
                 key={potWinAnimation.key}
-                className="pointer-events-none absolute z-30 text-2xl font-black tracking-wide text-zinc-100 drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]"
+                className={`pointer-events-none absolute z-30 text-2xl font-black tracking-wide text-zinc-100 drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]${actionBlurClass}`}
                 style={
                   {
                     left: "50%",
@@ -2298,7 +2300,7 @@ export default function Home() {
               return (
                 <div
                   key={`pending-${playerName}`}
-                  className="pointer-events-none absolute z-10 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
+                  className={`pointer-events-none absolute z-10 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
                   style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
                 >
                   {displayUnit === "bb" ? (amount / bbValue).toFixed(1) : amount.toFixed(1)}
@@ -2320,7 +2322,7 @@ export default function Home() {
                 return (
                   <div
                     key={`initial-blind-${chip.player}`}
-                    className="pointer-events-none absolute z-10 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
+                    className={`pointer-events-none absolute z-10 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
                     style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
                   >
                     {displayUnit === "bb"
@@ -2333,7 +2335,7 @@ export default function Home() {
               sweepAnimation.entries.map((entry) => (
                 <div
                   key={`${sweepAnimation.key}-${entry.player}`}
-                  className="pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
+                  className={`pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
                   style={
                     {
                       left: `${entry.x}%`,
@@ -2361,7 +2363,9 @@ export default function Home() {
               </div>
             </div>
             {!potWinAnimation && hands.length > 0 && (
-              <div className="absolute left-1/2 top-[32%] -translate-x-1/2 -translate-y-1/2 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
+              <div
+                className={`absolute left-1/2 top-[32%] -translate-x-1/2 -translate-y-1/2 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]${actionBlurClass}`}
+              >
                 Pot {formatAmount(currentPot)}
               </div>
             )}
@@ -2544,6 +2548,32 @@ export default function Home() {
         </section>
       </div>
 
+      {hands.length > 0 && (
+        <div className="pointer-events-none fixed bottom-4 left-3 z-[70] sm:bottom-5 sm:left-5">
+          <button
+            type="button"
+            onClick={() => setBlurHandActions((value) => !value)}
+            title={blurHandActions ? "Afficher les actions de la main" : "Flouter les actions de la main"}
+            aria-pressed={blurHandActions}
+            className={`pointer-events-auto ${blurHandActions ? PHR_DOCK_TILE_ACTIVE : PHR_DOCK_TILE}`}
+          >
+            {blurHandActions ? (
+              <svg className={PHR_DOCK_ICON} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M3 3l18 18" />
+                <path d="M10.6 10.6a3 3 0 0 0 4.24 4.24" />
+                <path d="M9.88 5.09A10.94 10.94 0 0 1 12 5c5 0 9.27 3.11 11 7a11.76 11.76 0 0 1-4.04 4.83" />
+                <path d="M6.61 6.61A11.81 11.81 0 0 0 1 12a11.8 11.8 0 0 0 8.32 6.65" />
+              </svg>
+            ) : (
+              <svg className={PHR_DOCK_ICON} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+                <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            )}
+            <span className="sr-only">Flouter les actions</span>
+          </button>
+        </div>
+      )}
       <div className="pointer-events-none fixed inset-x-3 bottom-4 z-[70] flex flex-col items-end gap-2 pr-4 sm:inset-x-5 sm:bottom-5 sm:pr-7">
         {shareToast ? (
           <p className="pointer-events-none max-w-[min(100%,20rem)] rounded-xl border border-white/[0.09] bg-zinc-900/70 px-3 py-2 text-right text-xs font-medium text-zinc-100 shadow-[0_4px_24px_rgba(0,0,0,0.12)] backdrop-blur-md">
