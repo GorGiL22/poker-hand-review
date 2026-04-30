@@ -1576,7 +1576,6 @@ export default function Home() {
     if (typeof action.amount !== "number") return base;
     return `${base} ${formatAmount(action.amount)}`;
   }
-  const actionBlurClass = blurHandActions ? " blur-sm" : "";
 
   async function importHandHistoryFiles(files: File[]) {
     if (files.length === 0) return;
@@ -2247,7 +2246,7 @@ export default function Home() {
             {chipAnimation && !sweepAnimation && (
               <div
                 key={chipAnimation.key}
-                className={`pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
+                className="pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
                 style={
                   {
                     left: `${chipAnimation.startX}%`,
@@ -2269,7 +2268,7 @@ export default function Home() {
             {potWinAnimation && (
               <div
                 key={potWinAnimation.key}
-                className={`pointer-events-none absolute z-30 text-2xl font-black tracking-wide text-zinc-100 drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]${actionBlurClass}`}
+                className="pointer-events-none absolute z-30 text-2xl font-black tracking-wide text-zinc-100 drop-shadow-[0_3px_8px_rgba(0,0,0,0.8)]"
                 style={
                   {
                     left: "50%",
@@ -2300,7 +2299,7 @@ export default function Home() {
               return (
                 <div
                   key={`pending-${playerName}`}
-                  className={`pointer-events-none absolute z-10 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
+                  className="pointer-events-none absolute z-10 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
                   style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
                 >
                   {displayUnit === "bb" ? (amount / bbValue).toFixed(1) : amount.toFixed(1)}
@@ -2322,7 +2321,7 @@ export default function Home() {
                 return (
                   <div
                     key={`initial-blind-${chip.player}`}
-                    className={`pointer-events-none absolute z-10 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
+                    className="pointer-events-none absolute z-10 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
                     style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" }}
                   >
                     {displayUnit === "bb"
@@ -2335,7 +2334,7 @@ export default function Home() {
               sweepAnimation.entries.map((entry) => (
                 <div
                   key={`${sweepAnimation.key}-${entry.player}`}
-                  className={`pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]${actionBlurClass}`}
+                  className="pointer-events-none absolute z-20 text-lg font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.75)]"
                   style={
                     {
                       left: `${entry.x}%`,
@@ -2363,9 +2362,7 @@ export default function Home() {
               </div>
             </div>
             {!potWinAnimation && hands.length > 0 && (
-              <div
-                className={`absolute left-1/2 top-[32%] -translate-x-1/2 -translate-y-1/2 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]${actionBlurClass}`}
-              >
+              <div className="absolute left-1/2 top-[32%] -translate-x-1/2 -translate-y-1/2 text-xl font-black tracking-wide text-zinc-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.7)]">
                 Pot {formatAmount(currentPot)}
               </div>
             )}
@@ -2475,7 +2472,7 @@ export default function Home() {
                   >
                     ◀
                   </button>
-                  <span className={PHR_TRANSPORT_READOUT}>
+                  <span className={`${PHR_TRANSPORT_READOUT}${blurHandActions ? " blur-sm" : ""}`}>
                     {`${clampedStepIndex + 1} / ${maxUiStepIndex + 1}`}
                   </span>
                   <button
