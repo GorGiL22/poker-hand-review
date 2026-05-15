@@ -1687,6 +1687,9 @@ export default function Home() {
   }, [firebaseConfigured]);
 
   useEffect(() => {
+    if (isLocalGroupsEnabled()) {
+      return subscribeUserReviewGroups(user?.uid ?? null, setMyReviewGroups);
+    }
     if (!firebaseConfigured || authLoading) return;
     if (!user) {
       queueMicrotask(() => setMyReviewGroups([]));
