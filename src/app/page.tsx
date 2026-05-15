@@ -1583,48 +1583,28 @@ export default function Home() {
     setCloudLoading(true);
     setCloudLoadError(null);
 
-    let handsToPersist: ParsedHand[] | null = null;
-    let shouldPersistAfterLoad = false;
+    void loadUserCloudPrefs(user.uid)
+      .then((prefs) => {
+        if (cancelled || !prefs) return;
+        const library = handsRef.current;
+        if (library.length === 0) return;
 
-    void loadUserCloudData(user.uid)
-      .then(({ hands: rawHands, prefs }) => {
-        if (cancelled) return;
-        const parsed: ParsedHand[] = [];
-        for (const raw of rawHands) {
-          const hand = storedRecordToParsedHand(raw);
-          if (hand) parsed.push(hand);
+        setShowPublicHome(false);
+        const preferredId = prefs.selectedHandId?.trim();
+        if (preferredId && library.some((h) => h.id === preferredId)) {
+          setSelectedHandId(preferredId);
         }
-
-        const local = handsRef.current;
-        const merged = mergeParsedHandLists(local, parsed);
-        if (merged.length === 0) return;
-
-        handsToPersist = merged;
-        shouldPersistAfterLoad = local.length > 0 && merged.length >= local.length;
-
-        if (local.length === 0 && parsed.length > 0) {
-          setShowPublicHome(false);
-          const preferredId = prefs?.selectedHandId?.trim();
-          const pick =
-            preferredId && merged.some((h) => h.id === preferredId) ? preferredId : merged[0].id;
-          setSelectedHandId(pick);
-          if (typeof prefs?.stepIndex === "number" && Number.isFinite(prefs.stepIndex)) {
-            setStepIndex(Math.max(0, prefs.stepIndex));
-          }
-          if (prefs?.selectedTournament?.trim()) {
-            setSelectedTournament(prefs.selectedTournament);
-          }
-          if (prefs?.displayUnit === "bb" || prefs?.displayUnit === "chips") {
-            setDisplayUnit(prefs.displayUnit);
-          }
-          if (typeof prefs?.soundEnabled === "boolean") {
-            setSoundEnabled(prefs.soundEnabled);
-          }
+        if (typeof prefs.stepIndex === "number" && Number.isFinite(prefs.stepIndex)) {
+          setStepIndex(Math.max(0, prefs.stepIndex));
         }
-
-        if (parsed.length > 0 || merged.length !== local.length) {
-          setHands(merged);
-          saveLibraryToIndexedDb(merged);
+        if (prefs.selectedTournament?.trim()) {
+          setSelectedTournament(prefs.selectedTournament);
+        }
+        if (prefs.displayUnit === "bb" || prefs.displayUnit === "chips") {
+          setDisplayUnit(prefs.displayUnit);
+        }
+        if (typeof prefs.soundEnabled === "boolean") {
+          setSoundEnabled(prefs.soundEnabled);
         }
       })
       .catch((error) => {
@@ -1634,17 +1614,14 @@ export default function Home() {
             setCloudLoadError(null);
             return;
           }
-          setCloudLoadError(error instanceof Error ? error.message : "Impossible de charger tes mains.");
+          setCloudLoadError(
+            error instanceof Error ? error.message : "Impossible de charger tes préférences.",
+          );
         }
       })
       .finally(() => {
         if (!cancelled) {
           setCloudLoading(false);
-          if (shouldPersistAfterLoad && handsToPersist && handsToPersist.length > 0) {
-            void persistHandsToCloud(handsToPersist).catch(() => {
-              /* import local non encore sur le cloud */
-            });
-          }
           queueMicrotask(() => {
             skipCloudSaveRef.current = false;
           });
