@@ -231,6 +231,11 @@ export function PhrPublicHome({
           Chargement de tes mains depuis ton compte…
         </p>
       )}
+      {cloudSyncWarning ? (
+        <p className="shrink-0 rounded-xl border border-amber-500/30 bg-amber-950/25 px-3 py-2 text-sm text-amber-100">
+          {cloudSyncWarning}
+        </p>
+      ) : null}
       {user && !cloudLoading && cloudLoadError && (
         <p className="shrink-0 rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-sm text-rose-200">
           {cloudLoadError}
