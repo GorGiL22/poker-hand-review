@@ -1616,12 +1616,13 @@ export default function Home() {
   }, [firebaseConfigured]);
 
   useEffect(() => {
-    if (!user || !firebaseConfigured) {
+    if (!firebaseConfigured || authLoading) return;
+    if (!user) {
       queueMicrotask(() => setMyReviewGroups([]));
       return;
     }
     return subscribeUserReviewGroups(user.uid, setMyReviewGroups);
-  }, [user, firebaseConfigured]);
+  }, [user, authLoading, firebaseConfigured]);
 
   useEffect(() => {
     if (!showSettingsPanel) return;

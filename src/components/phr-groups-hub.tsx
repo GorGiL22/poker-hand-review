@@ -24,7 +24,7 @@ type PhrGroupsHubProps = {
 };
 
 export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
-  const { user, pseudo, firebaseConfigured } = usePhrFirebase();
+  const { user, pseudo, authLoading, firebaseConfigured } = usePhrFirebase();
   const [groups, setGroups] = useState<ReviewGroupMembership[]>([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
