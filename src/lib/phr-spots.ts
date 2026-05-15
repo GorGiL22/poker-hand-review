@@ -293,6 +293,7 @@ export async function publishSpot(input: SpotPublishInput): Promise<void> {
     heroAmount: input.heroAmount,
     sourceValidation: input.sourceValidation,
     visibility: input.visibility,
+    groupId: input.visibility === "group" ? input.groupId!.trim() : undefined,
     summary,
     tournamentName: tour.tournamentName ?? undefined,
     levelLabel: tour.levelLabel ?? undefined,
