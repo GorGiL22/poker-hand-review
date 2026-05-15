@@ -58,7 +58,7 @@ export function parseFeedDocument(
   }
 
   const rawCounts = data.reactionCounts;
-  const counts = emptyCounts();
+  const counts = emptyReactionCounts();
   if (rawCounts && typeof rawCounts === "object") {
     for (const key of REACTIONS) {
       const n = (rawCounts as Record<string, unknown>)[key];
