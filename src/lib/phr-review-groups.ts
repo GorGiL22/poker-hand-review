@@ -524,6 +524,10 @@ export function subscribeGroupSpots(
 }
 
 export async function getGroupInviteCode(groupId: string, requesterUid: string): Promise<string | null> {
+  if (isLocalGroupsEnabled() || isLocalGroupId(groupId)) {
+    return getLocalGroupInviteCode(groupId);
+  }
+
   const db = getFirebaseDb();
   if (!db) return null;
 
