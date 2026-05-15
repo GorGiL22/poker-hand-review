@@ -2746,6 +2746,23 @@ export default function Home() {
                 onBack={() => setActiveGroupId(null)}
                 onOpenSpot={openFeedPost}
               />
+            ) : homeSection === "espace" ? (
+              <PhrMonEspace
+                onBack={() => setHomeSection("menu")}
+                onOpenSpot={openSpotFromMonEspace}
+                onOpenHand={openHandFromMonEspace}
+                onReplayTournament={replayTournamentFromMonEspace}
+                onImportClick={() => fileInputRef.current?.click()}
+                libraryHands={libraryHands}
+                rowLabel={mesMainsRowLabel}
+                tournamentKey={deriveTournamentKey}
+                handFilters={handFilters}
+                onHandFiltersChange={(next) => {
+                  setHandFilters(next);
+                  setStepIndex(0);
+                }}
+                selectedHandId={selectedHand.id}
+              />
             ) : homeSection === "groups" ? (
               <PhrGroupsHub
                 onBack={() => setHomeSection("menu")}
