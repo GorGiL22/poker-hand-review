@@ -2334,7 +2334,7 @@ export default function Home() {
             <button
               type="button"
               onClick={goToPublicHome}
-              title="Retour à l’accueil"
+              title="Retour aux groupes"
               className="min-w-0 max-w-[11rem] shrink-0 truncate text-left text-[11px] font-black tracking-tight text-zinc-500 transition hover:text-zinc-200 sm:max-w-[13rem] sm:text-sm"
             >
               SpotLab

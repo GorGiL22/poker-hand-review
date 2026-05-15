@@ -336,11 +336,9 @@ export function PhrPublishSpotModal({
           >
             {busy
               ? "Publication…"
-              : visibility === "public"
-                ? "Publier le spot"
-                : visibility === "group"
-                  ? "Publier dans le groupe"
-                  : "Enregistrer en perso"}
+              : visibility === "group"
+                ? "Publier dans le groupe"
+                : "Enregistrer en perso"}
           </button>
         </footer>
       </div>
