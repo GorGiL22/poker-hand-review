@@ -74,6 +74,8 @@ import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots"
 import {
   applyWinamaxSummaryBuyIns,
   isWinamaxTournamentSummaryText,
+  buyInEuroFromHands,
+  formatBuyInEuroLabel,
   parseBetclicHandBuyIn,
   parseBuyInFromTournamentName,
   parseWinamaxHeaderBuyIn,
