@@ -3007,19 +3007,20 @@ export default function Home() {
         </nav>
       </div>
       )}
-      {showPublishSpotModal && user && selectedHand.id !== "__empty__" && (
+      {showPublishSpotModal && user && spotPublishContext && (
         <PhrPublishSpotModal
           open={showPublishSpotModal}
-          onClose={() => setShowPublishSpotModal(false)}
-          hand={selectedHand as unknown as Record<string, unknown>}
-          handId={selectedHand.id}
-          stepOptions={spotStepOptions}
-          defaultUiStepIndex={Math.max(1, clampedStepIndex)}
+          onClose={() => {
+            setShowPublishSpotModal(false);
+            setSpotPublishContext(null);
+          }}
+          replay={spotPublishContext}
           authorUid={user.uid}
           authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
           onPublished={(vis) => {
             setShareToast(vis === "public" ? "Spot publié sur le fil." : "Spot enregistré en privé.");
             window.setTimeout(() => setShareToast(null), 2800);
+            setSpotPublishContext(null);
           }}
         />
       )}
