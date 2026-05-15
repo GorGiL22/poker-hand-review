@@ -333,7 +333,6 @@ export function PhrPublicHome({
                 >
                   <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" strokeLinejoin="round" />
                 </svg>
-                <span className="text-[10px] font-bold tabular-nums">{discussionCount}</span>
               </button>
             )}
             <div
