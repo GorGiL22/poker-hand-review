@@ -1281,16 +1281,22 @@ export default function Home() {
     await saveUserHandsOnly(uid, parsedHandsToCloudRecords(list), handStableKeyFromRecord);
   }
 
-  async function persistReplaySessionToCloud(): Promise<void> {
+  async function persistReplaySessionToCloud(session?: {
+    selectedHandId?: string;
+    stepIndex?: number;
+    selectedTournament?: string;
+    displayUnit?: "bb" | "chips";
+    soundEnabled?: boolean;
+  }): Promise<void> {
     const uid = userRef.current?.uid;
     if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
     if (handsRef.current.length === 0) return;
     await saveUserReplaySession(uid, {
-      selectedHandId,
-      stepIndex,
-      selectedTournament,
-      displayUnit,
-      soundEnabled,
+      selectedHandId: session?.selectedHandId ?? selectedHandId,
+      stepIndex: session?.stepIndex ?? stepIndex,
+      selectedTournament: session?.selectedTournament ?? selectedTournament,
+      displayUnit: session?.displayUnit ?? displayUnit,
+      soundEnabled: session?.soundEnabled ?? soundEnabled,
     });
   }
 
