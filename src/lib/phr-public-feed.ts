@@ -126,9 +126,9 @@ function subscribePublicSpots(
     col,
     where("visibility", "==", "public"),
     orderBy("createdAt", "desc"),
-    limit(40),
+    limit(25),
   );
-  const fallbackQuery = query(col, where("visibility", "==", "public"), limit(80));
+  const fallbackQuery = query(col, where("visibility", "==", "public"), limit(40));
 
   let activeUnsub: Unsubscribe | null = null;
 
