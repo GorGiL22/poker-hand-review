@@ -1818,15 +1818,24 @@ export default function Home() {
     return `${base} ${formatAmount(action.amount)}`;
   }
 
-  const spotStepOptions = useMemo(
-    () =>
-      buildSpotStepOptions(replaySteps, (action) => {
+  function captureSpotReplayContext(): SpotReplayContext {
+    return buildSpotReplayContext({
+      hand: selectedHand as unknown as Record<string, unknown>,
+      handId: selectedHand.id,
+      clampedStepIndex,
+      maxUiStepIndex,
+      replaySteps,
+      visibleBoard,
+      pot: currentPot,
+      potLabel: formatAmount(currentPot),
+      displayUnit,
+      formatActionLabel: (action) => {
         const base = action.type === "all-in" ? "ALL-IN" : action.type.toUpperCase();
         if (typeof action.amount !== "number") return base;
         return `${base} ${formatAmount(action.amount)}`;
-      }),
-    [replaySteps, displayUnit, bbValue],
-  );
+      },
+    });
+  }
 
   async function importHandHistoryFiles(files: File[]) {
     if (files.length === 0) return;
