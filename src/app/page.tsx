@@ -2584,7 +2584,7 @@ export default function Home() {
               )}
               {showCalcToolsMenu && (
                 <div
-                  className={`${PHR_POPOVER} z-[50] w-[min(100vw-2rem,20rem)] p-2`}
+                  className={`${PHR_POPOVER} w-[min(100vw-2rem,20rem)] p-2`}
                   role="menu"
                   aria-label="Choisir un outil de calcul"
                 >
