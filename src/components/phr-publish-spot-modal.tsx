@@ -67,9 +67,10 @@ export function PhrPublishSpotModal({
     setHeroAmount("");
     setSourceValidation("unvalidated");
     setVisibility("public");
+    setSelectedGroupId(myGroups[0]?.groupId ?? "");
     setError(null);
     setBusy(false);
-  }, [open, replay]);
+  }, [open, replay, myGroups]);
 
   useEffect(() => {
     if (!open) return;
