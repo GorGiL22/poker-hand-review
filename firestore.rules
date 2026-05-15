@@ -32,8 +32,14 @@ service cloud.firestore {
       allow create: if request.auth != null
         && request.resource.data.groupId is string
         && request.resource.data.createdBy == request.auth.uid
-        && isGroupOwner(request.resource.data.groupId);
-      allow update, delete: if false;
+        && (
+          isGroupOwner(request.resource.data.groupId)
+          || get(/databases/$(database)/documents/reviewGroups/$(request.resource.data.groupId)).data.ownerUid == request.auth.uid
+        );
+      allow delete: if request.auth != null
+        && resource.data.createdBy == request.auth.uid
+        && isGroupOwner(resource.data.groupId);
+      allow update: if false;
     }
 
     match /reviewGroups/{groupId} {
