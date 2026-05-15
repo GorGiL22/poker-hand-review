@@ -198,7 +198,7 @@ export function PhrPublicHome({
                   {" · "}
                   {post.spotMeta.sourceValidation}
                 </p>
-              </motion.div>
+              </div>
             ) : (
               <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-xl border border-white/8 bg-black/25 p-3 font-mono text-[11px] leading-relaxed text-zinc-300">
                 {post.summary}
