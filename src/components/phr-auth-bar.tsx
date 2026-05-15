@@ -272,6 +272,7 @@ function PhrAuthModal({
                 onClick={() => {
                   setMode("signin");
                   setFormError(null);
+                  setPseudoInput("");
                 }}
               >
                 Connexion
