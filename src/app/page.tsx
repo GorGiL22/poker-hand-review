@@ -68,6 +68,10 @@ import {
   type ReviewGroupMembership,
 } from "@/lib/phr-review-groups";
 import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
+import {
+  parseBuyInFromTournamentName,
+  parseWinamaxHeaderBuyIn,
+} from "@/lib/phr-tournament-library";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
 type Street = "preflop" | "flop" | "turn" | "river";
