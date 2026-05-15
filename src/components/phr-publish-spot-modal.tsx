@@ -93,11 +93,11 @@ export function PhrPublishSpotModal({
   useEffect(() => {
     if (!open) return;
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape" && !busy) onClose();
+      if (e.key === "Escape") handleClose();
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [open, busy, onClose]);
+  }, [open, onClose]);
 
   if (!open) return null;
 
