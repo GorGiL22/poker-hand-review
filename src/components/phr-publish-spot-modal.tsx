@@ -287,7 +287,23 @@ export function PhrPublishSpotModal({
               >
                 Perso
               </button>
-            </div>
+            </motion.div>
+            {visibility === "group" && myGroups.length > 0 ? (
+              <label className="mt-2 block space-y-1">
+                <span className="text-xs text-zinc-500">Groupe</span>
+                <select
+                  value={selectedGroupId}
+                  onChange={(e) => setSelectedGroupId(e.target.value)}
+                  className={PHR_FIELD}
+                >
+                  {myGroups.map((g) => (
+                    <option key={g.groupId} value={g.groupId}>
+                      {g.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ) : null}
           </section>
 
           {error && (
@@ -295,7 +311,7 @@ export function PhrPublishSpotModal({
               {error}
             </p>
           )}
-        </div>
+        </motion.div>
 
         <footer className="shrink-0 border-t border-white/10 p-4">
           <button
