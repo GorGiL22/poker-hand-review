@@ -430,6 +430,10 @@ export async function saveUserReplaySession(uid: string, session: PhrReplaySessi
     },
     { merge: true },
   );
+  } catch (err) {
+    handleFirestoreQuotaError(err);
+    throw err;
+  }
 }
 
 export async function saveUserCloudData(
