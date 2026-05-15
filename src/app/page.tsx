@@ -2012,10 +2012,17 @@ export default function Home() {
     setSelectedHandId(parsed.id);
     setStepIndex(session.uiStepIndex);
     setDisplayUnit(session.displayUnit);
+    setSpotReviewPost(post.feedSource === "spots" && post.spotMeta ? post : null);
     setShowPublicHome(false);
     setShowMesMainsFullPage(false);
     setChipTick((tick) => tick + 1);
     return true;
+  }
+
+  function closeSpotReview() {
+    setSpotReviewPost(null);
+    setShowPublicHome(true);
+    setHands((prev) => prev.filter((hand) => !isFeedViewerHand(hand)));
   }
 
   function handleMonEspaceClick() {
