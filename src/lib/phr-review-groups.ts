@@ -213,6 +213,10 @@ export async function createReviewGroup(input: {
   /** Code personnalisé ; généré aléatoirement si absent. */
   inviteCode?: string;
 }): Promise<{ groupId: string; inviteCode: string }> {
+  if (isLocalGroupsEnabled()) {
+    return createLocalReviewGroup(input);
+  }
+
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
