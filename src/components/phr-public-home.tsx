@@ -356,6 +356,7 @@ export function PhrPublicHome({
           </button>
         </div>
       </div>
+      )}
     </div>
   );
 }
