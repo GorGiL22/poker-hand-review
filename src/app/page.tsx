@@ -3306,15 +3306,15 @@ export default function Home() {
           }}
         />
       )}
-      {showPublishTournamentModal && user && selectedTournamentMeta && (
+      {showPublishTournamentModal && user && publishableTournamentMeta && (
         <PhrPublishTournamentModal
           open={showPublishTournamentModal}
           onClose={() => setShowPublishTournamentModal(false)}
-          tournamentKey={selectedTournamentMeta.key}
-          tournamentName={selectedTournamentMeta.name}
-          tournamentVariant={selectedTournamentMeta.variant}
+          tournamentKey={publishableTournamentMeta.key}
+          tournamentName={publishableTournamentMeta.name}
+          tournamentVariant={publishableTournamentMeta.variant}
           buyIn={buyInInput}
-          hands={parsedHandsToCloudRecords(selectedTournamentMeta.hands)}
+          hands={parsedHandsToCloudRecords(publishableTournamentMeta.hands)}
           authorUid={user.uid}
           authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
           onPublished={(id, vis) => {
@@ -3326,14 +3326,14 @@ export default function Home() {
               id,
               authorUid: user.uid,
               authorPseudo: pseudo?.trim() || user.email?.split("@")[0] || "Joueur",
-              tournamentKey: selectedTournamentMeta.key,
-              tournamentName: selectedTournamentMeta.name,
-              tournamentVariant: selectedTournamentMeta.variant,
+              tournamentKey: publishableTournamentMeta.key,
+              tournamentName: publishableTournamentMeta.name,
+              tournamentVariant: publishableTournamentMeta.variant,
               buyIn: buyInInput.trim() || undefined,
-              handCount: selectedTournamentMeta.hands.length,
+              handCount: publishableTournamentMeta.hands.length,
               visibility: vis,
               createdAtMs: Date.now(),
-              summary: `${selectedTournamentMeta.name}\n${selectedTournamentMeta.hands.length} mains`,
+              summary: `${publishableTournamentMeta.name}\n${publishableTournamentMeta.hands.length} mains`,
             });
           }}
         />
