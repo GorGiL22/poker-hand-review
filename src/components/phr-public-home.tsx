@@ -10,6 +10,7 @@ import {
   type PublicReaction,
 } from "@/lib/phr-public-feed";
 import { hasSeenWelcomePanel, markWelcomePanelSeen } from "@/lib/phr-welcome";
+import { categoryLabel, sourceValidationLabel, type SpotCategory, type SpotSourceValidation } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
 const PHR_BTN_TOOL =
