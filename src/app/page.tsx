@@ -1659,7 +1659,6 @@ export default function Home() {
     function flushOnLeave() {
       if (document.visibilityState !== "hidden") return;
       if (!userRef.current || skipCloudSaveRef.current || handsRef.current.length === 0) return;
-      void persistHandsToCloud().catch(() => {});
       void persistReplaySessionToCloud().catch(() => {});
     }
 
