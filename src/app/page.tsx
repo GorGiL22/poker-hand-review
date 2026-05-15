@@ -2137,11 +2137,23 @@ export default function Home() {
   }
 
   function prevHand() {
+    if (viewTournamentReview && tournamentReview) {
+      const idx = tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId);
+      if (idx > 0) loadTournamentHandByDocId(tournamentReview.hands[idx - 1]!.id);
+      return;
+    }
     if (selectedHandIndex <= 0) return;
     loadHand(filteredHands[selectedHandIndex - 1].id);
   }
 
   function nextHand() {
+    if (viewTournamentReview && tournamentReview) {
+      const idx = tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId);
+      if (idx >= 0 && idx < tournamentReview.hands.length - 1) {
+        loadTournamentHandByDocId(tournamentReview.hands[idx + 1]!.id);
+      }
+      return;
+    }
     if (selectedHandIndex >= filteredHands.length - 1) return;
     loadHand(filteredHands[selectedHandIndex + 1].id);
   }
