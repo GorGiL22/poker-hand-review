@@ -1303,6 +1303,10 @@ export default function Home() {
     const uid = userRef.current?.uid;
     if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
     if (handsRef.current.length === 0) return;
+    const activeHand =
+      handsRef.current.find((hand) => hand.id === (session?.selectedHandId ?? selectedHandId)) ??
+      handsRef.current[0];
+    if (activeHand && isFeedViewerHand(activeHand)) return;
     await saveUserReplaySession(uid, {
       selectedHandId: session?.selectedHandId ?? selectedHandId,
       stepIndex: session?.stepIndex ?? stepIndex,
