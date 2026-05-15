@@ -186,7 +186,7 @@ export async function publishPublicPost(input: {
     summary: input.summary.trim(),
     hand: sanitizeForFirestore(input.hand),
     reactions: {},
-    reactionCounts: emptyCounts(),
+    reactionCounts: emptyReactionCounts(),
     createdAt: serverTimestamp(),
   });
 }
