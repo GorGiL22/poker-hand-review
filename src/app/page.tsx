@@ -2790,8 +2790,25 @@ export default function Home() {
               );
             })}
           </div>
-          )}
-          {hands.length > 0 && !viewPublicHome && (
+          );
+          if (viewSpotReview && spotReviewPost) {
+            return (
+              <PhrSpotReviewShell
+                post={spotReviewPost}
+                transportReadout={spotReviewTransport}
+                onBack={closeSpotReview}
+                onPrevStep={prevStep}
+                onNextStep={nextStep}
+                canPrevStep={clampedStepIndex > 0}
+                canNextStep={clampedStepIndex < maxUiStepIndex}
+              >
+                {spotTable}
+              </PhrSpotReviewShell>
+            );
+          }
+          return spotTable;
+          })()}
+          {hands.length > 0 && !viewPublicHome && !viewSpotReview && (
           <div className="mt-3 border-t border-white/10 bg-black/15 pt-3 backdrop-blur-sm">
             <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-2 px-1">
               <div className="flex items-center justify-center gap-2 sm:gap-3">
