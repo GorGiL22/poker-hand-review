@@ -358,7 +358,7 @@ export function PhrAuthBar() {
         <div className="mx-auto flex w-full max-w-[1520px] flex-col gap-2 px-3 py-2 sm:px-5">
           <div className={`${PHR_REVIEW_TOPBAR} grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2`}>
             <span className="min-w-0 justify-self-start truncate text-xs font-black tracking-tight text-zinc-100 sm:text-sm">
-              Poker Hand Review
+              SpotLab
             </span>
             <button
               type="button"
