@@ -95,9 +95,16 @@ function usePhrAuthForm() {
 
   const shortEmail =
     user?.email && user.email.length > 28 ? `${user.email.slice(0, 26)}…` : user?.email ?? "";
+  const displayLabel = pseudo?.trim() || shortEmail;
+  const displayTitle = pseudo?.trim()
+    ? user?.email
+      ? `${pseudo} (${user.email})`
+      : pseudo
+    : user?.email ?? undefined;
 
   return {
     user,
+    pseudo,
     authLoading,
     firebaseConfigured,
     busy,
@@ -109,12 +116,16 @@ function usePhrAuthForm() {
     setEmail,
     password,
     setPassword,
+    pseudoInput,
+    setPseudoInput,
     formError,
     setFormError,
     closeModal,
     onSubmit,
     onSignOut,
     shortEmail,
+    displayLabel,
+    displayTitle,
   };
 }
 
