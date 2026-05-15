@@ -1,7 +1,9 @@
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
+  getDoc,
   runTransaction,
   serverTimestamp,
 } from "firebase/firestore";
@@ -308,6 +310,22 @@ export async function publishSpot(input: SpotPublishInput): Promise<void> {
     ...payload,
     createdAt: serverTimestamp(),
   });
+}
+
+export async function deleteSpot(spotId: string, requesterUid: string): Promise<void> {
+  const db = getFirebaseDb();
+  if (!db) throw new Error("Firestore non initialisé");
+
+  const ref = doc(db, "spots", spotId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) throw new Error("Spot introuvable.");
+
+  const data = snap.data() as Record<string, unknown>;
+  if (data.authorUid !== requesterUid) {
+    throw new Error("Tu ne peux supprimer que tes propres spots.");
+  }
+
+  await deleteDoc(ref);
 }
 
 export async function toggleSpotReaction(
