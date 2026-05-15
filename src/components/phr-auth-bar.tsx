@@ -376,9 +376,16 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
             <span className="min-w-0 justify-self-start truncate text-xs font-black tracking-tight text-zinc-100 sm:text-sm">
               SpotLab
             </span>
-            <button type="button" onClick={onMonEspace} className={PHR_MON_ESPACE_BTN}>
-              Mon espace
-            </button>
+            <motion.div className="flex flex-wrap items-center justify-center gap-2 justify-self-center">
+              <button type="button" onClick={onMonEspace} className={PHR_MON_ESPACE_BTN}>
+                Mon espace
+              </button>
+              {onReplayerClick ? (
+                <button type="button" onClick={onReplayerClick} className={PHR_REPLAYER_BTN}>
+                  Replayer
+                </button>
+              ) : null}
+            </div>
             <div className="flex min-w-0 shrink-0 flex-wrap items-center justify-end justify-self-end gap-2">
               {!auth.firebaseConfigured && (
                 <span className="max-w-[min(100vw-12rem,12rem)] text-right text-[10px] leading-snug text-amber-200/90 sm:max-w-[14rem] sm:text-[11px]">
