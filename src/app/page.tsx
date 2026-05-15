@@ -2349,6 +2349,10 @@ export default function Home() {
               onDragOver={onWelcomeDragOver}
               onDragLeave={onWelcomeDragLeave}
               onDrop={onWelcomeDrop}
+              cloudLoading={cloudLoading}
+              cloudLoadError={cloudLoadError}
+              importError={importError}
+              onMonEspaceClick={user ? handleMonEspaceClick : undefined}
             />
           ) : (
           <div className={PHR_TABLE_FRAME}>
