@@ -1818,27 +1818,18 @@ export default function Home() {
         parsedAll.push(...parsed);
       }
       if (parsedAll.length === 0) throw new Error("Aucune main valide detectee.");
+      const sorted = dedupeSortParsedHands([...handsRef.current, ...parsedAll]);
       setShowPublicHome(false);
-      setHands((prev) => {
-        const merged = [...prev, ...parsedAll];
-        const deduped = new Map<string, ParsedHand>();
-        merged.forEach((hand) => {
-          deduped.set(handStableKey(hand), hand);
-        });
-        const sorted = Array.from(deduped.values()).sort((a, b) => {
-          const ta = deriveTournamentKey(a);
-          const tb = deriveTournamentKey(b);
-          const byTournament = ta.localeCompare(tb, "fr");
-          if (byTournament !== 0) return byTournament;
-          return (a.dateTime ?? "").localeCompare(b.dateTime ?? "");
-        });
-        if (sorted.length > 0) {
-          setSelectedHandId(sorted[0].id);
-        }
-        return sorted;
-      });
+      setHands(sorted);
+      if (sorted.length > 0) {
+        setSelectedHandId(sorted[0].id);
+      }
       setStepIndex(0);
       setImportError(null);
+      if (user && firebaseConfigured) {
+        await persistHandsToCloud(sorted);
+        await persistReplaySessionToCloud();
+      }
     } catch (error) {
       setImportError(error instanceof Error ? error.message : "Import impossible");
     }
