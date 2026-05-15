@@ -272,7 +272,11 @@ export function PhrGroupsHub({
         </p>
       )}
 
-      {!firebaseConfigured ? (
+      {localGroups ? (
+        <p className="rounded-xl border border-sky-500/30 bg-sky-950/25 px-3 py-2 text-sm text-sky-100">
+          Mode groupes locaux : les groupes sont enregistrés dans le navigateur (localStorage), sans Firestore.
+        </p>
+      ) : !firebaseConfigured ? (
         <p className="rounded-xl border border-rose-500/30 bg-rose-950/25 px-3 py-2 text-sm text-rose-200">
           Firebase n’est pas configuré — les groupes ne peuvent pas être enregistrés.
         </p>
