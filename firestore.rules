@@ -50,7 +50,6 @@ service cloud.firestore {
       match /hands/{handId} {
         allow read: if publishedTournamentReadable(tournamentId);
         allow create: if request.auth != null
-          && publishedTournamentReadable(tournamentId)
           && get(/databases/$(database)/documents/publishedTournaments/$(tournamentId)).data.authorUid == request.auth.uid
           && request.resource.data.hand is map
           && request.resource.data.handStableKey is string
