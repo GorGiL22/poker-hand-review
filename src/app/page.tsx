@@ -1008,28 +1008,28 @@ function buildSeatLayout(players: Player[], heroName?: string): Record<
 
 const CARD_SIZE_STYLES = {
   md: {
-    box: "h-[5.25rem] w-[3.75rem] rounded-xl",
+    box: "h-16 w-11 rounded-lg",
+    rank: "text-[1.05rem]",
+    cornerSuit: "text-[0.55rem]",
+    centerSuit: "text-[1.65rem]",
+    corner: "left-1 top-1 gap-0",
+    cornerBottom: "bottom-1 right-1 gap-0",
+  },
+  lg: {
+    box: "h-[5.5rem] w-[3.85rem] rounded-xl",
     rank: "text-[1.35rem]",
-    cornerSuit: "text-[0.65rem]",
+    cornerSuit: "text-[0.6rem]",
     centerSuit: "text-[2.35rem]",
     corner: "left-1.5 top-1.5 gap-0",
     cornerBottom: "bottom-1.5 right-1.5 gap-0",
   },
-  lg: {
-    box: "h-[7.25rem] w-[5.1rem] rounded-2xl",
-    rank: "text-[1.85rem]",
-    cornerSuit: "text-[0.8rem]",
-    centerSuit: "text-[3.35rem]",
-    corner: "left-2 top-2 gap-0",
-    cornerBottom: "bottom-2 right-2 gap-0",
-  },
   hero: {
-    box: "h-[7.25rem] w-[5.1rem] rounded-2xl",
-    rank: "text-[1.85rem]",
-    cornerSuit: "text-[0.8rem]",
-    centerSuit: "text-[3.35rem]",
-    corner: "left-2 top-2 gap-0",
-    cornerBottom: "bottom-2 right-2 gap-0",
+    box: "h-[5.5rem] w-[3.85rem] rounded-xl",
+    rank: "text-[1.35rem]",
+    cornerSuit: "text-[0.6rem]",
+    centerSuit: "text-[2.35rem]",
+    corner: "left-1.5 top-1.5 gap-0",
+    cornerBottom: "bottom-1.5 right-1.5 gap-0",
   },
 } as const;
 
