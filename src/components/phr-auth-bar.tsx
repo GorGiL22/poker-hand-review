@@ -385,7 +385,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
                   Replayer
                 </button>
               ) : null}
-            </div>
+            </motion.div>
             <div className="flex min-w-0 shrink-0 flex-wrap items-center justify-end justify-self-end gap-2">
               {!auth.firebaseConfigured && (
                 <span className="max-w-[min(100vw-12rem,12rem)] text-right text-[10px] leading-snug text-amber-200/90 sm:max-w-[14rem] sm:text-[11px]">
