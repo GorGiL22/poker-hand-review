@@ -1365,13 +1365,19 @@ export default function Home() {
       handsRef.current.find((hand) => hand.id === (session?.selectedHandId ?? selectedHandId)) ??
       handsRef.current[0];
     if (activeHand && isEphemeralViewerHand(activeHand)) return;
-    await saveUserReplaySession(uid, {
-      selectedHandId: session?.selectedHandId ?? selectedHandId,
-      stepIndex: session?.stepIndex ?? stepIndex,
-      selectedTournament: session?.selectedTournament ?? selectedTournament,
-      displayUnit: session?.displayUnit ?? displayUnit,
-      soundEnabled: session?.soundEnabled ?? soundEnabled,
-    });
+    try {
+      await saveUserReplaySession(uid, {
+        selectedHandId: session?.selectedHandId ?? selectedHandId,
+        stepIndex: session?.stepIndex ?? stepIndex,
+        selectedTournament: session?.selectedTournament ?? selectedTournament,
+        displayUnit: session?.displayUnit ?? displayUnit,
+        soundEnabled: session?.soundEnabled ?? soundEnabled,
+      });
+    } catch (err) {
+      if (isFirestoreQuotaError(err)) {
+        pauseCloudSyncForQuota();
+      }
+    }
   }
 
   function parseNumericInput(value: string): number {
