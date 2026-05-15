@@ -9,6 +9,8 @@ import {
   type PublicHandPost,
   type PublicReaction,
 } from "@/lib/phr-public-feed";
+import { PhrFeedSpotDiscussion } from "@/components/phr-feed-spot-discussion";
+import { subscribeSpotDiscussionCount } from "@/lib/phr-spot-review";
 import { hasSeenWelcomePanel, markWelcomePanelSeen } from "@/lib/phr-welcome";
 import { categoryLabel, sourceValidationLabel, type SpotCategory, type SpotSourceValidation } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
