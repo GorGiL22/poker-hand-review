@@ -143,6 +143,7 @@ function subscribePublicSpots(
       (snap) => onData(mapSpotSnapshot(snap)),
       (err) => {
         if (isFirestoreQuotaError(err)) {
+          markFirestoreQuotaExceeded();
           onError?.(
             new Error("Quota Firestore dépassé. Le fil public se mettra à jour quand le quota sera rétabli."),
           );
