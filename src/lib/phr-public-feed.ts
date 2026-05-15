@@ -203,6 +203,15 @@ export function parseFeedDocument(
         ? replayAtPublish.potLabel
         : "";
 
+  const tournamentName =
+    typeof data.tournamentName === "string" ? data.tournamentName.trim() : "";
+  const buyIn = typeof data.buyIn === "string" ? data.buyIn.trim() : "";
+  const levelLabel = typeof data.levelLabel === "string" ? data.levelLabel.trim() : "";
+  const blindsSb =
+    typeof data.blindsSb === "number" && Number.isFinite(data.blindsSb) ? data.blindsSb : null;
+  const blindsBb =
+    typeof data.blindsBb === "number" && Number.isFinite(data.blindsBb) ? data.blindsBb : null;
+
   const spotMeta =
     feedSource === "spots" || question.length > 0
       ? {
@@ -218,6 +227,11 @@ export function parseFeedDocument(
             typeof data.sourceValidation === "string" ? data.sourceValidation : "",
           visibleBoard,
           potLabel,
+          tournamentName: tournamentName || undefined,
+          buyIn: buyIn || undefined,
+          levelLabel: levelLabel || undefined,
+          blindsSb,
+          blindsBb,
         }
       : undefined;
 
