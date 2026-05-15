@@ -129,6 +129,7 @@ export function formatFirestoreGroupError(err: unknown): Error {
     );
   }
   if (code === "resource-exhausted" || /quota exceeded/i.test(message)) {
+    markFirestoreQuotaExceeded();
     return new Error(
       "Quota Firestore dépassé (plan gratuit). Réessaie plus tard ou active la facturation dans la console Firebase.",
     );
