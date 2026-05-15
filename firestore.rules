@@ -26,7 +26,10 @@ service cloud.firestore {
         && request.auth.uid == request.resource.data.authorUid
         && request.resource.data.authorPseudo is string
         && request.resource.data.question is string
-        && request.resource.data.visibility in ['public', 'private'];
+        && request.resource.data.summary is string
+        && request.resource.data.hand is map
+        && (request.resource.data.visibility == 'public'
+          || request.resource.data.visibility == 'private');
       allow update: if request.auth != null
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionCounts']);
       allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
