@@ -2621,12 +2621,6 @@ export default function Home() {
             </div>
           </header>
           )}
-          {localHandsReady && hands.some(isPersistableLocalHand) ? (
-            <p className="mb-2 rounded-xl border border-white/10 bg-zinc-950/40 px-3 py-2 text-xs text-zinc-400 backdrop-blur-sm">
-              Bibliothèque enregistrée sur cet appareil (IndexedDB). Firestore sert aux spots, groupes et fil
-              public — pas à stocker tes imports.
-            </p>
-          ) : null}
           {cloudSyncWarning ? (
             <p className="mb-2 rounded-xl border border-amber-500/30 bg-amber-950/25 px-3 py-2 text-xs text-amber-100 backdrop-blur-sm">
               {cloudSyncWarning}
