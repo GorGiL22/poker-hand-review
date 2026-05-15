@@ -35,7 +35,8 @@ type PhrPublishSpotModalProps = {
   authorPseudo: string;
   /** Buy-in tournoi (EUR) configuré dans le replayer. */
   buyIn?: string;
-  onPublished?: (visibility: SpotVisibility) => void;
+  myGroups?: ReviewGroupMembership[];
+  onPublished?: (visibility: SpotVisibility, groupId?: string) => void;
 };
 
 export function PhrPublishSpotModal({
