@@ -222,6 +222,6 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
           </ul>
         )}
       </section>
-    </motion.div>
+    </div>
   );
 }
