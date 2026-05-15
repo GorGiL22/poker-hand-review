@@ -210,7 +210,7 @@ export function PhrPublicHome({
           </p>
         </header>
       ) : (
-        <motion.div className="flex shrink-0 flex-wrap items-center justify-between gap-2">
+        <div className="flex shrink-0 flex-wrap items-center justify-between gap-2">
           <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/90">Fil public</p>
           {onOpenGroups ? (
             <button
@@ -221,7 +221,7 @@ export function PhrPublicHome({
               Groupes
             </button>
           ) : null}
-        </motion.div>
+        </div>
       )}
 
       {user && cloudLoading && (
