@@ -207,16 +207,20 @@ export async function createReviewGroup(input: {
 
   // Le document groupe doit exister avant le batch membre / invitation :
   // les règles Firestore lisent l’état « avant » le batch (get/exists ne voient pas les écritures du même batch).
-  await setDoc(
-    groupRef,
-    sanitizeForFirestore({
-      name,
-      description,
-      ownerUid: input.ownerUid,
-      memberCount: 1,
-      createdAt: serverTimestamp(),
-    }),
-  );
+  try {
+    await setDoc(
+      groupRef,
+      sanitizeForFirestore({
+        name,
+        description,
+        ownerUid: input.ownerUid,
+        memberCount: 1,
+        createdAt: serverTimestamp(),
+      }),
+    );
+  } catch (err) {
+    throw formatFirestoreGroupError(err);
+  }
 
   const memberRef = doc(membersCol(groupRef.id), input.ownerUid);
   const membershipRef = doc(userMembershipsCol(input.ownerUid), groupRef.id);
