@@ -68,6 +68,7 @@ export function PhrPublicHome({
   welcomeDropActive,
   onImportClick,
   onOpenPost,
+  onOpenTournament,
   onDragOver,
   onDragLeave,
   onDrop,
