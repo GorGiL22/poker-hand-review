@@ -1990,17 +1990,11 @@ export default function Home() {
     setShowPublicHome(false);
   }
 
-  function openFeedPost(post: PublicHandPost) {
+  function openFeedPost(post: PublicHandPost): boolean {
     const session = parseFeedPostForReplayer(post);
-    if (!session) {
-      setShareToast("Impossible d’ouvrir cette main dans le replayer.");
-      return;
-    }
+    if (!session) return false;
     const parsed = storedRecordToParsedHand(session.handRecord);
-    if (!parsed) {
-      setShareToast("Impossible d’ouvrir cette main dans le replayer.");
-      return;
-    }
+    if (!parsed) return false;
 
     const stableKey = handStableKey(parsed);
     setHands((prev) => {
@@ -2013,6 +2007,7 @@ export default function Home() {
     setShowPublicHome(false);
     setShowMesMainsFullPage(false);
     setChipTick((tick) => tick + 1);
+    return true;
   }
 
   function handleMonEspaceClick() {
