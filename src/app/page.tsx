@@ -2266,8 +2266,8 @@ export default function Home() {
           onReplayTournament={replayTournamentFromMonEspace}
           onImportClick={() => fileInputRef.current?.click()}
           libraryHands={libraryHands}
-          rowLabel={mesMainsRowLabel}
-          tournamentKey={deriveTournamentKey}
+          rowLabel={(hand) => mesMainsRowLabel(hand as ParsedHand)}
+          tournamentKey={(hand) => deriveTournamentKey(hand as ParsedHand)}
           handFilters={handFilters}
           onHandFiltersChange={(next) => {
             setHandFilters(next);
