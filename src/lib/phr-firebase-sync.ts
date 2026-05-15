@@ -289,6 +289,10 @@ export function parseStoredHand(raw: Record<string, unknown>): Record<string, un
   return raw;
 }
 
+export function handStableKeyFromParsedFields(sourceFile: string | undefined, id: string): string {
+  return `${sourceFile ?? "local"}::${id}`;
+}
+
 async function syncUserHandsCollection(
   uid: string,
   hands: Record<string, unknown>[],
