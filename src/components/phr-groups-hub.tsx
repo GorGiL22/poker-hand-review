@@ -286,7 +286,7 @@ export function PhrGroupsHub({
         <p className="rounded-xl border border-violet-500/30 bg-violet-950/25 px-3 py-2 text-sm text-violet-100">
           Connexion en cours…
         </p>
-      ) : !user ? (
+      ) : !user && !localGroups ? (
         <p className="rounded-xl border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm text-amber-100">
           Connecte-toi pour accéder à tes groupes.
         </p>
