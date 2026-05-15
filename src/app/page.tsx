@@ -29,6 +29,12 @@ import {
   PHR_MON_ESPACE_BTN_ACTIVE,
   PHR_REVIEW_TOPBAR,
 } from "@/lib/phr-chrome";
+import {
+  handStableKeyFromRecord,
+  loadUserCloudData,
+  parseStoredHand,
+  saveUserHandsOnly,
+} from "@/lib/phr-firebase-sync";
 import { publishPublicPost } from "@/lib/phr-public-feed";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
