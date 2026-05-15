@@ -70,7 +70,76 @@ export type SpotPublishInput = {
   heroAmount: number | null;
   sourceValidation: SpotSourceValidation;
   visibility: SpotVisibility;
+  /** Buy-in tournoi (EUR) au moment de la publication. */
+  buyIn?: string;
 };
+
+export type SpotTournamentInfo = {
+  tournamentName: string | null;
+  buyIn: string | null;
+  blindsLabel: string | null;
+  levelLabel: string | null;
+};
+
+function readHandBlinds(hand: Record<string, unknown>): { sb: number | null; bb: number | null } {
+  const blinds = hand.blinds;
+  if (!blinds || typeof blinds !== "object") return { sb: null, bb: null };
+  const b = blinds as Record<string, unknown>;
+  const sb = typeof b.sb === "number" && Number.isFinite(b.sb) ? b.sb : null;
+  const bb = typeof b.bb === "number" && Number.isFinite(b.bb) ? b.bb : null;
+  return { sb, bb };
+}
+
+export function formatSpotBlindsLabel(sb: number | null, bb: number | null): string | null {
+  if (sb != null && bb != null) return `${sb}/${bb}`;
+  if (bb != null) return String(bb);
+  if (sb != null) return String(sb);
+  return null;
+}
+
+export function extractTournamentFieldsFromHand(hand: Record<string, unknown>): {
+  tournamentName: string | null;
+  levelLabel: string | null;
+  blindsSb: number | null;
+  blindsBb: number | null;
+} {
+  const tournamentName =
+    typeof hand.tournamentName === "string" && hand.tournamentName.trim().length > 0
+      ? hand.tournamentName.trim()
+      : null;
+  const levelLabel =
+    typeof hand.levelLabel === "string" && hand.levelLabel.trim().length > 0
+      ? hand.levelLabel.trim()
+      : null;
+  const { sb, bb } = readHandBlinds(hand);
+  return { tournamentName, levelLabel, blindsSb: sb, blindsBb: bb };
+}
+
+/** Infos tournoi pour l’affichage spot (meta Firestore ou main embarquée). */
+export function resolveSpotTournamentInfo(post: PublicHandPost): SpotTournamentInfo {
+  const meta = post.spotMeta;
+  const fromHand = extractTournamentFieldsFromHand(post.hand);
+
+  const tournamentName =
+    (typeof meta?.tournamentName === "string" && meta.tournamentName.trim()) ||
+    fromHand.tournamentName ||
+    null;
+  const buyIn =
+    typeof meta?.buyIn === "string" && meta.buyIn.trim().length > 0 ? meta.buyIn.trim() : null;
+  const levelLabel =
+    (typeof meta?.levelLabel === "string" && meta.levelLabel.trim()) || fromHand.levelLabel || null;
+
+  const metaSb =
+    typeof meta?.blindsSb === "number" && Number.isFinite(meta.blindsSb) ? meta.blindsSb : null;
+  const metaBb =
+    typeof meta?.blindsBb === "number" && Number.isFinite(meta.blindsBb) ? meta.blindsBb : null;
+  const blindsLabel = formatSpotBlindsLabel(
+    metaSb ?? fromHand.blindsSb,
+    metaBb ?? fromHand.blindsBb,
+  );
+
+  return { tournamentName, buyIn, blindsLabel, levelLabel };
+}
 
 export function spotCategoryFromStreet(street: string): SpotCategory {
   const s = street.toLowerCase();
