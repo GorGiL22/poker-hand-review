@@ -17,6 +17,7 @@ import {
 } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
+import { isFirestoreQuotaPaused } from "./phr-firestore-quota";
 import {
   handStableKeyToFirestoreDocId,
   sanitizeForFirestore,
