@@ -359,13 +359,47 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
   const auth = usePhrAuthForm();
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
+  const accountBtnRef = useRef<HTMLButtonElement>(null);
+  const [accountMenuStyle, setAccountMenuStyle] = useState<{
+    top: number;
+    right: number;
+    minWidth: number;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!accountMenuOpen || !accountBtnRef.current) {
+      queueMicrotask(() => setAccountMenuStyle(null));
+      return;
+    }
+
+    function updateMenuPosition() {
+      const btn = accountBtnRef.current;
+      if (!btn) return;
+      const rect = btn.getBoundingClientRect();
+      setAccountMenuStyle({
+        top: rect.bottom + 8,
+        right: Math.max(12, window.innerWidth - rect.right),
+        minWidth: Math.max(rect.width, 224),
+      });
+    }
+
+    updateMenuPosition();
+    window.addEventListener("resize", updateMenuPosition);
+    window.addEventListener("scroll", updateMenuPosition, true);
+    return () => {
+      window.removeEventListener("resize", updateMenuPosition);
+      window.removeEventListener("scroll", updateMenuPosition, true);
+    };
+  }, [accountMenuOpen]);
 
   useEffect(() => {
     if (!accountMenuOpen) return;
     function onPointerDown(event: MouseEvent) {
-      if (!accountMenuRef.current?.contains(event.target as Node)) {
-        setAccountMenuOpen(false);
+      const target = event.target as Node;
+      if (accountMenuRef.current?.contains(target) || accountBtnRef.current?.contains(target)) {
+        return;
       }
+      setAccountMenuOpen(false);
     }
     function onKeyDown(event: KeyboardEvent) {
       if (event.key === "Escape") setAccountMenuOpen(false);
