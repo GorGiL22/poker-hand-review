@@ -2252,17 +2252,6 @@ export default function Home() {
     });
   }
 
-  const mesMainsFiltersColumn = (
-    <PhrHandFiltersPanel
-      value={handFilters}
-      onChange={(next) => {
-        setHandFilters(next);
-        setStepIndex(0);
-      }}
-      filteredCount={filteredHands.length}
-    />
-  );
-
   return (
     <main className={`flex h-screen flex-col overflow-hidden text-zinc-100 ${PHR_PAGE_BG}`}>
       {viewPublicHome && <PhrAuthBar minimal />}
