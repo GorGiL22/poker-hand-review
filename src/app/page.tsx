@@ -1815,7 +1815,7 @@ export default function Home() {
           {hands.length > 0 && (
           <header className={`${PHR_REVIEW_TOPBAR} mb-2 flex flex-wrap items-center gap-2 sm:mb-3`}>
             <span className="min-w-0 max-w-[11rem] shrink-0 truncate text-[11px] font-black tracking-tight text-zinc-500 sm:max-w-[13rem] sm:text-sm">
-              Poker Hand Review
+              SpotLab
             </span>
             <div className="relative flex min-w-0 flex-1 flex-wrap items-center gap-2">
               <button
