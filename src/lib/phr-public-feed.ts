@@ -55,6 +55,38 @@ export function emptyReactionCounts(): Record<PublicReaction, number> {
   return { like: 0, fire: 0, think: 0 };
 }
 
+export function isFeedViewerHandRecord(hand: Record<string, unknown>): boolean {
+  return typeof hand.sourceFile === "string" && hand.sourceFile.startsWith(FEED_VIEWER_SOURCE_PREFIX);
+}
+
+/** Prépare une main du fil pour le replayer (étape + unité au moment de la publication). */
+export function parseFeedPostForReplayer(post: PublicHandPost): FeedReplayerSession | null {
+  const raw = { ...post.hand };
+  const replay = raw.phrReplayAtPublish;
+  delete raw.phrReplayAtPublish;
+
+  raw.sourceFile = `${FEED_VIEWER_SOURCE_PREFIX}${post.feedSource}/${post.id}`;
+  if (typeof raw.id !== "string" || raw.id.trim().length === 0) {
+    raw.id = `feed-${post.id}`;
+  }
+
+  if (!parseStoredHand(raw)) return null;
+
+  let uiStepIndex = 0;
+  let displayUnit: "bb" | "chips" = "bb";
+  if (replay && typeof replay === "object") {
+    const r = replay as Record<string, unknown>;
+    if (typeof r.uiStepIndex === "number" && Number.isFinite(r.uiStepIndex)) {
+      uiStepIndex = Math.max(0, Math.round(r.uiStepIndex));
+    }
+    if (r.displayUnit === "chips" || r.displayUnit === "bb") {
+      displayUnit = r.displayUnit;
+    }
+  }
+
+  return { handRecord: raw, uiStepIndex, displayUnit };
+}
+
 function isFirestoreIndexError(err: unknown): boolean {
   const code =
     err && typeof err === "object" && "code" in err && typeof err.code === "string" ? err.code : "";
