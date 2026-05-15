@@ -197,7 +197,7 @@ export function PhrGroupsHub({
   }
 
   return (
-    <motion.div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
       {showWelcomePanel ? (
         <header className="shrink-0 rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-4 backdrop-blur-sm sm:px-5">
           <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-sky-300/90">Groupes de travail</p>
@@ -407,13 +407,13 @@ export function PhrGroupsHub({
             <div>
               <p className="text-sm font-semibold text-zinc-100">Analyser tes propres mains</p>
               <p className="text-xs text-zinc-500">Importe un historique .txt pour ouvrir le replayer.</p>
-            </motion.div>
+            </div>
             <button type="button" onClick={onImportClick} className={PHR_BTN_TOOL}>
               Importer des fichiers
             </button>
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
       ) : null}
-    </motion.div>
+    </div>
   );
 }
