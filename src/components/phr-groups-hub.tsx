@@ -204,7 +204,7 @@ export function PhrGroupsHub({
   }
 
   async function onJoin() {
-    if (!user) {
+    if (!localGroups && !user) {
       setError("Connecte-toi pour rejoindre un groupe.");
       return;
     }
@@ -212,7 +212,7 @@ export function PhrGroupsHub({
     setError(null);
     try {
       const groupId = await joinReviewGroupByInviteCode({
-        uid: user.uid,
+        uid: effectiveUid,
         pseudo: displayName,
         inviteCode: joinInviteCode,
       });
