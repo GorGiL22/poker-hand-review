@@ -2396,7 +2396,7 @@ export default function Home() {
             </p>
           )}
 
-          {hands.length > 0 && (
+          {hands.length > 0 && !viewPublicHome && (
             <div className={PHR_TOURNAMENT_RAIL}>
               <div className="flex min-w-0 flex-1 items-center gap-1.5">
                 <span className="shrink-0 text-[9px] font-bold uppercase leading-none tracking-wide text-zinc-500">
