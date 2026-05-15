@@ -274,10 +274,18 @@ export function PhrPublishSpotModal({
               </button>
               <button
                 type="button"
+                onClick={() => setVisibility("group")}
+                disabled={myGroups.length === 0}
+                className={`${PHR_CHOICE_BTN} ${visibility === "group" ? "border-sky-500/55 bg-sky-600/25 text-sky-100" : ""} disabled:opacity-40`}
+              >
+                Groupe privé
+              </button>
+              <button
+                type="button"
                 onClick={() => setVisibility("private")}
                 className={`${PHR_CHOICE_BTN} ${visibility === "private" ? PHR_CHOICE_BTN_ON : ""}`}
               >
-                Privé
+                Perso
               </button>
             </div>
           </section>
