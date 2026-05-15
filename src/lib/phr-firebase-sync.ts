@@ -339,6 +339,33 @@ export async function saveUserHandsOnly(
   await syncUserHandsCollection(uid, hands, stableKeyForHand);
 }
 
+/** État de replayer minimal (main courante, tournoi filtré). */
+export type PhrReplaySessionWrite = {
+  selectedHandId: string;
+  stepIndex: number;
+  selectedTournament: string;
+  displayUnit: string;
+  soundEnabled: boolean;
+};
+
+export async function saveUserReplaySession(uid: string, session: PhrReplaySessionWrite): Promise<void> {
+  const db = getFirebaseDb();
+  if (!db) throw new Error("Firestore non initialisé");
+
+  await setDoc(
+    doc(db, "users", uid),
+    {
+      [F.selectedHandId]: session.selectedHandId,
+      [F.stepIndex]: session.stepIndex,
+      [F.selectedTournament]: session.selectedTournament,
+      [F.displayUnit]: session.displayUnit,
+      [F.soundEnabled]: session.soundEnabled,
+      phrUpdatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
+}
+
 export async function saveUserCloudData(
   uid: string,
   hands: Record<string, unknown>[],
