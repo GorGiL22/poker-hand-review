@@ -1333,11 +1333,17 @@ export default function Home() {
   handsRef.current = hands;
 
   function pauseCloudSyncForQuota(): void {
+    markFirestoreQuotaExceeded();
     skipCloudSaveRef.current = true;
-    setCloudSyncWarning(
-      "Quota Firestore dépassé (plan gratuit). La synchro cloud est en pause — tes mains restent sur cet appareil. Réessaie demain ou active la facturation Blaze dans la console Firebase.",
-    );
+    setCloudSyncWarning(FIRESTORE_QUOTA_USER_MESSAGE);
   }
+
+  useEffect(() => {
+    if (isFirestoreQuotaPaused()) {
+      skipCloudSaveRef.current = true;
+      setCloudSyncWarning(FIRESTORE_QUOTA_USER_MESSAGE);
+    }
+  }, []);
 
   async function persistHandsToCloud(handsToSave?: ParsedHand[]): Promise<void> {
     const uid = userRef.current?.uid;
