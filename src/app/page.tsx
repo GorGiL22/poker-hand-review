@@ -29,6 +29,8 @@ import {
   PHR_MON_ESPACE_BTN_ACTIVE,
   PHR_REVIEW_TOPBAR,
 } from "@/lib/phr-chrome";
+import { publishPublicPost } from "@/lib/phr-public-feed";
+import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
 type Street = "preflop" | "flop" | "turn" | "river";
 type ActionType = "post" | "fold" | "check" | "call" | "bet" | "raise" | "all-in";
