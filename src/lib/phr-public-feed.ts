@@ -175,6 +175,29 @@ export function parseFeedDocument(
     typeof createdAt?.toMillis === "function" ? createdAt.toMillis() : Date.now();
 
   const question = typeof data.question === "string" ? data.question : "";
+  const handRecord =
+    data.hand && typeof data.hand === "object" ? (data.hand as Record<string, unknown>) : null;
+  const replayAtPublish =
+    handRecord?.phrReplayAtPublish && typeof handRecord.phrReplayAtPublish === "object"
+      ? (handRecord.phrReplayAtPublish as Record<string, unknown>)
+      : null;
+
+  const visibleBoardRaw = Array.isArray(data.visibleBoard)
+    ? data.visibleBoard
+    : Array.isArray(replayAtPublish?.visibleBoard)
+      ? replayAtPublish?.visibleBoard
+      : [];
+  const visibleBoard = visibleBoardRaw.filter(
+    (c): c is string => typeof c === "string" && c.length >= 2,
+  );
+
+  const potLabel =
+    typeof data.potLabel === "string"
+      ? data.potLabel
+      : typeof replayAtPublish?.potLabel === "string"
+        ? replayAtPublish.potLabel
+        : "";
+
   const spotMeta =
     feedSource === "spots" || question.length > 0
       ? {
@@ -188,6 +211,8 @@ export function parseFeedDocument(
               : null,
           sourceValidation:
             typeof data.sourceValidation === "string" ? data.sourceValidation : "",
+          visibleBoard,
+          potLabel,
         }
       : undefined;
 
