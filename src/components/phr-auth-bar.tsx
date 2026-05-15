@@ -488,25 +488,36 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
                   >
                     {auth.displayLabel}
                   </button>
-                  {accountMenuOpen ? (
-                    <div
-                      role="menu"
-                      className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),14rem)] rounded-xl border border-white/12 bg-zinc-950/96 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.45)] backdrop-blur-xl"
-                    >
-                      <button
-                        type="button"
-                        role="menuitem"
-                        disabled={auth.busy}
-                        onClick={() => {
-                          setAccountMenuOpen(false);
-                          void auth.onSignOut();
+                  {accountMenuOpen &&
+                    accountMenuStyle &&
+                    typeof document !== "undefined" &&
+                    createPortal(
+                      <div
+                        role="menu"
+                        style={{
+                          position: "fixed",
+                          top: accountMenuStyle.top,
+                          right: accountMenuStyle.right,
+                          minWidth: accountMenuStyle.minWidth,
+                          zIndex: 200,
                         }}
-                        className={`${PHR_TOPBAR_BTN_COMPACT_SIGNOUT} w-full`}
+                        className="rounded-xl border border-white/12 bg-zinc-950 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.55)]"
                       >
-                        Déconnexion
-                      </button>
-                    </div>
-                  ) : null}
+                        <button
+                          type="button"
+                          role="menuitem"
+                          disabled={auth.busy}
+                          onClick={() => {
+                            setAccountMenuOpen(false);
+                            void auth.onSignOut();
+                          }}
+                          className={`${PHR_TOPBAR_BTN_COMPACT_SIGNOUT} w-full`}
+                        >
+                          Déconnexion
+                        </button>
+                      </div>,
+                      document.body,
+                    )}
                 </div>
               )}
             </div>
