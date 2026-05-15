@@ -410,9 +410,9 @@ export function PhrAuthBar() {
                 <>
                   <span
                     className={`${PHR_TOPBAR_USER_STRIP} hidden max-w-[10rem] sm:inline-flex sm:max-w-[14rem]`}
-                    title={auth.user.email ?? undefined}
+                    title={auth.displayTitle}
                   >
-                    {auth.shortEmail}
+                    {auth.displayLabel}
                   </span>
                   <button
                     type="button"
