@@ -64,6 +64,7 @@ import {
   type PublishedTournamentHand,
 } from "@/lib/phr-published-tournaments";
 import {
+  isLocalGroupsEnabled,
   subscribeUserReviewGroups,
   type ReviewGroupMembership,
 } from "@/lib/phr-review-groups";
