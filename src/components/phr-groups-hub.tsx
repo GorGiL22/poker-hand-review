@@ -77,14 +77,14 @@ export function PhrGroupsHub({
   const [showCreatePanel, setShowCreatePanel] = useState(false);
   const [showJoinPanel, setShowJoinPanel] = useState(false);
 
+  const localGroups = isLocalGroupsEnabled();
   const displayName = pseudo ?? user?.displayName ?? "Joueur";
+  const effectiveUid = user?.uid ?? "local-dev-user";
   const createDisabled =
-    !firebaseConfigured ||
-    authLoading ||
-    !user ||
     busy ||
     !name.trim() ||
-    createInviteCode.length < 6;
+    createInviteCode.length < 6 ||
+    (!localGroups && (!firebaseConfigured || authLoading || !user));
 
   useEffect(() => {
     if (authLoading) return;
