@@ -25,6 +25,55 @@ service cloud.firestore {
         || (request.auth != null && request.auth.uid == spot.data.authorUid);
     }
 
+    function publishedTournamentReadable(tournamentId) {
+      let t = get(/databases/$(database)/documents/publishedTournaments/$(tournamentId));
+      return t.data.visibility == 'public'
+        || (request.auth != null && request.auth.uid == t.data.authorUid);
+    }
+
+    match /publishedTournaments/{tournamentId} {
+      allow read: if resource.data.visibility == 'public'
+        || (request.auth != null && request.auth.uid == resource.data.authorUid);
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.authorUid
+        && request.resource.data.authorPseudo is string
+        && request.resource.data.tournamentKey is string
+        && request.resource.data.tournamentName is string
+        && request.resource.data.summary is string
+        && request.resource.data.handCount is int
+        && request.resource.data.handCount > 0
+        && (request.resource.data.visibility == 'public'
+          || request.resource.data.visibility == 'private');
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
+
+      match /hands/{handId} {
+        allow read: if publishedTournamentReadable(tournamentId);
+        allow create: if request.auth != null
+          && publishedTournamentReadable(tournamentId)
+          && get(/databases/$(database)/documents/publishedTournaments/$(tournamentId)).data.authorUid == request.auth.uid
+          && request.resource.data.hand is map
+          && request.resource.data.handStableKey is string
+          && request.resource.data.label is string
+          && request.resource.data.sortIndex is int;
+        allow update, delete: if false;
+
+        match /reports/{reportUid} {
+          allow read: if publishedTournamentReadable(tournamentId);
+          allow create, update: if request.auth != null
+            && publishedTournamentReadable(tournamentId)
+            && request.auth.uid == reportUid
+            && request.resource.data.authorUid == request.auth.uid
+            && request.resource.data.authorPseudo is string
+            && request.resource.data.text is string
+            && request.resource.data.text.size() > 0
+            && request.resource.data.text.size() <= 8000
+            && request.resource.data.handDocId is string;
+          allow delete: if request.auth != null && request.auth.uid == reportUid;
+        }
+      }
+    }
+
     match /spots/{spotId} {
       allow read: if resource.data.visibility == 'public'
         || (request.auth != null && request.auth.uid == resource.data.authorUid);
