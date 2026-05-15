@@ -203,12 +203,25 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
         </label>
         <button
           type="button"
-          disabled={!user || busy || !name.trim() || createInviteCode.length < 6}
+          disabled={createDisabled}
           onClick={() => void onCreate()}
           className={`${PHR_BTN} w-full border-sky-500/40 bg-sky-600/20 text-sky-100`}
         >
-          Créer le groupe
+          {busy ? "Création en cours…" : "Créer le groupe"}
         </button>
+        {createDisabled && !busy ? (
+          <p className="text-[11px] text-zinc-500">
+            {!firebaseConfigured
+              ? "Configuration Firebase manquante."
+              : authLoading
+                ? "Attends la fin de la connexion."
+                : !user
+                  ? "Connecte-toi d’abord."
+                  : !name.trim()
+                    ? "Indique un nom de groupe."
+                    : "Le code doit faire au moins 6 caractères."}
+          </p>
+        ) : null}
         {createdInvite ? (
           <p className="text-xs text-sky-200">
             Groupe créé · code : <span className="font-mono font-bold">{createdInvite}</span>
