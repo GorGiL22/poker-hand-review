@@ -69,9 +69,16 @@ export function PhrPublishSpotModal({
   const [selectedGroupId, setSelectedGroupId] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const closedRef = useRef(false);
+
+  function handleClose() {
+    closedRef.current = true;
+    onClose();
+  }
 
   useEffect(() => {
     if (!open) return;
+    closedRef.current = false;
     setQuestion("");
     setCategory(spotCategoryFromStreet(replay.street));
     setHeroAction(null);
