@@ -44,7 +44,11 @@ export function emptyReactionCounts(): Record<PublicReaction, number> {
   return { like: 0, fire: 0, think: 0 };
 }
 
-function parsePost(id: string, data: Record<string, unknown>): PublicHandPost {
+export function parseFeedDocument(
+  id: string,
+  data: Record<string, unknown>,
+  feedSource: PublicFeedSource,
+): PublicHandPost {
   const rawReactions = data.reactions;
   const reactions: Record<string, PublicReaction> = {};
   if (rawReactions && typeof rawReactions === "object") {
