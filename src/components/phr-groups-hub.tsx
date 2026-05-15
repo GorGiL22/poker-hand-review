@@ -423,7 +423,7 @@ export function PhrGroupsHub({
               </button>
             </section>
           ) : null}
-        </div>
+        </motion.div>
       ) : null}
 
       {showImportPanel && onImportClick && onDragOver && onDragLeave && onDrop ? (
