@@ -2996,6 +2996,22 @@ export default function Home() {
         </nav>
       </div>
       )}
+      {showPublishSpotModal && user && selectedHand.id !== "__empty__" && (
+        <PhrPublishSpotModal
+          open={showPublishSpotModal}
+          onClose={() => setShowPublishSpotModal(false)}
+          hand={selectedHand as unknown as Record<string, unknown>}
+          handId={selectedHand.id}
+          stepOptions={spotStepOptions}
+          defaultUiStepIndex={Math.max(1, clampedStepIndex)}
+          authorUid={user.uid}
+          authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
+          onPublished={(vis) => {
+            setShareToast(vis === "public" ? "Spot publié sur le fil." : "Spot enregistré en privé.");
+            window.setTimeout(() => setShareToast(null), 2800);
+          }}
+        />
+      )}
     </main>
   );
 }
