@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "firebase:deploy:firestore": "firebase deploy --only firestore:rules,firestore:indexes"
   },
   "dependencies": {
     "@google-cloud/storage": "^7.19.0",
