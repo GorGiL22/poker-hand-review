@@ -1288,8 +1288,6 @@ export default function Home() {
   } | null>(null);
   const [tournamentSelectedHandDocId, setTournamentSelectedHandDocId] = useState<string | null>(null);
   const [tournamentOpenBusy, setTournamentOpenBusy] = useState(false);
-  const [showPublishTournamentModal, setShowPublishTournamentModal] = useState(false);
-  const [showGroupsHub, setShowGroupsHub] = useState(false);
   const [activeGroupId, setActiveGroupId] = useState<string | null>(null);
   const [myReviewGroups, setMyReviewGroups] = useState<ReviewGroupMembership[]>([]);
   const viewSpotReview = spotReviewPost !== null;
