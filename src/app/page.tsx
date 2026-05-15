@@ -12,6 +12,7 @@ import {
 } from "react";
 
 import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
+import { PhrPublicHome } from "@/components/phr-public-home";
 import { PhrHandFiltersPanel } from "@/components/phr-hand-filters";
 import {
   EMPTY_PHR_HAND_FILTER_SELECTION,
