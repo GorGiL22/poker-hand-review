@@ -1990,6 +1990,31 @@ export default function Home() {
     setShowPublicHome(false);
   }
 
+  function openFeedPost(post: PublicHandPost) {
+    const session = parseFeedPostForReplayer(post);
+    if (!session) {
+      setShareToast("Impossible d’ouvrir cette main dans le replayer.");
+      return;
+    }
+    const parsed = storedRecordToParsedHand(session.handRecord);
+    if (!parsed) {
+      setShareToast("Impossible d’ouvrir cette main dans le replayer.");
+      return;
+    }
+
+    const stableKey = handStableKey(parsed);
+    setHands((prev) => {
+      const withoutSame = prev.filter((hand) => handStableKey(hand) !== stableKey);
+      return mergeParsedHandLists(withoutSame, [parsed]);
+    });
+    setSelectedHandId(parsed.id);
+    setStepIndex(session.uiStepIndex);
+    setDisplayUnit(session.displayUnit);
+    setShowPublicHome(false);
+    setShowMesMainsFullPage(false);
+    setChipTick((tick) => tick + 1);
+  }
+
   function handleMonEspaceClick() {
     if (cloudLoading) return;
     if (hands.length > 0) {
