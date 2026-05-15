@@ -5,7 +5,7 @@ import { type DragEvent, useEffect, useState } from "react";
 import {
   PUBLIC_REACTION_META,
   subscribePublicPosts,
-  togglePublicReaction,
+  toggleFeedReaction,
   type PublicHandPost,
   type PublicReaction,
 } from "@/lib/phr-public-feed";
