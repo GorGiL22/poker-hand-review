@@ -2498,7 +2498,6 @@ export default function Home() {
               cloudLoading={cloudLoading}
               cloudLoadError={cloudLoadError}
               importError={importError}
-              onMonEspaceClick={user ? handleMonEspaceClick : undefined}
             />
           ) : (
           <div className={PHR_TABLE_FRAME}>
