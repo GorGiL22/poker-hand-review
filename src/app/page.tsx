@@ -2733,6 +2733,7 @@ export default function Home() {
                 onOpenSpot={openSpotFromMonEspace}
                 onOpenHand={openHandFromMonEspace}
                 onReplayTournament={replayTournamentFromMonEspace}
+                onPublishTournament={openPublishTournament}
                 onImportClick={() => fileInputRef.current?.click()}
                 libraryHands={libraryHands}
                 rowLabel={(hand) => mesMainsRowLabel(hand as ParsedHand)}
