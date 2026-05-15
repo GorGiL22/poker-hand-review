@@ -2231,6 +2231,39 @@ export default function Home() {
     return ok;
   }
 
+  function parsedHandToPublishRecord(hand: ParsedHand): Record<string, unknown> {
+    return { ...hand } as Record<string, unknown>;
+  }
+
+  function openPublishTournament(tournamentKey: string) {
+    if (!user) {
+      setShareToast("Connecte-toi pour publier un tournoi.");
+      window.setTimeout(() => setShareToast(null), 2800);
+      return;
+    }
+    const tourHands = libraryHands.filter(
+      (hand) => deriveTournamentKey(hand as ParsedHand) === tournamentKey,
+    ) as ParsedHand[];
+    if (tourHands.length === 0) {
+      setShareToast("Aucune main importée pour ce tournoi.");
+      window.setTimeout(() => setShareToast(null), 2800);
+      return;
+    }
+    const first = tourHands[0]!;
+    const buyIn =
+      first.buyInEuro != null && Number.isFinite(first.buyInEuro)
+        ? String(first.buyInEuro)
+        : buyInInput.trim() || undefined;
+    setPublishTournamentContext({
+      tournamentKey,
+      tournamentName: first.tournamentName?.trim() || tournamentKey,
+      tournamentVariant: first.tournamentVariant,
+      buyIn,
+      hands: tourHands.map(parsedHandToPublishRecord),
+    });
+    setShowPublishTournamentModal(true);
+  }
+
   function replayTournamentFromMonEspace(tournamentKey: string) {
     const tourHands = libraryHands.filter(
       (hand) => deriveTournamentKey(hand as ParsedHand) === tournamentKey,
