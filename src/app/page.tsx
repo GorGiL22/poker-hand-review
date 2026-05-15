@@ -104,6 +104,10 @@ type ParsedHand = {
   totalPot?: number;
   dateTime?: string;
   tag: "3-bet" | "river" | "all-in" | "standard";
+  /** Buy-in tournoi (€) si détecté à l’import. */
+  buyInEuro?: number | null;
+  /** Room / plateforme (Winamax, Betclic, …). */
+  platform?: string;
 };
 
 /** Main factice uniquement quand aucune main n’est importée (évite les accès undefined). */
