@@ -97,6 +97,15 @@ export function PhrPublicHome({
   }, [showWelcomePanel, user]);
 
   useEffect(() => {
+    if (hasImportedHands) {
+      markImportPanelDismissed();
+      setShowImportPanel(false);
+      return;
+    }
+    setShowImportPanel(!hasDismissedImportPanel());
+  }, [hasImportedHands]);
+
+  useEffect(() => {
     if (!firebaseConfigured) {
       queueMicrotask(() => {
         setLoading(false);
