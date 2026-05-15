@@ -1246,6 +1246,7 @@ export default function Home() {
   /** Message court après partage de main (presse-papiers / partage natif). */
   const [shareToast, setShareToast] = useState<string | null>(null);
   const [showSettingsPanel, setShowSettingsPanel] = useState(false);
+  const [showPublishSpotModal, setShowPublishSpotModal] = useState(false);
   const [blurHandActions, setBlurHandActions] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showOddsModule, setShowOddsModule] = useState(false);
