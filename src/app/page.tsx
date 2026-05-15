@@ -1608,13 +1608,9 @@ export default function Home() {
       .finally(() => {
         if (!cancelled) {
           setCloudLoading(false);
-          if (handsToPersist && handsToPersist.length > 0) {
+          if (shouldPersistAfterLoad && handsToPersist && handsToPersist.length > 0) {
             void persistHandsToCloud(handsToPersist).catch(() => {
-              /* retry au prochain changement */
-            });
-          } else if (handsRef.current.length > 0) {
-            void persistHandsToCloud().catch(() => {
-              /* retry au prochain changement */
+              /* import local non encore sur le cloud */
             });
           }
           queueMicrotask(() => {
