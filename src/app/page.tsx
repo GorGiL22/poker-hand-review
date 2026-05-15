@@ -3306,6 +3306,32 @@ export default function Home() {
           }}
         />
       )}
+      {showPublishTournamentModal && user && publishTournamentContext && (
+        <PhrPublishTournamentModal
+          open={showPublishTournamentModal}
+          onClose={() => {
+            setShowPublishTournamentModal(false);
+            setPublishTournamentContext(null);
+          }}
+          tournamentKey={publishTournamentContext.tournamentKey}
+          tournamentName={publishTournamentContext.tournamentName}
+          tournamentVariant={publishTournamentContext.tournamentVariant}
+          buyIn={publishTournamentContext.buyIn}
+          hands={publishTournamentContext.hands}
+          authorUid={user.uid}
+          authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
+          onPublished={(_id, visibility) => {
+            setShowPublishTournamentModal(false);
+            setPublishTournamentContext(null);
+            setShareToast(
+              visibility === "public"
+                ? "Tournoi publié sur le fil public."
+                : "Tournoi enregistré en privé.",
+            );
+            window.setTimeout(() => setShareToast(null), 2800);
+          }}
+        />
+      )}
     </main>
   );
 }
