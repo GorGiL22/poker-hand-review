@@ -2730,8 +2730,13 @@ export default function Home() {
                 <span className="text-[9px] font-bold uppercase leading-none tracking-wide text-zinc-500">
                   Tournoi
                 </span>
-                <p className="truncate text-sm font-semibold text-zinc-100" title={replayerTournamentLabel}>
-                  {replayerTournamentLabel}
+                <p className="truncate text-sm font-semibold text-zinc-100" title={replayerTournamentTitle}>
+                  <span>{replayerTournamentLabel}</span>
+                  {replayerTournamentBuyInLabel ? (
+                    <span className="ml-1.5 font-medium text-emerald-300/95">
+                      {replayerTournamentBuyInLabel}
+                    </span>
+                  ) : null}
                 </p>
                 {selectedTournament !== "ALL" ? (
                   <p className="text-[10px] text-zinc-500">
