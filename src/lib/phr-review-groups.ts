@@ -133,6 +133,8 @@ export async function createReviewGroup(input: {
   ownerPseudo: string;
   name: string;
   description?: string;
+  /** Code personnalisé ; généré aléatoirement si absent. */
+  inviteCode?: string;
 }): Promise<{ groupId: string; inviteCode: string }> {
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
@@ -142,7 +144,8 @@ export async function createReviewGroup(input: {
 
   const description = input.description?.trim() ?? "";
   const pseudo = input.ownerPseudo.trim() || "Joueur";
-  const inviteCode = generateInviteCode();
+  const inviteCode = resolveInviteCode(input.inviteCode);
+  await assertInviteCodeAvailable(inviteCode);
 
   const groupRef = doc(groupsCol());
   const batch = writeBatch(db);
