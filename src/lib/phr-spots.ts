@@ -253,6 +253,9 @@ export async function publishSpot(input: SpotPublishInput): Promise<void> {
     `Source: ${sourceValidationLabel(input.sourceValidation)}`,
   ].join("\n");
 
+  const tour = extractTournamentFieldsFromHand(replay.hand);
+  const buyIn = input.buyIn?.trim() || null;
+
   const handWithReplay = sanitizeForFirestore({
     ...replay.hand,
     phrReplayAtPublish: {
