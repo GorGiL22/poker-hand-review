@@ -2576,7 +2576,7 @@ export default function Home() {
                             isHero
                               ? index === 0
                                 ? "origin-bottom-right rotate-[-9deg] translate-x-0.5"
-                                : "origin-bottom-left rotate-[9deg] -translate-x-0.5 -ml-6"
+                                : "origin-bottom-left rotate-[9deg] -translate-x-0.5 -ml-10"
                               : ""
                           }
                         >
