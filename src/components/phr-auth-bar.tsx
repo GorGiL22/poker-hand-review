@@ -478,6 +478,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
               {auth.firebaseConfigured && !auth.authLoading && auth.user && (
                 <div ref={accountMenuRef} className="relative">
                   <button
+                    ref={accountBtnRef}
                     type="button"
                     onClick={() => setAccountMenuOpen((open) => !open)}
                     aria-expanded={accountMenuOpen}
