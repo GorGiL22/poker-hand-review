@@ -182,7 +182,7 @@ export function PhrPublicHome({
               </div>
               <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
                 {post.spotMeta?.category
-                  ? post.spotMeta.category.toUpperCase()
+                  ? categoryLabel(post.spotMeta.category as SpotCategory)
                   : handPreviewLine(post.hand)}
               </p>
             </div>
