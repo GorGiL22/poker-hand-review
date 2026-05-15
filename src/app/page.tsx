@@ -1643,6 +1643,7 @@ export default function Home() {
 
         if (parsed.length > 0 || merged.length !== local.length) {
           setHands(merged);
+          saveLibraryToIndexedDb(merged);
         }
       })
       .catch((error) => {
