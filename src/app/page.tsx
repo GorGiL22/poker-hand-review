@@ -2694,7 +2694,7 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              <motion.div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
+              <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
                 {publishableTournamentMeta ? (
                   <button
                     type="button"
