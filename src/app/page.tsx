@@ -1501,6 +1501,23 @@ export default function Home() {
     return key === "Tournoi inconnu" ? "—" : key;
   }, [selectedTournament, tournamentFilteredHands, selectedHand]);
 
+  const replayerTournamentBuyInLabel = useMemo(() => {
+    if (selectedTournament !== "ALL") {
+      return formatBuyInEuroLabel(buyInEuroFromHands(tournamentFilteredHands));
+    }
+    if (selectedHand.id === "__empty__") return null;
+    return formatBuyInEuroLabel(
+      selectedHand.buyInEuro ?? parseBuyInFromTournamentName(selectedHand.tournamentName),
+    );
+  }, [selectedTournament, tournamentFilteredHands, selectedHand]);
+
+  const replayerTournamentTitle = useMemo(() => {
+    if (replayerTournamentBuyInLabel) {
+      return `${replayerTournamentLabel} · ${replayerTournamentBuyInLabel}`;
+    }
+    return replayerTournamentLabel;
+  }, [replayerTournamentLabel, replayerTournamentBuyInLabel]);
+
   const selectedHandIndex = useMemo(
     () => filteredHands.findIndex((hand) => hand.id === selectedHand.id),
     [filteredHands, selectedHand.id],
