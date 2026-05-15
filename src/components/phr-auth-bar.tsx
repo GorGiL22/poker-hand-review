@@ -257,6 +257,7 @@ function PhrAuthModal({
                 onClick={() => {
                   setMode("signup");
                   setFormError(null);
+                  setPseudoInput("");
                 }}
               >
                 Inscription
