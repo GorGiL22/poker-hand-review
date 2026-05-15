@@ -352,9 +352,10 @@ export function PhrAccountSettingsCard() {
 
 type PhrAuthBarProps = {
   onMonEspaceClick?: () => void;
+  onReplayerClick?: () => void;
 };
 
-export function PhrAuthBar({ onMonEspaceClick }: PhrAuthBarProps) {
+export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProps) {
   const auth = usePhrAuthForm();
 
   function onMonEspace() {
