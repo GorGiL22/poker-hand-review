@@ -1452,6 +1452,24 @@ export default function Home() {
     if (selectedTournament === "ALL") return hands;
     return hands.filter((hand) => deriveTournamentKey(hand) === selectedTournament);
   }, [hands, selectedTournament]);
+
+  /** Nom affiché dans le replayer (sélection du tournoi = Mon espace uniquement). */
+  const replayerTournamentLabel = useMemo(() => {
+    if (selectedTournament !== "ALL") {
+      const sample = tournamentFilteredHands[0];
+      return (
+        sample?.tournamentName?.trim() ||
+        selectedTournament.replace(/^\d{8}_/, "").trim() ||
+        selectedTournament
+      );
+    }
+    if (selectedHand.id === "__empty__") return "—";
+    const name = selectedHand.tournamentName?.trim();
+    if (name) return name;
+    const key = deriveTournamentKey(selectedHand);
+    return key === "Tournoi inconnu" ? "—" : key;
+  }, [selectedTournament, tournamentFilteredHands, selectedHand]);
+
   const filteredHands = useMemo(() => {
     return tournamentFilteredHands.filter((hand) => handMatchesPhrFilters(hand, handFilters));
   }, [handFilters, tournamentFilteredHands]);
