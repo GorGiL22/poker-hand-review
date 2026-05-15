@@ -113,6 +113,7 @@ export function PhrPublishSpotModal({
         heroAmount: needsAmount ? parsedAmount : null,
         sourceValidation,
         visibility,
+        buyIn,
       });
       onPublished?.(visibility);
       onClose();
