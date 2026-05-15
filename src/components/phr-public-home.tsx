@@ -60,6 +60,7 @@ type PhrPublicHomeProps = {
   onDrop: (event: DragEvent<HTMLDivElement>) => void;
   cloudLoading?: boolean;
   cloudLoadError?: string | null;
+  cloudSyncWarning?: string | null;
   importError?: string | null;
   /** Au moins une main chargée dans le replayer (import ou cloud). */
   hasImportedHands?: boolean;
