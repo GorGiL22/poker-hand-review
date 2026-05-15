@@ -453,6 +453,12 @@ export function subscribeGroupMembers(
   groupId: string,
   onData: (members: ReviewGroupMember[]) => void,
 ): Unsubscribe {
+  if (isLocalGroupsEnabled() || isLocalGroupId(groupId)) {
+    const emit = () => onData(getLocalGroupMembers(groupId));
+    emit();
+    return subscribeLocalGroupsChanged(emit);
+  }
+
   const db = getFirebaseDb();
   if (!db) {
     queueMicrotask(() => onData([]));
