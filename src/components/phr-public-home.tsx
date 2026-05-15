@@ -184,11 +184,11 @@ export function PhrPublicHome({
             key={post.id}
             role="button"
             tabIndex={0}
-            onClick={() => onOpenPost(post)}
+            onClick={() => handleOpenPost(post)}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                onOpenPost(post);
+                handleOpenPost(post);
               }
             }}
             className="cursor-pointer rounded-2xl border border-white/10 bg-zinc-950/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm transition hover:border-violet-500/35 hover:bg-zinc-900/65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500/50"
