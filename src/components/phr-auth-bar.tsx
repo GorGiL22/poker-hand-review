@@ -186,9 +186,25 @@ function PhrAuthModal({
         <p className="mt-1 text-xs text-zinc-500">
           {mode === "signin"
             ? "Connecte-toi avec ton e-mail et ton mot de passe."
-            : "Inscris-toi pour sauvegarder ton espace (Firebase)."}
+            : "Choisis un pseudo pour t’identifier, puis crée ton compte."}
         </p>
         <form className="mt-4 space-y-3" onSubmit={(e) => void onSubmit(e)}>
+          {mode === "signup" && (
+            <label className="block text-xs font-semibold uppercase tracking-wide text-zinc-500">
+              Pseudo
+              <input
+                type="text"
+                autoComplete="nickname"
+                value={pseudoInput}
+                onChange={(e) => setPseudoInput(e.target.value)}
+                required
+                minLength={2}
+                maxLength={24}
+                placeholder="Ex. Shark42"
+                className="mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-900/80 px-3 py-2 text-sm text-zinc-100 outline-none ring-emerald-500/30 focus:border-emerald-600/60 focus:ring-2"
+              />
+            </label>
+          )}
           <label className="block text-xs font-semibold uppercase tracking-wide text-zinc-500">
             E-mail
             <input
