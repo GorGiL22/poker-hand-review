@@ -44,6 +44,7 @@ import {
   saveUserReplaySession,
 } from "@/lib/phr-firebase-sync";
 import {
+  clearLocalHands,
   loadLocalHands,
   requestPersistentLocalStorage,
   saveLocalHands,
