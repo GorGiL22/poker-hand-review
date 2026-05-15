@@ -54,6 +54,7 @@ type PhrPublicHomeProps = {
   onImportClick: () => void;
   onOpenPost: (post: PublicHandPost) => boolean;
   onOpenTournament?: (tournament: PublishedTournament) => void;
+  onOpenGroups?: () => void;
   onDragOver: (event: DragEvent<HTMLDivElement>) => void;
   onDragLeave: (event: DragEvent<HTMLDivElement>) => void;
   onDrop: (event: DragEvent<HTMLDivElement>) => void;
