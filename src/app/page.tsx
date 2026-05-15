@@ -70,7 +70,7 @@ import {
   subscribeUserReviewGroups,
   type ReviewGroupMembership,
 } from "@/lib/phr-review-groups";
-import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
+import { buildSpotReplayContext, deleteSpot, type SpotReplayContext } from "@/lib/phr-spots";
 import {
   applyWinamaxSummaryBuyIns,
   isWinamaxTournamentSummaryText,
