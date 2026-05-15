@@ -374,15 +374,7 @@ export function PhrAuthBar({ onMonEspaceClick }: PhrAuthBarProps) {
             <span className="min-w-0 justify-self-start truncate text-xs font-black tracking-tight text-zinc-100 sm:text-sm">
               SpotLab
             </span>
-            <button
-              type="button"
-              onClick={() => {
-                auth.setMode("signin");
-                auth.setFormError(null);
-                auth.setOpen(true);
-              }}
-              className={PHR_MON_ESPACE_BTN}
-            >
+            <button type="button" onClick={onMonEspace} className={PHR_MON_ESPACE_BTN}>
               Mon espace
             </button>
             <div className="flex min-w-0 shrink-0 flex-wrap items-center justify-end justify-self-end gap-2">
