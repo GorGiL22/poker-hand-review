@@ -1574,9 +1574,6 @@ export default function Home() {
     const hadUser = prevUserRef.current;
     prevUserRef.current = user;
     if (hadUser && !user) {
-      setHands([]);
-      setSelectedHandId("");
-      setStepIndex(0);
       setCloudLoadError(null);
       setCloudLoading(false);
       skipCloudSaveRef.current = true;
