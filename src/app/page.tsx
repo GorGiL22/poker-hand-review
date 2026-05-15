@@ -2846,15 +2846,16 @@ export default function Home() {
                 window.setTimeout(() => setShareToast(null), 2800);
                 return;
               }
+              setSpotPublishContext(captureSpotReplayContext());
               setShowPublishSpotModal(true);
             }}
-            title="Publier un spot"
+            title="Publier le spot affiché sur le replayer"
             className="pointer-events-auto inline-flex h-11 items-center justify-center gap-2 rounded-full border border-violet-500/45 bg-violet-600/30 px-4 text-xs font-bold text-violet-100 shadow-[0_4px_24px_rgba(139,92,246,0.28)] backdrop-blur-md transition hover:border-violet-400/55 hover:bg-violet-600/40 active:scale-[0.98]"
           >
             <svg className="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
               <path d="M12 5v14M5 12h14" strokeLinecap="round" />
             </svg>
-            Publier un spot
+            Publier le spot
           </button>
           <button
             type="button"
