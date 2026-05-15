@@ -442,22 +442,37 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
                 </>
               )}
               {auth.firebaseConfigured && !auth.authLoading && auth.user && (
-                <>
-                  <span
-                    className={`${PHR_TOPBAR_USER_STRIP} hidden max-w-[10rem] sm:inline-flex sm:max-w-[14rem]`}
-                    title={auth.displayTitle}
-                  >
-                    {auth.displayLabel}
-                  </span>
+                <div ref={accountMenuRef} className="relative">
                   <button
                     type="button"
-                    disabled={auth.busy}
-                    onClick={() => void auth.onSignOut()}
-                    className={PHR_TOPBAR_BTN_SIGNOUT}
+                    onClick={() => setAccountMenuOpen((open) => !open)}
+                    aria-expanded={accountMenuOpen}
+                    aria-haspopup="menu"
+                    title={auth.displayTitle}
+                    className={`${PHR_TOPBAR_USER_STRIP} max-w-[min(100vw-8rem,14rem)] cursor-pointer transition hover:border-white/18 hover:bg-zinc-800/80 hover:text-zinc-200`}
                   >
-                    Déconnexion
+                    {auth.displayLabel}
                   </button>
-                </>
+                  {accountMenuOpen ? (
+                    <motion.div
+                      role="menu"
+                      className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),14rem)] rounded-xl border border-white/12 bg-zinc-950/96 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.45)] backdrop-blur-xl"
+                    >
+                      <button
+                        type="button"
+                        role="menuitem"
+                        disabled={auth.busy}
+                        onClick={() => {
+                          setAccountMenuOpen(false);
+                          void auth.onSignOut();
+                        }}
+                        className={`${PHR_TOPBAR_BTN_COMPACT_SIGNOUT} w-full`}
+                      >
+                        Déconnexion
+                      </button>
+                    </motion.div>
+                  ) : null}
+                </div>
               )}
             </div>
           </div>
