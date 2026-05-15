@@ -135,18 +135,43 @@ export function PhrGroupsHub({
     setError(null);
   }
 
+  async function onSeedLocalTestGroup() {
+    setBusy(true);
+    setError(null);
+    setSuccess(null);
+    try {
+      const { groupId, inviteCode, created } = await ensureLocalTestGroup({
+        ownerUid: effectiveUid,
+        ownerPseudo: displayName,
+      });
+      setCreatedInvite(inviteCode);
+      setSuccess(
+        created
+          ? `Groupe test créé (code ${inviteCode}). Ouverture…`
+          : `Groupe test déjà présent (code ${inviteCode}). Ouverture…`,
+      );
+      onOpenGroup(groupId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Impossible de créer le groupe test.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
   async function onCreate() {
-    if (!firebaseConfigured) {
-      setError("Firebase n’est pas configuré (variables NEXT_PUBLIC_FIREBASE_*).");
-      return;
-    }
-    if (authLoading) {
-      setError("Connexion en cours… réessaie dans un instant.");
-      return;
-    }
-    if (!user) {
-      setError("Connecte-toi pour créer un groupe.");
-      return;
+    if (!localGroups) {
+      if (!firebaseConfigured) {
+        setError("Firebase n’est pas configuré (variables NEXT_PUBLIC_FIREBASE_*).");
+        return;
+      }
+      if (authLoading) {
+        setError("Connexion en cours… réessaie dans un instant.");
+        return;
+      }
+      if (!user) {
+        setError("Connecte-toi pour créer un groupe.");
+        return;
+      }
     }
     if (!name.trim()) {
       setError("Indique un nom de groupe.");
