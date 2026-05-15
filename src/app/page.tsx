@@ -1616,6 +1616,14 @@ export default function Home() {
   }, [firebaseConfigured]);
 
   useEffect(() => {
+    if (!user || !firebaseConfigured) {
+      queueMicrotask(() => setMyReviewGroups([]));
+      return;
+    }
+    return subscribeUserReviewGroups(user.uid, setMyReviewGroups);
+  }, [user, firebaseConfigured]);
+
+  useEffect(() => {
     if (!showSettingsPanel) return;
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
