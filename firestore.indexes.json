@@ -15,6 +15,29 @@
         { "fieldPath": "visibility", "order": "ASCENDING" },
         { "fieldPath": "createdAt", "order": "DESCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "spots",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibility", "order": "ASCENDING" },
+        { "fieldPath": "groupId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "groupInvites",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "groupId", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "groupMemberships",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        { "fieldPath": "joinedAt", "order": "DESCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []
