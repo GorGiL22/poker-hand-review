@@ -56,6 +56,48 @@ export function generateInviteCode(length = 8): string {
   return code;
 }
 
+/** Normalise saisie utilisateur (majuscules, caractères autorisés uniquement). */
+export function normalizeInviteCode(raw: string): string {
+  return raw
+    .trim()
+    .toUpperCase()
+    .replace(/[^A-Z0-9]/g, "");
+}
+
+export function validateInviteCodeFormat(code: string): void {
+  if (code.length < 6) {
+    throw new Error("Le code doit contenir au moins 6 caractères (lettres et chiffres).");
+  }
+  if (code.length > 12) {
+    throw new Error("Le code ne peut pas dépasser 12 caractères.");
+  }
+  for (const ch of code) {
+    if (!INVITE_CHARS.includes(ch)) {
+      throw new Error("Utilise uniquement des lettres et chiffres (sans I, O, 0, 1).");
+    }
+  }
+}
+
+async function assertInviteCodeAvailable(code: string, exceptGroupId?: string): Promise<void> {
+  const db = getFirebaseDb();
+  if (!db) throw new Error("Firestore non initialisé");
+
+  const snap = await getDoc(doc(db, "groupInvites", code));
+  if (!snap.exists()) return;
+
+  const data = snap.data() as Record<string, unknown>;
+  const existingGroupId = typeof data.groupId === "string" ? data.groupId : "";
+  if (exceptGroupId && existingGroupId === exceptGroupId) return;
+
+  throw new Error("Ce code d’invitation est déjà pris. Choisis-en un autre.");
+}
+
+function resolveInviteCode(raw?: string): string {
+  const normalized = raw?.trim() ? normalizeInviteCode(raw) : generateInviteCode();
+  validateInviteCodeFormat(normalized);
+  return normalized;
+}
+
 function groupsCol() {
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
