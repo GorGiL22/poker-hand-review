@@ -45,6 +45,7 @@ type PhrGroupsHubProps = {
 
 export function PhrGroupsHub({
   onOpenGroup,
+  onBack,
   welcomeDropActive = false,
   onImportClick,
   onDragOver,
