@@ -241,6 +241,10 @@ export function subscribePublicTournaments(
   onData: (items: PublishedTournament[]) => void,
   onError?: (error: Error) => void,
 ): Unsubscribe {
+  if (isFirestoreQuotaPaused()) {
+    queueMicrotask(() => onData([]));
+    return () => {};
+  }
   const db = getFirebaseDb();
   if (!db) {
     queueMicrotask(() => onData([]));
@@ -251,7 +255,7 @@ export function subscribePublicTournaments(
     tournamentsCol(),
     where("visibility", "==", "public"),
     orderBy("createdAt", "desc"),
-    limit(30),
+    limit(15),
   );
 
   return onSnapshot(
