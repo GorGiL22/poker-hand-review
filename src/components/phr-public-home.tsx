@@ -45,7 +45,6 @@ type PhrPublicHomeProps = {
   cloudLoadError?: string | null;
   importError?: string | null;
   onMonEspaceClick?: () => void;
-  onReturnToReplayer?: () => void;
 };
 
 export function PhrPublicHome({
