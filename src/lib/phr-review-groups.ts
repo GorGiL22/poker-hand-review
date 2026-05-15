@@ -344,10 +344,23 @@ export async function joinReviewGroupByInviteCode(input: {
   return groupId;
 }
 
+function subscribeLocalGroupsChanged(onChange: () => void): () => void {
+  if (typeof window === "undefined") return () => {};
+  const handler = () => onChange();
+  window.addEventListener("phr-local-groups-changed", handler);
+  return () => window.removeEventListener("phr-local-groups-changed", handler);
+}
+
 export function subscribeUserReviewGroups(
   uid: string | null,
   onData: (groups: ReviewGroupMembership[]) => void,
 ): Unsubscribe {
+  if (isLocalGroupsEnabled()) {
+    const emit = () => onData(getLocalUserReviewGroups(uid));
+    emit();
+    return subscribeLocalGroupsChanged(emit);
+  }
+
   if (!uid) {
     queueMicrotask(() => onData([]));
     return () => {};
