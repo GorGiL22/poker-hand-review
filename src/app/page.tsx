@@ -2683,6 +2683,11 @@ export default function Home() {
             </div>
           </header>
           )}
+          {cloudSyncWarning ? (
+            <p className="mb-2 rounded-xl border border-amber-500/30 bg-amber-950/25 px-3 py-2 text-xs text-amber-100 backdrop-blur-sm">
+              {cloudSyncWarning}
+            </p>
+          ) : null}
           {importError && (
             <p className="mb-2 rounded-xl border border-rose-500/25 bg-rose-950/25 px-3 py-2 text-xs text-rose-200 backdrop-blur-sm">
               {importError}
