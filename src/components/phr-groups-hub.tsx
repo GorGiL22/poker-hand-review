@@ -112,7 +112,7 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
       setJoinInviteCode("");
       onOpenGroup(groupId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invitation invalide.");
+      setError(formatFirestoreGroupError(err).message);
     } finally {
       setBusy(false);
     }
