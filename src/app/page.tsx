@@ -2234,12 +2234,7 @@ export default function Home() {
 
   return (
     <main className={`flex h-screen flex-col overflow-hidden text-zinc-100 ${PHR_PAGE_BG}`}>
-      {viewPublicHome && (
-        <PhrAuthBar
-          onMonEspaceClick={handleMonEspaceClick}
-          onReplayerClick={hands.length > 0 ? goToReplayer : undefined}
-        />
-      )}
+      {viewPublicHome && <PhrAuthBar minimal />}
       {hands.length > 0 && showMesMainsFullPage && (
         <div
           data-phr-mes-mains-page
