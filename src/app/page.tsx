@@ -2368,7 +2368,7 @@ export default function Home() {
             </div>
           )}
 
-          {hands.length === 0 ? (
+          {viewPublicHome ? (
             <PhrPublicHome
               welcomeDropActive={welcomeDropActive}
               onImportClick={() => fileInputRef.current?.click()}
@@ -2379,6 +2379,7 @@ export default function Home() {
               cloudLoadError={cloudLoadError}
               importError={importError}
               onMonEspaceClick={user ? handleMonEspaceClick : undefined}
+              onReturnToReplayer={hands.length > 0 ? goToReplayer : undefined}
             />
           ) : (
           <div className={PHR_TABLE_FRAME}>
