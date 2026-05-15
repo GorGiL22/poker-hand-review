@@ -1163,6 +1163,7 @@ function playTableChipSound(ctx: AudioContext) {
 }
 
 export default function Home() {
+  const { user, pseudo } = usePhrFirebase();
   const [hands, setHands] = useState<ParsedHand[]>([]);
   const [selectedHandId, setSelectedHandId] = useState<string>("");
   const [stepIndex, setStepIndex] = useState(0);
