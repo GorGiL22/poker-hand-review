@@ -2836,6 +2836,7 @@ export default function Home() {
           </button>
         </div>
       )}
+      {!viewPublicHome && (
       <div className="pointer-events-none fixed inset-x-3 bottom-4 z-[70] flex flex-col items-end gap-2 pr-4 sm:inset-x-5 sm:bottom-5 sm:pr-7">
         {shareToast ? (
           <p className="pointer-events-none max-w-[min(100%,20rem)] rounded-xl border border-white/[0.09] bg-zinc-900/70 px-3 py-2 text-right text-xs font-medium text-zinc-100 shadow-[0_4px_24px_rgba(0,0,0,0.12)] backdrop-blur-md">
