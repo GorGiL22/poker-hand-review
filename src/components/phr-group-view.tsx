@@ -64,18 +64,40 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
   }, [groupId, firebaseConfigured]);
 
   useEffect(() => {
-    if (!user || !isOwner || !firebaseConfigured) return;
-    void ensureGroupInviteCode(groupId, user.uid)
-      .then(setInviteCode)
+    if (!user || !firebaseConfigured) return;
+    void getGroupInviteCode(groupId, user.uid)
+      .then((code) => {
+        setInviteCode(code);
+        if (code) setInviteDraft(code);
+      })
       .catch(() => setInviteCode(null));
-  }, [groupId, user, isOwner, firebaseConfigured]);
+  }, [groupId, user, firebaseConfigured]);
 
   async function copyInvite() {
     if (!inviteCode) return;
     try {
       await navigator.clipboard.writeText(inviteCode);
+      setInviteToast("Code copié.");
+      window.setTimeout(() => setInviteToast(null), 2000);
     } catch {
       /* ignore */
+    }
+  }
+
+  async function saveInviteCode() {
+    if (!user || !isOwner) return;
+    setInviteBusy(true);
+    setError(null);
+    try {
+      const code = await setGroupInviteCode(groupId, user.uid, inviteDraft);
+      setInviteCode(code);
+      setInviteDraft(code);
+      setInviteToast("Code mis à jour.");
+      window.setTimeout(() => setInviteToast(null), 2400);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Impossible de modifier le code.");
+    } finally {
+      setInviteBusy(false);
     }
   }
 
