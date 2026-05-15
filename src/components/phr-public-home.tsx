@@ -198,8 +198,8 @@ export function PhrPublicHome({
                     : handPreviewLine(post.hand)}
                 </p>
                 <p className="mt-0.5 text-[10px] font-medium text-violet-300/80">Ouvrir le replayer →</p>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
             {post.spotMeta ? (
               <div className="mt-3 space-y-2">
                 <p className="text-[11px] font-medium text-violet-300/90">{post.spotMeta.stepLabel}</p>
