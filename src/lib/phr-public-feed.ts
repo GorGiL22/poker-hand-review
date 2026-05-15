@@ -284,7 +284,7 @@ export function subscribePublicPosts(
   const emit = () => {
     const merged = [...spotPosts, ...legacyPosts]
       .sort((a, b) => b.createdAtMs - a.createdAtMs)
-      .slice(0, 40);
+      .slice(0, 25);
     onData(merged);
     if (spotsFeedError && legacyPosts.length === 0 && spotPosts.length === 0) {
       onError?.(spotsFeedError);
