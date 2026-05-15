@@ -70,6 +70,7 @@ export function PhrPublicHome({
   onImportClick,
   onOpenPost,
   onOpenTournament,
+  onOpenGroups,
   onDragOver,
   onDragLeave,
   onDrop,
