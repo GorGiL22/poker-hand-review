@@ -112,7 +112,9 @@ export function PhrPublicHome({
     setReactBusyId(postId);
     setFeedError(null);
     try {
-      await togglePublicReaction(postId, user.uid, reaction);
+      const post = posts.find((p) => p.id === postId);
+      if (!post) throw new Error("Publication introuvable.");
+      await toggleFeedReaction(post.feedSource, postId, user.uid, reaction);
     } catch (err) {
       setFeedError(err instanceof Error ? err.message : "Impossible d’enregistrer la réaction.");
     } finally {
