@@ -269,7 +269,7 @@ export function PhrPublicHome({
                 }}
                 className="cursor-pointer rounded-2xl border border-emerald-500/25 bg-emerald-950/15 p-4 transition hover:border-emerald-400/40 hover:bg-emerald-950/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500/50"
               >
-                <motion.div className="flex flex-wrap items-start justify-between gap-2">
+                <div className="flex flex-wrap items-start justify-between gap-2">
                   <div>
                     <p className="text-sm font-bold text-emerald-50">{tournament.tournamentName}</p>
                     <p className="text-[11px] text-zinc-500">
