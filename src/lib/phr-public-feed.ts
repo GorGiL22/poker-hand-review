@@ -309,6 +309,10 @@ export function parseFeedDocument(
         }
       : undefined;
 
+  const visRaw = data.visibility;
+  const visibility =
+    visRaw === "public" || visRaw === "private" || visRaw === "group" ? visRaw : undefined;
+
   return {
     id,
     authorUid: typeof data.authorUid === "string" ? data.authorUid : "",
@@ -320,6 +324,7 @@ export function parseFeedDocument(
     reactionCounts: counts,
     feedSource,
     spotMeta,
+    visibility,
   };
 }
 
