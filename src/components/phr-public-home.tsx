@@ -227,7 +227,7 @@ export function PhrPublicHome({
           <div>
             <p className="text-sm font-semibold text-zinc-100">Analyser tes propres mains</p>
             <p className="text-xs text-zinc-500">Importe un historique .txt pour ouvrir le replayer.</p>
-          </motion.div>
+          </div>
           <button type="button" onClick={onImportClick} className={PHR_BTN_TOOL}>
             Importer des fichiers
           </button>
