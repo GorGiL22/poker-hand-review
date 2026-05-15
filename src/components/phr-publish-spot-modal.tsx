@@ -288,18 +288,11 @@ export function PhrPublishSpotModal({
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={() => setVisibility("public")}
-                className={`${PHR_CHOICE_BTN} ${visibility === "public" ? PHR_CHOICE_BTN_ON : ""}`}
-              >
-                Public
-              </button>
-              <button
-                type="button"
                 onClick={() => setVisibility("group")}
                 disabled={myGroups.length === 0}
                 className={`${PHR_CHOICE_BTN} ${visibility === "group" ? "border-sky-500/55 bg-sky-600/25 text-sky-100" : ""} disabled:opacity-40`}
               >
-                Groupe privé
+                Groupe
               </button>
               <button
                 type="button"
