@@ -109,6 +109,31 @@ export function validateInviteCodeFormat(code: string): void {
   }
 }
 
+export function formatFirestoreGroupError(err: unknown): Error {
+  if (err instanceof Error && err.message && !(err as { code?: string }).code) {
+    return err;
+  }
+  const code =
+    err && typeof err === "object" && "code" in err && typeof err.code === "string"
+      ? err.code
+      : "";
+  const message =
+    err && typeof err === "object" && "message" in err && typeof err.message === "string"
+      ? err.message
+      : "";
+
+  if (code === "permission-denied" || /insufficient permissions/i.test(message)) {
+    return new Error(
+      "Permission Firestore refusée. Déploie les règles : npm run firebase:deploy:firestore",
+    );
+  }
+  if (code === "unavailable" || code === "deadline-exceeded") {
+    return new Error("Firestore indisponible. Vérifie ta connexion et réessaie.");
+  }
+  if (message) return new Error(message);
+  return new Error("Opération Firestore impossible.");
+}
+
 async function assertInviteCodeAvailable(code: string, exceptGroupId?: string): Promise<void> {
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
