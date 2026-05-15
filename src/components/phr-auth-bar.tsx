@@ -353,9 +353,11 @@ export function PhrAccountSettingsCard() {
 type PhrAuthBarProps = {
   onMonEspaceClick?: () => void;
   onReplayerClick?: () => void;
+  /** Accueil menu : logo + auth seulement (pas de doublon avec les gros boutons). */
+  minimal?: boolean;
 };
 
-export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProps) {
+export function PhrAuthBar({ onMonEspaceClick, onReplayerClick, minimal = false }: PhrAuthBarProps) {
   const auth = usePhrAuthForm();
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
