@@ -2914,7 +2914,6 @@ export default function Home() {
             );
           }
           if (viewTournamentReview && tournamentReview) {
-            const tourIdx = tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId);
             return (
               <div className="flex min-h-0 flex-1 flex-col sm:flex-row">
                 <div className="relative min-h-[min(52vh,28rem)] flex-1 sm:min-h-0">{spotTable}</div>
