@@ -287,7 +287,7 @@ export function PhrPublishSpotModal({
               >
                 Perso
               </button>
-            </motion.div>
+            </div>
             {visibility === "group" && myGroups.length > 0 ? (
               <label className="mt-2 block space-y-1">
                 <span className="text-xs text-zinc-500">Groupe</span>
