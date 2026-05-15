@@ -2452,6 +2452,7 @@ export default function Home() {
               );
             })}
           </div>
+          )}
           {hands.length > 0 && (
           <div className="mt-3 border-t border-white/10 bg-black/15 pt-3 backdrop-blur-sm">
             <div className="mx-auto flex w-fit max-w-full flex-col items-center gap-2 px-1">
