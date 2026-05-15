@@ -2754,19 +2754,42 @@ export default function Home() {
           )}
 
           {viewPublicHome ? (
-            <PhrPublicHome
-              welcomeDropActive={welcomeDropActive}
-              onImportClick={() => fileInputRef.current?.click()}
-              onOpenPost={openFeedPost}
-              onOpenTournament={(t) => void openPublishedTournament(t)}
-              onDragOver={onWelcomeDragOver}
-              onDragLeave={onWelcomeDragLeave}
-              onDrop={onWelcomeDrop}
-              cloudLoading={cloudLoading}
-              cloudLoadError={cloudLoadError}
-              importError={importError}
-              hasImportedHands={hands.length > 0}
-            />
+            activeGroupId ? (
+              <PhrGroupView
+                groupId={activeGroupId}
+                onBack={() => {
+                  setActiveGroupId(null);
+                  setShowGroupsHub(true);
+                }}
+                onOpenSpot={openFeedPost}
+              />
+            ) : showGroupsHub ? (
+              <PhrGroupsHub
+                onOpenGroup={(groupId) => {
+                  setActiveGroupId(groupId);
+                  setShowGroupsHub(false);
+                }}
+                onClose={() => setShowGroupsHub(false)}
+              />
+            ) : (
+              <PhrPublicHome
+                welcomeDropActive={welcomeDropActive}
+                onImportClick={() => fileInputRef.current?.click()}
+                onOpenPost={openFeedPost}
+                onOpenTournament={(t) => void openPublishedTournament(t)}
+                onOpenGroups={() => {
+                  setShowGroupsHub(true);
+                  setActiveGroupId(null);
+                }}
+                onDragOver={onWelcomeDragOver}
+                onDragLeave={onWelcomeDragLeave}
+                onDrop={onWelcomeDrop}
+                cloudLoading={cloudLoading}
+                cloudLoadError={cloudLoadError}
+                importError={importError}
+                hasImportedHands={hands.length > 0}
+              />
+            )
           ) : (() => {
           const spotTable = (
           <div className={`${PHR_TABLE_FRAME}${viewSpotReview || viewTournamentReview ? " h-full min-h-0" : ""}`}>
