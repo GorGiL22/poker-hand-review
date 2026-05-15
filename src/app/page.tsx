@@ -2226,6 +2226,15 @@ export default function Home() {
             </div>
           )}
 
+          {hands.length === 0 ? (
+            <PhrPublicHome
+              welcomeDropActive={welcomeDropActive}
+              onImportClick={() => fileInputRef.current?.click()}
+              onDragOver={onWelcomeDragOver}
+              onDragLeave={onWelcomeDragLeave}
+              onDrop={onWelcomeDrop}
+            />
+          ) : (
           <div className={PHR_TABLE_FRAME}>
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-white/18 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)]" />
             {hands.length > 0 && (
