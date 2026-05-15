@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import type { ReviewGroupMembership } from "@/lib/phr-review-groups";
 import {
   publishSpot,
   SPOT_CATEGORIES,
