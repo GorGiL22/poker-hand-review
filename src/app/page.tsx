@@ -54,6 +54,10 @@ import {
   type PublishedTournament,
   type PublishedTournamentHand,
 } from "@/lib/phr-published-tournaments";
+import {
+  subscribeUserReviewGroups,
+  type ReviewGroupMembership,
+} from "@/lib/phr-review-groups";
 import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
