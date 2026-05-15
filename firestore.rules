@@ -62,15 +62,14 @@ service cloud.firestore {
       match /members/{memberUid} {
         allow read: if isGroupMember(groupId);
         allow create: if request.auth != null
+          && memberUid == request.auth.uid
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.pseudo is string
+          && request.resource.data.role in ['owner', 'member']
+          && exists(/databases/$(database)/documents/reviewGroups/$(groupId))
           && (
-            (memberUid == request.auth.uid
-              && request.resource.data.uid == request.auth.uid
-              && request.resource.data.role == 'member'
-              && request.resource.data.pseudo is string)
-            || (request.auth.uid == get(/databases/$(database)/documents/reviewGroups/$(groupId)).data.ownerUid
-              && memberUid == request.auth.uid
-              && request.resource.data.role == 'owner'
-              && request.resource.data.pseudo is string)
+            request.resource.data.role == 'member'
+            || get(/databases/$(database)/documents/reviewGroups/$(groupId)).data.ownerUid == request.auth.uid
           );
         allow update, delete: if false;
       }
