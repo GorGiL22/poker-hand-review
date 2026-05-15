@@ -291,7 +291,7 @@ export function subscribePublicPosts(
     }
   };
 
-  const postsQuery = query(collection(db, "publicPosts"), orderBy("createdAt", "desc"), limit(40));
+  const postsQuery = query(collection(db, "publicPosts"), orderBy("createdAt", "desc"), limit(25));
 
   const unsubPosts = onSnapshot(
     postsQuery,
