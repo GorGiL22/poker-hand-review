@@ -2206,7 +2206,9 @@ export default function Home() {
   }
 
   function replayTournamentFromMonEspace(tournamentKey: string) {
-    const tourHands = libraryHands.filter((hand) => deriveTournamentKey(hand) === tournamentKey);
+    const tourHands = libraryHands.filter(
+      (hand) => deriveTournamentKey(hand as ParsedHand) === tournamentKey,
+    );
     if (tourHands.length === 0) return;
     setSelectedTournament(tournamentKey);
     loadHand(tourHands[0]!.id);
