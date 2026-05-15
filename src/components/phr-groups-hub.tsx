@@ -25,6 +25,9 @@ const PHR_FIELD =
 const PHR_BTN =
   "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/18 hover:bg-zinc-700/70 disabled:opacity-50";
 
+const PHR_BTN_SECONDARY =
+  "rounded-lg border border-white/10 bg-zinc-900/40 px-3 py-2 text-xs font-semibold text-zinc-400 transition hover:border-white/15 hover:bg-zinc-800/55 hover:text-zinc-200 disabled:opacity-50";
+
 const PHR_BTN_TOOL =
   "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
 
@@ -69,6 +72,8 @@ export function PhrGroupsHub({
   const [success, setSuccess] = useState<string | null>(null);
   const [showWelcomePanel, setShowWelcomePanel] = useState(false);
   const [showImportPanel, setShowImportPanel] = useState(false);
+  const [showCreatePanel, setShowCreatePanel] = useState(false);
+  const [showJoinPanel, setShowJoinPanel] = useState(false);
 
   const displayName = pseudo ?? user?.displayName ?? "Joueur";
   const createDisabled =
@@ -113,6 +118,18 @@ export function PhrGroupsHub({
     return subscribeUserReviewGroups(user.uid, setGroups);
   }, [user, authLoading, firebaseConfigured]);
 
+  function openCreatePanel() {
+    setShowJoinPanel(false);
+    setShowCreatePanel((v) => !v);
+    setError(null);
+  }
+
+  function openJoinPanel() {
+    setShowCreatePanel(false);
+    setShowJoinPanel((v) => !v);
+    setError(null);
+  }
+
   async function onCreate() {
     if (!firebaseConfigured) {
       setError("Firebase n’est pas configuré (variables NEXT_PUBLIC_FIREBASE_*).");
@@ -147,6 +164,7 @@ export function PhrGroupsHub({
       setSuccess(`Groupe « ${name.trim()} » créé. Ouverture…`);
       setName("");
       setDescription("");
+      setShowCreatePanel(false);
       onOpenGroup(groupId);
     } catch (err) {
       setError(formatFirestoreGroupError(err).message);
@@ -169,6 +187,7 @@ export function PhrGroupsHub({
         inviteCode: joinInviteCode,
       });
       setJoinInviteCode("");
+      setShowJoinPanel(false);
       onOpenGroup(groupId);
     } catch (err) {
       setError(formatFirestoreGroupError(err).message);
@@ -178,23 +197,21 @@ export function PhrGroupsHub({
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+    <motion.div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
       {showWelcomePanel ? (
         <header className="shrink-0 rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-4 backdrop-blur-sm sm:px-5">
           <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-sky-300/90">Groupes de travail</p>
           <h1 className="mt-1 text-xl font-black tracking-tight text-zinc-50 sm:text-2xl">Bienvenue sur SpotLab</h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
-            Crée ou rejoins un groupe pour partager des spots et faire review entre joueurs.
+            Ouvre un groupe pour voir les spots partagés, ou crée-en un nouveau.
           </p>
         </header>
       ) : (
         <div className="flex items-start justify-between gap-2">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes de travail</p>
-            <h2 className="text-lg font-black text-zinc-50">Review entre joueurs</h2>
-            <p className="mt-1 text-sm text-zinc-500">
-              Spots partagés uniquement avec les membres du groupe.
-            </p>
+            <h2 className="text-lg font-black text-zinc-50">Mes groupes</h2>
+            <p className="mt-1 text-sm text-zinc-500">Spots partagés avec les membres du groupe.</p>
           </div>
           {onBack ? (
             <button type="button" onClick={onBack} className={`${PHR_BTN} shrink-0`}>
@@ -237,7 +254,7 @@ export function PhrGroupsHub({
         </p>
       ) : !user ? (
         <p className="rounded-xl border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm text-amber-100">
-          Connecte-toi pour créer ou rejoindre un groupe.
+          Connecte-toi pour accéder à tes groupes.
         </p>
       ) : null}
 
@@ -253,98 +270,11 @@ export function PhrGroupsHub({
         </p>
       ) : null}
 
-      <section className="space-y-2 rounded-2xl border border-white/10 bg-zinc-950/50 p-4">
-        <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Créer un groupe</p>
-        <input
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Nom du groupe"
-          disabled={!user || busy}
-          className={PHR_FIELD}
-        />
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={2}
-          placeholder="Description (optionnel)"
-          disabled={!user || busy}
-          className={`${PHR_FIELD} resize-none`}
-        />
-        <label className="block space-y-1">
-          <span className="text-xs text-zinc-500">Code d’invitation</span>
-          <div className="flex gap-2">
-            <input
-              value={createInviteCode}
-              onChange={(e) => setCreateInviteCode(normalizeInviteCode(e.target.value))}
-              placeholder="Ex. SPOTLAB1"
-              disabled={!user || busy}
-              maxLength={12}
-              className={`${PHR_FIELD} min-w-0 flex-1 font-mono uppercase tracking-widest`}
-            />
-            <button
-              type="button"
-              disabled={!user || busy}
-              onClick={() => setCreateInviteCode(generateInviteCode())}
-              title="Générer un code aléatoire"
-              className={`${PHR_BTN} shrink-0 px-2.5 text-xs`}
-            >
-              Aléa.
-            </button>
-          </div>
-          <p className="text-[10px] text-zinc-600">6 à 12 caractères (A–Z, 2–9). Partage ce code pour inviter.</p>
-        </label>
-        <button
-          type="button"
-          disabled={createDisabled}
-          onClick={() => void onCreate()}
-          className={`${PHR_BTN} w-full border-sky-500/40 bg-sky-600/20 text-sky-100`}
-        >
-          {busy ? "Création en cours…" : "Créer le groupe"}
-        </button>
-        {createDisabled && !busy ? (
-          <p className="text-[11px] text-zinc-500">
-            {!firebaseConfigured
-              ? "Configuration Firebase manquante."
-              : authLoading
-                ? "Attends la fin de la connexion."
-                : !user
-                  ? "Connecte-toi d’abord."
-                  : !name.trim()
-                    ? "Indique un nom de groupe."
-                    : "Le code doit faire au moins 6 caractères."}
-          </p>
-        ) : null}
-        {createdInvite ? (
-          <p className="text-xs text-sky-200">
-            Groupe créé · code : <span className="font-mono font-bold">{createdInvite}</span>
-          </p>
-        ) : null}
-      </section>
-
-      <section className="space-y-2 rounded-2xl border border-white/10 bg-zinc-950/50 p-4">
-        <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Rejoindre avec un code</p>
-        <input
-          value={joinInviteCode}
-          onChange={(e) => setJoinInviteCode(normalizeInviteCode(e.target.value))}
-          placeholder="Code du groupe"
-          disabled={!user || busy}
-          maxLength={12}
-          className={`${PHR_FIELD} font-mono uppercase tracking-widest`}
-        />
-        <button
-          type="button"
-          disabled={!user || busy || joinInviteCode.length < 6}
-          onClick={() => void onJoin()}
-          className={`${PHR_BTN} w-full`}
-        >
-          Rejoindre
-        </button>
-      </section>
-
-      <section className="space-y-2">
-        <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Mes groupes</p>
+      <section className="min-h-0 flex-1 space-y-3">
         {groups.length === 0 ? (
-          <p className="text-sm text-zinc-500">Aucun groupe pour l’instant.</p>
+          <p className="rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-8 text-center text-sm text-zinc-500">
+            Aucun groupe pour l’instant. Crée-en un ou rejoins-en un avec un code ci-dessous.
+          </p>
         ) : (
           <ul className="space-y-2">
             {groups.map((g) => (
@@ -352,14 +282,14 @@ export function PhrGroupsHub({
                 <button
                   type="button"
                   onClick={() => onOpenGroup(g.groupId)}
-                  className="w-full rounded-xl border border-white/10 bg-zinc-900/50 px-3 py-3 text-left transition hover:border-sky-500/35 hover:bg-zinc-800/60"
+                  className="w-full rounded-2xl border border-sky-500/25 bg-gradient-to-br from-sky-950/40 to-zinc-950/80 px-4 py-4 text-left shadow-[inset_0_1px_0_rgba(255,255,255,0.06)] transition hover:border-sky-400/45 hover:from-sky-900/35 active:scale-[0.99]"
                 >
-                  <p className="font-semibold text-zinc-100">{g.name}</p>
+                  <p className="text-base font-bold text-sky-50">{g.name}</p>
                   {g.description ? (
-                    <p className="mt-0.5 line-clamp-2 text-xs text-zinc-500">{g.description}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-zinc-400">{g.description}</p>
                   ) : null}
-                  <p className="mt-1 text-[10px] text-zinc-600">
-                    {g.role === "owner" ? "Propriétaire" : "Membre"}
+                  <p className="mt-2 text-[10px] font-medium uppercase tracking-wide text-zinc-500">
+                    {g.role === "owner" ? "Propriétaire" : "Membre"} · Ouvrir →
                   </p>
                 </button>
               </li>
@@ -367,6 +297,100 @@ export function PhrGroupsHub({
           </ul>
         )}
       </section>
+
+      {user && !authLoading && firebaseConfigured ? (
+        <div className="shrink-0 space-y-2 border-t border-white/10 pt-4">
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              disabled={busy}
+              onClick={openCreatePanel}
+              className={`${PHR_BTN_SECONDARY} ${showCreatePanel ? "border-sky-500/35 bg-sky-950/30 text-sky-200" : ""}`}
+            >
+              {showCreatePanel ? "Annuler création" : "+ Créer un groupe"}
+            </button>
+            <button
+              type="button"
+              disabled={busy}
+              onClick={openJoinPanel}
+              className={`${PHR_BTN_SECONDARY} ${showJoinPanel ? "border-sky-500/35 bg-sky-950/30 text-sky-200" : ""}`}
+            >
+              {showJoinPanel ? "Annuler" : "Rejoindre avec un code"}
+            </button>
+          </div>
+
+          {showCreatePanel ? (
+            <section className="space-y-2 rounded-xl border border-white/8 bg-zinc-950/40 p-3">
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Nom du groupe"
+                disabled={busy}
+                className={PHR_FIELD}
+              />
+              <textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={2}
+                placeholder="Description (optionnel)"
+                disabled={busy}
+                className={`${PHR_FIELD} resize-none`}
+              />
+              <label className="block space-y-1">
+                <span className="text-xs text-zinc-500">Code d’invitation</span>
+                <div className="flex gap-2">
+                  <input
+                    value={createInviteCode}
+                    onChange={(e) => setCreateInviteCode(normalizeInviteCode(e.target.value))}
+                    placeholder="Ex. SPOTLAB1"
+                    disabled={busy}
+                    maxLength={12}
+                    className={`${PHR_FIELD} min-w-0 flex-1 font-mono uppercase tracking-widest`}
+                  />
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() => setCreateInviteCode(generateInviteCode())}
+                    title="Générer un code aléatoire"
+                    className={`${PHR_BTN_SECONDARY} shrink-0`}
+                  >
+                    Aléa.
+                  </button>
+                </div>
+              </label>
+              <button
+                type="button"
+                disabled={createDisabled}
+                onClick={() => void onCreate()}
+                className={`${PHR_BTN} w-full text-sm`}
+              >
+                {busy ? "Création…" : "Valider la création"}
+              </button>
+            </section>
+          ) : null}
+
+          {showJoinPanel ? (
+            <section className="space-y-2 rounded-xl border border-white/8 bg-zinc-950/40 p-3">
+              <input
+                value={joinInviteCode}
+                onChange={(e) => setJoinInviteCode(normalizeInviteCode(e.target.value))}
+                placeholder="Code du groupe"
+                disabled={busy}
+                maxLength={12}
+                className={`${PHR_FIELD} font-mono uppercase tracking-widest`}
+              />
+              <button
+                type="button"
+                disabled={busy || joinInviteCode.length < 6}
+                onClick={() => void onJoin()}
+                className={`${PHR_BTN} w-full text-sm`}
+              >
+                {busy ? "Connexion…" : "Rejoindre"}
+              </button>
+            </section>
+          ) : null}
+        </div>
+      ) : null}
 
       {showImportPanel && onImportClick && onDragOver && onDragLeave && onDrop ? (
         <div
@@ -383,13 +407,13 @@ export function PhrGroupsHub({
             <div>
               <p className="text-sm font-semibold text-zinc-100">Analyser tes propres mains</p>
               <p className="text-xs text-zinc-500">Importe un historique .txt pour ouvrir le replayer.</p>
-            </div>
+            </motion.div>
             <button type="button" onClick={onImportClick} className={PHR_BTN_TOOL}>
               Importer des fichiers
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       ) : null}
-    </div>
+    </motion.div>
   );
 }
