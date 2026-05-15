@@ -65,7 +65,7 @@ export function PhrPublishSpotModal({
   const [heroAction, setHeroAction] = useState<SpotHeroAction | null>(null);
   const [heroAmount, setHeroAmount] = useState("");
   const [sourceValidation, setSourceValidation] = useState<SpotSourceValidation>("unvalidated");
-  const [visibility, setVisibility] = useState<SpotVisibility>("public");
+  const [visibility, setVisibility] = useState<SpotVisibility>("group");
   const [selectedGroupId, setSelectedGroupId] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
