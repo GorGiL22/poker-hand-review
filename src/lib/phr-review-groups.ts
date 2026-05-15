@@ -491,6 +491,11 @@ export function subscribeGroupSpots(
   onData: (posts: PublicHandPost[]) => void,
   onError?: (error: Error) => void,
 ): Unsubscribe {
+  if (isLocalGroupsEnabled() || isLocalGroupId(groupId)) {
+    queueMicrotask(() => onData(getLocalGroupSpots(groupId)));
+    return () => {};
+  }
+
   const db = getFirebaseDb();
   if (!db) {
     queueMicrotask(() => onData([]));
