@@ -2373,6 +2373,7 @@ export default function Home() {
           onOpenHand={openHandFromMonEspace}
           onReplayTournament={replayTournamentFromMonEspace}
           onPublishTournament={openPublishTournament}
+          onDeleteTournament={deleteTournamentFromMonEspace}
           onImportClick={() => fileInputRef.current?.click()}
           libraryHands={libraryHands}
           rowLabel={(hand) => mesMainsRowLabel(hand as ParsedHand)}
