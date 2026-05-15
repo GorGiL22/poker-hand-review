@@ -376,7 +376,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
             <span className="min-w-0 justify-self-start truncate text-xs font-black tracking-tight text-zinc-100 sm:text-sm">
               SpotLab
             </span>
-            <motion.div className="flex flex-wrap items-center justify-center gap-2 justify-self-center">
+            <div className="flex flex-wrap items-center justify-center gap-2 justify-self-center">
               <button type="button" onClick={onMonEspace} className={PHR_MON_ESPACE_BTN}>
                 Mon espace
               </button>
