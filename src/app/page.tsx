@@ -2461,7 +2461,7 @@ export default function Home() {
             </div>
           )}
 
-          {hands.length > 0 && allInTriggered && (
+          {hands.length > 0 && !viewPublicHome && allInTriggered && (
             <div className="mb-2 rounded-2xl border border-amber-400/25 bg-amber-950/20 px-3 py-2 text-xs shadow-inner backdrop-blur-sm">
               <p className="font-medium text-amber-200">Equite all-in</p>
               {equityByPlayer ? (
