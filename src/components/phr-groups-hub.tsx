@@ -188,12 +188,19 @@ export function PhrGroupsHub({
           </p>
         </header>
       ) : (
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes de travail</p>
-          <h2 className="text-lg font-black text-zinc-50">Review entre joueurs</h2>
-          <p className="mt-1 text-sm text-zinc-500">
-            Spots partagés uniquement avec les membres du groupe.
-          </p>
+        <div className="flex items-start justify-between gap-2">
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes de travail</p>
+            <h2 className="text-lg font-black text-zinc-50">Review entre joueurs</h2>
+            <p className="mt-1 text-sm text-zinc-500">
+              Spots partagés uniquement avec les membres du groupe.
+            </p>
+          </div>
+          {onBack ? (
+            <button type="button" onClick={onBack} className={`${PHR_BTN} shrink-0`}>
+              Accueil
+            </button>
+          ) : null}
         </div>
       )}
 

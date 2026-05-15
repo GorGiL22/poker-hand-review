@@ -14,6 +14,7 @@ import {
 import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
 import { PhrGroupView } from "@/components/phr-group-view";
 import { PhrGroupsHub } from "@/components/phr-groups-hub";
+import { PhrHomeLanding } from "@/components/phr-home-landing";
 import { PhrPublishSpotModal } from "@/components/phr-publish-spot-modal";
 import { PhrTournamentReviewPanel } from "@/components/phr-tournament-review-panel";
 import { PhrSpotReviewInfoBar } from "@/components/phr-spot-review-info-bar";
