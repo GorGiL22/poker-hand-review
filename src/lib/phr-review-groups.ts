@@ -288,6 +288,10 @@ export async function joinReviewGroupByInviteCode(input: {
   pseudo: string;
   inviteCode: string;
 }): Promise<string> {
+  if (isLocalGroupsEnabled()) {
+    return joinLocalReviewGroupByInviteCode(input);
+  }
+
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
