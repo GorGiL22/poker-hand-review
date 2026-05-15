@@ -15,8 +15,11 @@ import {
 } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
-import { isFirestoreQuotaError } from "./phr-firestore-quota";
-import { isFirestoreQuotaPaused, markFirestoreQuotaExceeded } from "./phr-firestore-quota";
+import {
+  isFirestoreQuotaError,
+  isFirestoreQuotaPaused,
+  markFirestoreQuotaExceeded,
+} from "./phr-firestore-quota";
 import { parseStoredHand, sanitizeForFirestore } from "./phr-firebase-sync";
 
 export const FEED_VIEWER_SOURCE_PREFIX = "spotlab-feed/";
