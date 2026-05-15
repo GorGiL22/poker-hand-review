@@ -70,6 +70,23 @@ export function parseFeedDocument(
   const createdAtMs =
     typeof createdAt?.toMillis === "function" ? createdAt.toMillis() : Date.now();
 
+  const question = typeof data.question === "string" ? data.question : "";
+  const spotMeta =
+    feedSource === "spots" || question.length > 0
+      ? {
+          question,
+          category: typeof data.category === "string" ? data.category : "",
+          stepLabel: typeof data.stepLabel === "string" ? data.stepLabel : "",
+          heroAction: typeof data.heroAction === "string" ? data.heroAction : "",
+          heroAmount:
+            typeof data.heroAmount === "number" && Number.isFinite(data.heroAmount)
+              ? data.heroAmount
+              : null,
+          sourceValidation:
+            typeof data.sourceValidation === "string" ? data.sourceValidation : "",
+        }
+      : undefined;
+
   return {
     id,
     authorUid: typeof data.authorUid === "string" ? data.authorUid : "",
@@ -79,6 +96,8 @@ export function parseFeedDocument(
     createdAtMs,
     reactions,
     reactionCounts: counts,
+    feedSource,
+    spotMeta,
   };
 }
 
