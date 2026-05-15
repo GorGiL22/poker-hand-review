@@ -172,7 +172,7 @@ export function PhrPublicHome({
             key={post.id}
             className="rounded-2xl border border-white/10 bg-zinc-950/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm"
           >
-            <motion.div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="text-sm font-bold text-zinc-100">{post.authorPseudo}</p>
                 <p className="text-[11px] text-zinc-500">{formatRelativeTime(post.createdAtMs)}</p>
