@@ -2548,6 +2548,7 @@ export default function Home() {
             <PhrPublicHome
               welcomeDropActive={welcomeDropActive}
               onImportClick={() => fileInputRef.current?.click()}
+              onOpenPost={openFeedPost}
               onDragOver={onWelcomeDragOver}
               onDragLeave={onWelcomeDragLeave}
               onDrop={onWelcomeDrop}
