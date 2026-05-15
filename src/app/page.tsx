@@ -1576,6 +1576,11 @@ export default function Home() {
       })
       .catch((error) => {
         if (!cancelled) {
+          if (isFirestoreQuotaError(error)) {
+            pauseCloudSyncForQuota();
+            setCloudLoadError(null);
+            return;
+          }
           setCloudLoadError(error instanceof Error ? error.message : "Impossible de charger tes mains.");
         }
       })
