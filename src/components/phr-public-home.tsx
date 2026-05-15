@@ -79,7 +79,9 @@ export function PhrPublicHome({
 }: PhrPublicHomeProps) {
   const { user, authLoading, firebaseConfigured } = usePhrFirebase();
   const [posts, setPosts] = useState<PublicHandPost[]>([]);
+  const [tournaments, setTournaments] = useState<PublishedTournament[]>([]);
   const [loading, setLoading] = useState(true);
+  const [tournamentsLoading, setTournamentsLoading] = useState(true);
   const [feedError, setFeedError] = useState<string | null>(null);
   const [reactBusyId, setReactBusyId] = useState<string | null>(null);
   const [discussionPostId, setDiscussionPostId] = useState<string | null>(null);
