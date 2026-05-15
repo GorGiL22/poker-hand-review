@@ -52,6 +52,7 @@ type PhrPublicHomeProps = {
 export function PhrPublicHome({
   welcomeDropActive,
   onImportClick,
+  onOpenPost,
   onDragOver,
   onDragLeave,
   onDrop,
