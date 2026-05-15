@@ -279,7 +279,7 @@ export function PhrPublicHome({
                   <p className="text-[11px] font-semibold text-emerald-300/90">
                     {tournament.handCount} mains →
                   </p>
-                </motion.div>
+                </div>
                 {tournament.description ? (
                   <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-zinc-300">
                     {tournament.description}
