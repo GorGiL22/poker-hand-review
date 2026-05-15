@@ -85,6 +85,15 @@ const EMPTY_HAND: ParsedHand = {
   tag: "standard",
 };
 
+function handStableKey(hand: ParsedHand): string {
+  return `${hand.sourceFile ?? "local"}::${hand.id}`;
+}
+
+function storedRecordToParsedHand(raw: Record<string, unknown>): ParsedHand | null {
+  if (!parseStoredHand(raw)) return null;
+  return raw as ParsedHand;
+}
+
 // --- Design global (hors dock) ---
 const PHR_PAGE_BG =
   "bg-zinc-950 bg-[radial-gradient(ellipse_110%_65%_at_50%_-12%,rgba(139,92,246,0.1),transparent_52%)] bg-[radial-gradient(ellipse_80%_50%_at_100%_100%,rgba(16,185,129,0.04),transparent_45%)]";
