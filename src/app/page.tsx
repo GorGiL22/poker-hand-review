@@ -38,7 +38,7 @@ import {
   saveUserReplaySession,
 } from "@/lib/phr-firebase-sync";
 import { publishPublicPost } from "@/lib/phr-public-feed";
-import { buildSpotStepOptions } from "@/lib/phr-spots";
+import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
 type Street = "preflop" | "flop" | "turn" | "river";
