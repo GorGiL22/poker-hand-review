@@ -2117,15 +2117,18 @@ export default function Home() {
 
   const selectedTournamentMeta = useMemo(() => {
     if (selectedTournament === "ALL") return null;
-    const option = tournamentOptions.find((o) => o.key === selectedTournament);
     const sample = tournamentFilteredHands[0];
+    const name =
+      sample?.tournamentName?.trim() ||
+      selectedTournament.replace(/^\d{8}_/, "").trim() ||
+      selectedTournament;
     return {
       key: selectedTournament,
-      name: option?.label.replace(/\s*\(\d+\s*mains?\)\s*$/i, "").trim() || selectedTournament,
+      name,
       variant: sample?.tournamentVariant,
       hands: tournamentFilteredHands,
     };
-  }, [selectedTournament, tournamentOptions, tournamentFilteredHands]);
+  }, [selectedTournament, tournamentFilteredHands]);
 
   function handleMonEspaceClick() {
     if (cloudLoading) return;
