@@ -330,8 +330,8 @@ export function PhrAccountSettingsCard() {
         )}
         {auth.firebaseConfigured && !auth.authLoading && auth.user && (
           <div className="flex flex-col gap-2">
-            <p className="truncate text-xs text-zinc-400" title={auth.user.email ?? undefined}>
-              {auth.shortEmail}
+            <p className="truncate text-xs text-zinc-400" title={auth.displayTitle}>
+              {auth.displayLabel}
             </p>
             <button
               type="button"
