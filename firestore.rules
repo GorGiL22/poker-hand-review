@@ -62,7 +62,8 @@ service cloud.firestore {
               && request.resource.data.pseudo is string)
             || (request.auth.uid == get(/databases/$(database)/documents/reviewGroups/$(groupId)).data.ownerUid
               && memberUid == request.auth.uid
-              && request.resource.data.role == 'owner')
+              && request.resource.data.role == 'owner'
+              && request.resource.data.pseudo is string)
           );
         allow update, delete: if false;
       }
