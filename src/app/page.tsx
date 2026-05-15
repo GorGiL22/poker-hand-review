@@ -1447,6 +1447,8 @@ export default function Home() {
     setCloudLoading(true);
     setCloudLoadError(null);
 
+    let handsToPersist: ParsedHand[] | null = null;
+
     void loadUserCloudData(user.uid)
       .then(({ hands: rawHands, prefs }) => {
         if (cancelled) return;
@@ -1455,12 +1457,18 @@ export default function Home() {
           const hand = storedRecordToParsedHand(raw);
           if (hand) parsed.push(hand);
         }
-        if (parsed.length > 0 && handsRef.current.length === 0) {
+
+        const local = handsRef.current;
+        const merged = mergeParsedHandLists(local, parsed);
+        if (merged.length === 0) return;
+
+        handsToPersist = merged;
+
+        if (local.length === 0 && parsed.length > 0) {
           setShowPublicHome(false);
-          setHands(parsed);
           const preferredId = prefs?.selectedHandId?.trim();
           const pick =
-            preferredId && parsed.some((h) => h.id === preferredId) ? preferredId : parsed[0].id;
+            preferredId && merged.some((h) => h.id === preferredId) ? preferredId : merged[0].id;
           setSelectedHandId(pick);
           if (typeof prefs?.stepIndex === "number" && Number.isFinite(prefs.stepIndex)) {
             setStepIndex(Math.max(0, prefs.stepIndex));
@@ -1475,6 +1483,10 @@ export default function Home() {
             setSoundEnabled(prefs.soundEnabled);
           }
         }
+
+        if (parsed.length > 0 || merged.length !== local.length) {
+          setHands(merged);
+        }
       })
       .catch((error) => {
         if (!cancelled) {
@@ -1484,6 +1496,15 @@ export default function Home() {
       .finally(() => {
         if (!cancelled) {
           setCloudLoading(false);
+          if (handsToPersist && handsToPersist.length > 0) {
+            void persistHandsToCloud(handsToPersist).catch(() => {
+              /* retry au prochain changement */
+            });
+          } else if (handsRef.current.length > 0) {
+            void persistHandsToCloud().catch(() => {
+              /* retry au prochain changement */
+            });
+          }
           queueMicrotask(() => {
             skipCloudSaveRef.current = false;
           });
