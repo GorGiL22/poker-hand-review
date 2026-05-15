@@ -249,12 +249,6 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
         </button>
       </section>
 
-      {error ? (
-        <p className="rounded-xl border border-rose-500/30 bg-rose-950/25 px-3 py-2 text-sm text-rose-200">
-          {error}
-        </p>
-      ) : null}
-
       <section className="space-y-2">
         <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Mes groupes</p>
         {groups.length === 0 ? (
