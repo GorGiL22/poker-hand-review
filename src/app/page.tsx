@@ -1828,6 +1828,22 @@ export default function Home() {
     setChipTick((value) => value + 1);
   }
 
+  function goToPublicHome() {
+    setShowPublicHome(true);
+    setShowMesMainsFullPage(false);
+    setShowFilters(false);
+    setShowCalcToolsMenu(false);
+    setShowOddsModule(false);
+    setShowBountyModule(false);
+    setShowGeometricModule(false);
+    setShowSettingsPanel(false);
+  }
+
+  function goToReplayer() {
+    if (hands.length === 0) return;
+    setShowPublicHome(false);
+  }
+
   function handleMonEspaceClick() {
     if (cloudLoading) return;
     if (hands.length > 0) {
