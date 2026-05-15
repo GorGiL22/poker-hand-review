@@ -773,6 +773,8 @@ function parseWinamaxHand(rawHand: string, fallbackIndex: number, sourceFile?: s
     totalPot: Number.isFinite(totalPot) ? totalPot : undefined,
     dateTime,
     tag,
+    buyInEuro,
+    platform,
   };
 }
 
