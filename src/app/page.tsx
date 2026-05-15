@@ -1178,11 +1178,13 @@ function playTableChipSound(ctx: AudioContext) {
 }
 
 export default function Home() {
-  const { user, pseudo } = usePhrFirebase();
+  const { user, pseudo, authLoading } = usePhrFirebase();
   const [hands, setHands] = useState<ParsedHand[]>([]);
   const [selectedHandId, setSelectedHandId] = useState<string>("");
   const [stepIndex, setStepIndex] = useState(0);
   const [importError, setImportError] = useState<string | null>(null);
+  const [cloudLoading, setCloudLoading] = useState(false);
+  const [cloudLoadError, setCloudLoadError] = useState<string | null>(null);
   const [chipTick, setChipTick] = useState(0);
   const [displayUnit, setDisplayUnit] = useState<"bb" | "chips">("bb");
   const [selectedTournament, setSelectedTournament] = useState<string>("ALL");
