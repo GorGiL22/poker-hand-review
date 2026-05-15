@@ -349,8 +349,22 @@ export function PhrAccountSettingsCard() {
   );
 }
 
-export function PhrAuthBar() {
+type PhrAuthBarProps = {
+  onMonEspaceClick?: () => void;
+};
+
+export function PhrAuthBar({ onMonEspaceClick }: PhrAuthBarProps) {
   const auth = usePhrAuthForm();
+
+  function onMonEspace() {
+    if (auth.user && onMonEspaceClick) {
+      onMonEspaceClick();
+      return;
+    }
+    auth.setMode("signin");
+    auth.setFormError(null);
+    auth.setOpen(true);
+  }
 
   return (
     <>
