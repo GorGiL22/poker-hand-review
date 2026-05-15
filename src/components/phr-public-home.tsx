@@ -180,12 +180,30 @@ export function PhrPublicHome({
                 <p className="text-[11px] text-zinc-500">{formatRelativeTime(post.createdAtMs)}</p>
               </div>
               <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
-                {handPreviewLine(post.hand)}
+                {post.spotMeta?.category
+                  ? post.spotMeta.category.toUpperCase()
+                  : handPreviewLine(post.hand)}
               </p>
             </div>
-            <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-xl border border-white/8 bg-black/25 p-3 font-mono text-[11px] leading-relaxed text-zinc-300">
-              {post.summary}
-            </pre>
+            {post.spotMeta ? (
+              <motion.div className="mt-3 space-y-2">
+                <p className="text-[11px] font-medium text-violet-300/90">{post.spotMeta.stepLabel}</p>
+                <p className="text-sm leading-relaxed text-zinc-200">{post.spotMeta.question}</p>
+                <p className="text-xs text-zinc-500">
+                  Ma ligne :{" "}
+                  <span className="font-semibold text-zinc-300">
+                    {post.spotMeta.heroAction.toUpperCase()}
+                    {post.spotMeta.heroAmount != null ? ` ${post.spotMeta.heroAmount}` : ""}
+                  </span>
+                  {" · "}
+                  {post.spotMeta.sourceValidation}
+                </p>
+              </motion.div>
+            ) : (
+              <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-xl border border-white/8 bg-black/25 p-3 font-mono text-[11px] leading-relaxed text-zinc-300">
+                {post.summary}
+              </pre>
+            )}
             <div className="mt-3 flex flex-wrap gap-2">
               {(Object.keys(PUBLIC_REACTION_META) as PublicReaction[]).map((reaction) => {
                 const meta = PUBLIC_REACTION_META[reaction];
