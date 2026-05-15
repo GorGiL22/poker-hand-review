@@ -304,8 +304,6 @@ export function PhrPublicHome({
         {posts.map((post) => {
           const isSpot = post.feedSource === "spots";
           const discussionOpen = discussionPostId === post.id;
-          const discussionCount = discussionCounts[post.id] ?? 0;
-
           return (
           <article
             key={post.id}
