@@ -2810,7 +2810,7 @@ export default function Home() {
         </section>
       </div>
 
-      {hands.length > 0 && (
+      {hands.length > 0 && !viewPublicHome && (
         <div className="pointer-events-none fixed bottom-4 left-3 z-[70] sm:bottom-5 sm:left-5">
           <button
             type="button"
