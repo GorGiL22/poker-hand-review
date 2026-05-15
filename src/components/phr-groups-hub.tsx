@@ -55,28 +55,42 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   }, [user, authLoading, firebaseConfigured]);
 
   async function onCreate() {
+    if (!firebaseConfigured) {
+      setError("Firebase n’est pas configuré (variables NEXT_PUBLIC_FIREBASE_*).");
+      return;
+    }
+    if (authLoading) {
+      setError("Connexion en cours… réessaie dans un instant.");
+      return;
+    }
     if (!user) {
       setError("Connecte-toi pour créer un groupe.");
       return;
     }
+    if (!name.trim()) {
+      setError("Indique un nom de groupe.");
+      return;
+    }
     setBusy(true);
     setError(null);
+    setSuccess(null);
     setCreatedInvite(null);
     try {
       const { groupId, inviteCode: code } = await createReviewGroup({
         ownerUid: user.uid,
         ownerPseudo: displayName,
-        name,
+        name: name.trim(),
         description,
         inviteCode: createInviteCode,
       });
       setCreatedInvite(code);
       setCreateInviteCode(code);
+      setSuccess(`Groupe « ${name.trim()} » créé. Ouverture…`);
       setName("");
       setDescription("");
       onOpenGroup(groupId);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Création impossible.");
+      setError(formatFirestoreGroupError(err).message);
     } finally {
       setBusy(false);
     }
