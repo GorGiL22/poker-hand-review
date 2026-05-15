@@ -2052,6 +2052,7 @@ export default function Home() {
   function goToPublicHome() {
     setSpotReviewPost(null);
     setActiveGroupId(null);
+    setHomeSection("menu");
     setShowPublicHome(true);
     setShowMesMainsFullPage(false);
     setShowFilters(false);
