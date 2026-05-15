@@ -192,49 +192,24 @@ export function parsePrefsFromUserDoc(data: Record<string, unknown>): PhrCloudPr
   };
 }
 
+/** Préférences + session replayer sur `users/{uid}` (les mains sont en IndexedDB). */
+export async function loadUserCloudPrefs(uid: string): Promise<PhrCloudPrefsRead | null> {
+  if (isFirestoreQuotaPaused()) return null;
+  const db = getFirebaseDb();
+  if (!db) throw new Error("Firestore non initialisé");
+
+  const userSnap = await getDoc(doc(db, "users", uid));
+  if (!userSnap.exists()) return null;
+  return parsePrefsFromUserDoc(userSnap.data() as Record<string, unknown>);
+}
+
+/** @deprecated Les mains ne sont plus sur Firestore — utiliser `loadUserCloudPrefs`. */
 export async function loadUserCloudData(uid: string): Promise<{
   hands: Record<string, unknown>[];
   prefs: PhrCloudPrefsRead | null;
 }> {
-  if (isFirestoreQuotaPaused()) {
-    return { hands: [], prefs: null };
-  }
-  const db = getFirebaseDb();
-  if (!db) throw new Error("Firestore non initialisé");
-
-  const userRef = doc(db, "users", uid);
-  const [userSnap, handsSnap] = await Promise.all([getDoc(userRef), getDocs(collection(db, "users", uid, "hands"))]);
-
-  const prefs = userSnap.exists() ? parsePrefsFromUserDoc(userSnap.data() as Record<string, unknown>) : null;
-  const hands: Record<string, unknown>[] = [];
-  handsSnap.forEach((d) => {
-    const row = d.data() as { hand?: Record<string, unknown> };
-    if (row.hand && typeof row.hand === "object") hands.push(row.hand);
-  });
-
-  function deriveTournamentKeyFromHandData(h: Record<string, unknown>): string {
-    const tn = h.tournamentName;
-    if (typeof tn === "string" && tn.trim().length > 0) return tn.trim();
-    const raw = typeof h.sourceFile === "string" ? h.sourceFile : "Tournoi inconnu";
-    const cleaned = raw
-      .replace(/\.[^.]+$/, "")
-      .replace(/_real_holdem_no-limit(_summary)?$/i, "")
-      .replace(/^\d{8}_/, "")
-      .trim();
-    return cleaned || "Tournoi inconnu";
-  }
-
-  hands.sort((a, b) => {
-    const ta = deriveTournamentKeyFromHandData(a);
-    const tb = deriveTournamentKeyFromHandData(b);
-    const c = ta.localeCompare(tb, "fr");
-    if (c !== 0) return c;
-    const da = String(a.dateTime ?? "");
-    const dbi = String(b.dateTime ?? "");
-    return da.localeCompare(dbi);
-  });
-
-  return { hands, prefs };
+  const prefs = await loadUserCloudPrefs(uid);
+  return { hands: [], prefs };
 }
 
 function prefsToFirestoreFields(prefs: PhrCloudPrefsWrite): Record<string, unknown> {
