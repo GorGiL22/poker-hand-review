@@ -3077,6 +3077,7 @@ export default function Home() {
           replay={spotPublishContext}
           authorUid={user.uid}
           authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
+          buyIn={buyInInput}
           onPublished={(vis) => {
             setShareToast(vis === "public" ? "Spot publié sur le fil." : "Spot enregistré en privé.");
             window.setTimeout(() => setShareToast(null), 2800);
