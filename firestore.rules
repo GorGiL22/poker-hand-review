@@ -19,6 +19,12 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
     }
 
+    function spotReadable(spotId) {
+      let spot = get(/databases/$(database)/documents/spots/$(spotId));
+      return spot.data.visibility == 'public'
+        || (request.auth != null && request.auth.uid == spot.data.authorUid);
+    }
+
     match /spots/{spotId} {
       allow read: if resource.data.visibility == 'public'
         || (request.auth != null && request.auth.uid == resource.data.authorUid);
@@ -33,6 +39,31 @@ service cloud.firestore {
       allow update: if request.auth != null
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionCounts']);
       allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
+
+      match /comments/{commentId} {
+        allow read: if spotReadable(spotId);
+        allow create: if request.auth != null
+          && spotReadable(spotId)
+          && request.auth.uid == request.resource.data.authorUid
+          && request.resource.data.authorPseudo is string
+          && request.resource.data.text is string
+          && request.resource.data.text.size() > 0
+          && request.resource.data.text.size() <= 2000;
+        allow update, delete: if false;
+      }
+
+      match /responses/{responseUid} {
+        allow read: if spotReadable(spotId);
+        allow create, update: if request.auth != null
+          && spotReadable(spotId)
+          && request.auth.uid == responseUid
+          && request.resource.data.authorUid == request.auth.uid
+          && request.resource.data.authorPseudo is string
+          && request.resource.data.action in ['fold', 'call', 'raise']
+          && (request.resource.data.action == 'fold'
+            || (request.resource.data.amount is number && request.resource.data.amount >= 0));
+        allow delete: if request.auth != null && request.auth.uid == responseUid;
+      }
     }
   }
 }
