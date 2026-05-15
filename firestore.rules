@@ -18,5 +18,18 @@ service cloud.firestore {
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionCounts']);
       allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
     }
+
+    match /spots/{spotId} {
+      allow read: if resource.data.visibility == 'public'
+        || (request.auth != null && request.auth.uid == resource.data.authorUid);
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.authorUid
+        && request.resource.data.authorPseudo is string
+        && request.resource.data.question is string
+        && request.resource.data.visibility in ['public', 'private'];
+      allow update: if request.auth != null
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionCounts']);
+      allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
+    }
   }
 }
