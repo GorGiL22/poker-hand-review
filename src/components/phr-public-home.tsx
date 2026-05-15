@@ -111,6 +111,21 @@ export function PhrPublicHome({
     return unsub;
   }, [firebaseConfigured]);
 
+  useEffect(() => {
+    if (!firebaseConfigured) return;
+    const spotPosts = posts.filter((p) => p.feedSource === "spots");
+    if (spotPosts.length === 0) {
+      queueMicrotask(() => setDiscussionCounts({}));
+      return;
+    }
+    const unsubs = spotPosts.map((post) =>
+      subscribeSpotDiscussionCount(post.id, (count) => {
+        setDiscussionCounts((prev) => ({ ...prev, [post.id]: count }));
+      }),
+    );
+    return () => unsubs.forEach((u) => u());
+  }, [posts, firebaseConfigured]);
+
   function handleOpenPost(post: PublicHandPost) {
     setFeedError(null);
     if (!onOpenPost(post)) {
