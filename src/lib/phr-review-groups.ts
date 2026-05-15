@@ -218,30 +218,39 @@ export async function createReviewGroup(input: {
     }),
   );
 
-  const batch = writeBatch(db);
+  const memberRef = doc(membersCol(groupRef.id), input.ownerUid);
+  const membershipRef = doc(userMembershipsCol(input.ownerUid), groupRef.id);
+  const inviteRef = doc(db, "groupInvites", inviteCode);
 
-  batch.set(doc(membersCol(groupRef.id), input.ownerUid), {
-    uid: input.ownerUid,
-    pseudo,
-    role: "owner",
-    joinedAt: serverTimestamp(),
-  });
+  try {
+    await setDoc(memberRef, {
+      uid: input.ownerUid,
+      pseudo,
+      role: "owner",
+      joinedAt: serverTimestamp(),
+    });
+    await setDoc(membershipRef, {
+      groupId: groupRef.id,
+      name,
+      description,
+      role: "owner",
+      joinedAt: serverTimestamp(),
+    });
+    await setDoc(inviteRef, {
+      groupId: groupRef.id,
+      createdBy: input.ownerUid,
+      createdAt: serverTimestamp(),
+    });
+  } catch (err) {
+    await Promise.allSettled([
+      deleteDoc(inviteRef),
+      deleteDoc(membershipRef),
+      deleteDoc(memberRef),
+      deleteDoc(groupRef),
+    ]);
+    throw formatFirestoreGroupError(err);
+  }
 
-  batch.set(doc(userMembershipsCol(input.ownerUid), groupRef.id), {
-    groupId: groupRef.id,
-    name,
-    description,
-    role: "owner",
-    joinedAt: serverTimestamp(),
-  });
-
-  batch.set(doc(db, "groupInvites", inviteCode), {
-    groupId: groupRef.id,
-    createdBy: input.ownerUid,
-    createdAt: serverTimestamp(),
-  });
-
-  await batch.commit();
   return { groupId: groupRef.id, inviteCode };
 }
 
