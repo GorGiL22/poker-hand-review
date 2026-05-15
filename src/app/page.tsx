@@ -1973,7 +1973,6 @@ export default function Home() {
       setImportError(null);
       saveLibraryToIndexedDb(sorted);
       if (user && firebaseConfigured && !isFirestoreQuotaPaused()) {
-        await persistHandsToCloud(sorted);
         await persistReplaySessionToCloud({
           selectedHandId: sorted[0]?.id ?? "",
           stepIndex: 0,
