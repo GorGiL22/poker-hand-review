@@ -2703,8 +2703,8 @@ export default function Home() {
           )}
           {localHandsReady && hands.some(isPersistableLocalHand) ? (
             <p className="mb-2 rounded-xl border border-white/10 bg-zinc-950/40 px-3 py-2 text-xs text-zinc-400 backdrop-blur-sm">
-              Bibliothèque enregistrée sur cet appareil (navigateur). Tes imports restent disponibles après
-              refresh ou déconnexion — sans consommer le quota Firestore.
+              Bibliothèque enregistrée sur cet appareil (IndexedDB). Firestore sert aux spots, groupes et fil
+              public — pas à stocker tes imports.
             </p>
           ) : null}
           {cloudSyncWarning ? (
