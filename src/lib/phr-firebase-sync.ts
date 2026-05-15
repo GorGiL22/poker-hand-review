@@ -342,14 +342,26 @@ async function syncUserHandsCollection(
   if (!db) throw new Error("Firestore non initialisé");
 
   const colRef = collection(db, "users", uid, "hands");
-  const want = new Map<string, { stableKey: string; hand: Record<string, unknown> }>();
+  const want = new Map<
+    string,
+    { stableKey: string; hand: Record<string, unknown>; contentFp: string }
+  >();
   for (const hand of hands) {
     const stableKey = stableKeyForHand(hand);
     const id = handStableKeyToFirestoreDocId(stableKey);
-    want.set(id, { stableKey, hand: sanitizeForFirestore(hand) });
+    const sanitized = sanitizeForFirestore(hand);
+    want.set(id, {
+      stableKey,
+      hand: sanitized,
+      contentFp: handCloudFingerprint(sanitized),
+    });
   }
 
   const existingSnap = await getDocs(colRef);
+  const existingById = new Map(
+    existingSnap.docs.map((d) => [d.id, d.data() as Record<string, unknown>]),
+  );
+
   const toDelete = existingSnap.docs.filter((d) => !want.has(d.id));
   for (let i = 0; i < toDelete.length; i += BATCH_SAFE) {
     const batch = writeBatch(db);
@@ -357,13 +369,21 @@ async function syncUserHandsCollection(
     await batch.commit();
   }
 
-  const entries = [...want.entries()];
-  for (let i = 0; i < entries.length; i += BATCH_SAFE) {
+  const toWrite = [...want.entries()].filter(([id, next]) => {
+    const prev = existingById.get(id);
+    if (!prev) return true;
+    const prevStable = typeof prev.stableKey === "string" ? prev.stableKey : "";
+    const prevFp = typeof prev.phrContentFp === "string" ? prev.phrContentFp : null;
+    return prevStable !== next.stableKey || prevFp !== next.contentFp;
+  });
+
+  for (let i = 0; i < toWrite.length; i += BATCH_SAFE) {
     const batch = writeBatch(db);
-    entries.slice(i, i + BATCH_SAFE).forEach(([id, { stableKey, hand }]) => {
+    toWrite.slice(i, i + BATCH_SAFE).forEach(([id, { stableKey, hand, contentFp }]) => {
       batch.set(doc(colRef, id), {
         stableKey,
         hand,
+        phrContentFp: contentFp,
         phrUpdatedAt: serverTimestamp(),
       });
     });
