@@ -1348,6 +1348,93 @@ export default function Home() {
   }, [hands.length]);
 
   useEffect(() => {
+    if (authLoading) return;
+    const hadUser = prevUserRef.current;
+    prevUserRef.current = user;
+    if (hadUser && !user) {
+      setHands([]);
+      setSelectedHandId("");
+      setStepIndex(0);
+      setCloudLoadError(null);
+      setCloudLoading(false);
+      skipCloudSaveRef.current = true;
+    }
+  }, [user, authLoading]);
+
+  useEffect(() => {
+    if (!user) {
+      queueMicrotask(() => {
+        setCloudLoading(false);
+        setCloudLoadError(null);
+      });
+      return;
+    }
+
+    let cancelled = false;
+    skipCloudSaveRef.current = true;
+    setCloudLoading(true);
+    setCloudLoadError(null);
+
+    void loadUserCloudData(user.uid)
+      .then(({ hands: rawHands, prefs }) => {
+        if (cancelled) return;
+        const parsed: ParsedHand[] = [];
+        for (const raw of rawHands) {
+          const hand = storedRecordToParsedHand(raw);
+          if (hand) parsed.push(hand);
+        }
+        if (parsed.length > 0 && handsRef.current.length === 0) {
+          setHands(parsed);
+          const preferredId = prefs?.selectedHandId?.trim();
+          const pick =
+            preferredId && parsed.some((h) => h.id === preferredId) ? preferredId : parsed[0].id;
+          setSelectedHandId(pick);
+          if (typeof prefs?.stepIndex === "number" && Number.isFinite(prefs.stepIndex)) {
+            setStepIndex(Math.max(0, prefs.stepIndex));
+          }
+          if (prefs?.selectedTournament?.trim()) {
+            setSelectedTournament(prefs.selectedTournament);
+          }
+          if (prefs?.displayUnit === "bb" || prefs?.displayUnit === "chips") {
+            setDisplayUnit(prefs.displayUnit);
+          }
+          if (typeof prefs?.soundEnabled === "boolean") {
+            setSoundEnabled(prefs.soundEnabled);
+          }
+        }
+      })
+      .catch((error) => {
+        if (!cancelled) {
+          setCloudLoadError(error instanceof Error ? error.message : "Impossible de charger tes mains.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setCloudLoading(false);
+          queueMicrotask(() => {
+            skipCloudSaveRef.current = false;
+          });
+        }
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.uid]);
+
+  useEffect(() => {
+    if (!user || skipCloudSaveRef.current || cloudLoading) return;
+    const uid = user.uid;
+    const payload = hands.map((hand) => hand as unknown as Record<string, unknown>);
+    const timer = window.setTimeout(() => {
+      void saveUserHandsOnly(uid, payload, handStableKeyFromRecord).catch(() => {
+        /* sauvegarde silencieuse — l’import local reste utilisable */
+      });
+    }, 1500);
+    return () => window.clearTimeout(timer);
+  }, [user, hands, cloudLoading]);
+
+  useEffect(() => {
     if (!showSettingsPanel) return;
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === "Escape") {
