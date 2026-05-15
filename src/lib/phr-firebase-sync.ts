@@ -282,18 +282,6 @@ function prefsToFirestoreFields(prefs: PhrCloudPrefsWrite): Record<string, unkno
 
 const BATCH_SAFE = 400;
 
-export function isFirestoreQuotaError(err: unknown): boolean {
-  const code =
-    err && typeof err === "object" && "code" in err && typeof err.code === "string"
-      ? err.code
-      : "";
-  const message =
-    err && typeof err === "object" && "message" in err && typeof err.message === "string"
-      ? err.message
-      : "";
-  return code === "resource-exhausted" || /quota exceeded/i.test(message);
-}
-
 /** Empreinte du contenu d’une main — évite les réécritures Firestore inutiles. */
 export function handCloudFingerprint(hand: Record<string, unknown>): string {
   const s = JSON.stringify(hand);
