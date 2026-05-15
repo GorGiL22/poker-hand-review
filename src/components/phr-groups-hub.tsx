@@ -133,9 +133,31 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
         </button>
       </div>
 
-      {!user ? (
+      {!firebaseConfigured ? (
+        <p className="rounded-xl border border-rose-500/30 bg-rose-950/25 px-3 py-2 text-sm text-rose-200">
+          Firebase n’est pas configuré — les groupes ne peuvent pas être enregistrés.
+        </p>
+      ) : null}
+
+      {authLoading ? (
+        <p className="rounded-xl border border-violet-500/30 bg-violet-950/25 px-3 py-2 text-sm text-violet-100">
+          Connexion en cours…
+        </p>
+      ) : !user ? (
         <p className="rounded-xl border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm text-amber-100">
           Connecte-toi pour créer ou rejoindre un groupe.
+        </p>
+      ) : null}
+
+      {error ? (
+        <p className="rounded-xl border border-rose-500/30 bg-rose-950/25 px-3 py-2 text-sm text-rose-200">
+          {error}
+        </p>
+      ) : null}
+
+      {success ? (
+        <p className="rounded-xl border border-emerald-500/30 bg-emerald-950/25 px-3 py-2 text-sm text-emerald-100">
+          {success}
         </p>
       ) : null}
 
