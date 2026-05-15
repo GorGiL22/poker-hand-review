@@ -360,6 +360,7 @@ export function subscribeUserReviewGroups(
 export function subscribeReviewGroup(
   groupId: string,
   onData: (group: ReviewGroup | null) => void,
+  onError?: (error: Error) => void,
 ): Unsubscribe {
   const db = getFirebaseDb();
   if (!db) {
@@ -367,13 +368,20 @@ export function subscribeReviewGroup(
     return () => {};
   }
   const ref = doc(db, "reviewGroups", groupId);
-  return onSnapshot(ref, (snap) => {
-    if (!snap.exists()) {
-      onData(null);
-      return;
-    }
-    onData(parseGroupDoc(snap.id, snap.data() as Record<string, unknown>));
-  });
+  return onSnapshot(
+    ref,
+    (snap) => {
+      if (!snap.exists()) {
+        onData(null);
+        return;
+      }
+      onData(parseGroupDoc(snap.id, snap.data() as Record<string, unknown>));
+    },
+    (err) => {
+      console.error("[phr] reviewGroups subscription failed:", err);
+      onError?.(formatFirestoreGroupError(err));
+    },
+  );
 }
 
 export function subscribeGroupMembers(
