@@ -205,7 +205,7 @@ export async function togglePublicReaction(
     if (!snap.exists()) throw new Error("Publication introuvable.");
     const data = snap.data() as Record<string, unknown>;
     const reactions = { ...(data.reactions as Record<string, PublicReaction> | undefined) };
-    const counts = { ...emptyCounts(), ...(data.reactionCounts as Record<PublicReaction, number> | undefined) };
+    const counts = { ...emptyReactionCounts(), ...(data.reactionCounts as Record<PublicReaction, number> | undefined) };
 
     const previous = reactions[uid];
     if (previous === reaction) {
