@@ -45,6 +45,12 @@ import {
   saveUserReplaySession,
 } from "@/lib/phr-firebase-sync";
 import {
+  loadLocalHands,
+  requestPersistentLocalStorage,
+  saveLocalHands,
+  isPersistableLocalHand,
+} from "@/lib/phr-local-hands";
+import {
   FIRESTORE_QUOTA_USER_MESSAGE,
   isFirestoreQuotaPaused,
   markFirestoreQuotaExceeded,
