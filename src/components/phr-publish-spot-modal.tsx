@@ -84,7 +84,7 @@ export function PhrPublishSpotModal({
     setHeroAction(null);
     setHeroAmount("");
     setSourceValidation("unvalidated");
-    setVisibility("public");
+    setVisibility(myGroups.length > 0 ? "group" : "private");
     setSelectedGroupId(myGroups[0]?.groupId ?? "");
     setError(null);
     setBusy(false);
