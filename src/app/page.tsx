@@ -37,7 +37,11 @@ import {
   saveUserHandsOnly,
   saveUserReplaySession,
 } from "@/lib/phr-firebase-sync";
-import { publishPublicPost } from "@/lib/phr-public-feed";
+import {
+  parseFeedPostForReplayer,
+  publishPublicPost,
+  type PublicHandPost,
+} from "@/lib/phr-public-feed";
 import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
