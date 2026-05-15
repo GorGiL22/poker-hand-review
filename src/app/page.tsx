@@ -1396,23 +1396,6 @@ export default function Home() {
     return () => window.clearTimeout(timer);
   }, [hands, localHandsReady]);
 
-  async function persistHandsToCloud(handsToSave?: ParsedHand[]): Promise<void> {
-    const uid = userRef.current?.uid;
-    if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
-    const list = (handsToSave ?? handsRef.current).filter((hand) => !isEphemeralViewerHand(hand));
-    if (list.length === 0) return;
-    try {
-      await saveUserHandsOnly(uid, parsedHandsToCloudRecords(list), handStableKeyFromRecord);
-      setCloudSyncWarning(null);
-    } catch (err) {
-      if (isFirestoreQuotaError(err)) {
-        pauseCloudSyncForQuota();
-        return;
-      }
-      throw err;
-    }
-  }
-
   async function persistReplaySessionToCloud(session?: {
     selectedHandId?: string;
     stepIndex?: number;
