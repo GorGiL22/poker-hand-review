@@ -1834,7 +1834,10 @@ export default function Home() {
       setImportError(null);
       if (user && firebaseConfigured) {
         await persistHandsToCloud(sorted);
-        await persistReplaySessionToCloud();
+        await persistReplaySessionToCloud({
+          selectedHandId: sorted[0]?.id ?? "",
+          stepIndex: 0,
+        });
       }
     } catch (error) {
       setImportError(error instanceof Error ? error.message : "Import impossible");
