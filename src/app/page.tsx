@@ -2836,6 +2836,7 @@ export default function Home() {
               <PhrMonEspace
                 onBack={() => setHomeSection("menu")}
                 onOpenSpot={openSpotFromMonEspace}
+                onDeleteSpot={(post) => void deleteSpotFromMonEspace(post)}
                 onOpenHand={openHandFromMonEspace}
                 onReplayTournament={replayTournamentFromMonEspace}
                 onPublishTournament={openPublishTournament}
