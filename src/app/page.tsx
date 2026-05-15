@@ -1217,6 +1217,10 @@ export default function Home() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const audioCtxRef = useRef<AudioContext | null>(null);
   const lastActionSoundSigRef = useRef<string>("");
+  const prevUserRef = useRef<typeof user>(null);
+  const handsRef = useRef(hands);
+  const skipCloudSaveRef = useRef(true);
+  handsRef.current = hands;
 
   function parseNumericInput(value: string): number {
     const normalized = Number.parseFloat(value.replace(",", "."));
