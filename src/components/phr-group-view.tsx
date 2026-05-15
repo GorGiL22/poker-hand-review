@@ -41,7 +41,11 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
   const [members, setMembers] = useState<ReviewGroupMember[]>([]);
   const [posts, setPosts] = useState<PublicHandPost[]>([]);
   const [inviteCode, setInviteCode] = useState<string | null>(null);
+  const [inviteDraft, setInviteDraft] = useState("");
+  const [inviteBusy, setInviteBusy] = useState(false);
+  const [inviteToast, setInviteToast] = useState<string | null>(null);
   const [showMembers, setShowMembers] = useState(false);
+  const [showInviteSettings, setShowInviteSettings] = useState(false);
   const [discussionPostId, setDiscussionPostId] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
