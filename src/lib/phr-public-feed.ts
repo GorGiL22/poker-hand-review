@@ -200,13 +200,10 @@ export function subscribePublicPosts(
     (err) => onError?.(err instanceof Error ? err : new Error("Erreur fil public")),
   );
 
-  const unsubSpots = onSnapshot(
-    spotsQuery,
-    (snap) => {
+  const unsubSpots = subscribePublicSpots(
+    (next) => {
       spotsFeedError = null;
-      spotPosts = snap.docs.map((d) =>
-        parseFeedDocument(d.id, d.data() as Record<string, unknown>, "spots"),
-      );
+      spotPosts = next;
       emit();
     },
     (err) => {
