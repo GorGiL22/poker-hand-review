@@ -46,6 +46,8 @@ export type PublicHandPost = {
     heroAction: string;
     heroAmount: number | null;
     sourceValidation: string;
+    visibleBoard: string[];
+    potLabel: string;
   };
 };
 
