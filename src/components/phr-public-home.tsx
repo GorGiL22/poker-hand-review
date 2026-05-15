@@ -198,20 +198,55 @@ export function PhrPublicHome({
             discussion.
           </p>
         )}
-        {posts.map((post) => (
+        {posts.map((post) => {
+          const isSpot = post.feedSource === "spots";
+          const discussionOpen = discussionPostId === post.id;
+          const discussionCount = discussionCounts[post.id] ?? 0;
+
+          return (
           <article
             key={post.id}
-            role="button"
-            tabIndex={0}
-            onClick={() => handleOpenPost(post)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handleOpenPost(post);
-              }
-            }}
-            className="cursor-pointer rounded-2xl border border-white/10 bg-zinc-950/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm transition hover:border-violet-500/35 hover:bg-zinc-900/65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500/50"
+            className="flex gap-2 rounded-2xl border border-white/10 bg-zinc-950/55 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm transition hover:border-violet-500/35 hover:bg-zinc-900/65"
           >
+            {isSpot && (
+              <button
+                type="button"
+                title="Voir les analyses et commentaires"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDiscussionPostId((id) => (id === post.id ? null : post.id));
+                }}
+                className={`flex w-12 shrink-0 flex-col items-center justify-center gap-0.5 rounded-l-2xl border-r border-white/10 px-1 py-3 text-center transition sm:w-14 ${
+                  discussionOpen
+                    ? "bg-violet-600/25 text-violet-100"
+                    : "bg-zinc-900/50 text-zinc-400 hover:bg-zinc-800/80 hover:text-zinc-200"
+                }`}
+              >
+                <svg
+                  className="size-5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  aria-hidden
+                >
+                  <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z" strokeLinejoin="round" />
+                </svg>
+                <span className="text-[10px] font-bold tabular-nums">{discussionCount}</span>
+              </button>
+            )}
+            <div
+              role="button"
+              tabIndex={0}
+              onClick={() => handleOpenPost(post)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  handleOpenPost(post);
+                }
+              }}
+              className={`min-w-0 flex-1 cursor-pointer p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500/50 ${isSpot ? "rounded-r-2xl" : "rounded-2xl"}`}
+            >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="text-sm font-bold text-zinc-100">{post.authorPseudo}</p>
