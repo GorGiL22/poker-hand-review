@@ -37,11 +37,9 @@ import {
   PHR_REVIEW_TOPBAR,
 } from "@/lib/phr-chrome";
 import {
-  handStableKeyFromRecord,
   isFirestoreQuotaError,
-  loadUserCloudData,
+  loadUserCloudPrefs,
   parseStoredHand,
-  saveUserHandsOnly,
   saveUserReplaySession,
 } from "@/lib/phr-firebase-sync";
 import {
