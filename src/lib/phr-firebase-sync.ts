@@ -275,6 +275,66 @@ function prefsToFirestoreFields(prefs: PhrCloudPrefsWrite): Record<string, unkno
 
 const BATCH_SAFE = 400;
 
+export function handStableKeyFromRecord(hand: Record<string, unknown>): string {
+  const id = typeof hand.id === "string" ? hand.id : "unknown";
+  const source = typeof hand.sourceFile === "string" ? hand.sourceFile : "local";
+  return `${source}::${id}`;
+}
+
+export function parseStoredHand(raw: Record<string, unknown>): Record<string, unknown> | null {
+  if (typeof raw.id !== "string") return null;
+  if (!Array.isArray(raw.players)) return null;
+  if (!raw.actions || typeof raw.actions !== "object") return null;
+  if (!raw.board || typeof raw.board !== "object") return null;
+  return raw;
+}
+
+async function syncUserHandsCollection(
+  uid: string,
+  hands: Record<string, unknown>[],
+  stableKeyForHand: (hand: Record<string, unknown>) => string,
+): Promise<void> {
+  const db = getFirebaseDb();
+  if (!db) throw new Error("Firestore non initialisé");
+
+  const colRef = collection(db, "users", uid, "hands");
+  const want = new Map<string, { stableKey: string; hand: Record<string, unknown> }>();
+  for (const hand of hands) {
+    const stableKey = stableKeyForHand(hand);
+    const id = handStableKeyToFirestoreDocId(stableKey);
+    want.set(id, { stableKey, hand });
+  }
+
+  const existingSnap = await getDocs(colRef);
+  const toDelete = existingSnap.docs.filter((d) => !want.has(d.id));
+  for (let i = 0; i < toDelete.length; i += BATCH_SAFE) {
+    const batch = writeBatch(db);
+    toDelete.slice(i, i + BATCH_SAFE).forEach((d) => batch.delete(d.ref));
+    await batch.commit();
+  }
+
+  const entries = [...want.entries()];
+  for (let i = 0; i < entries.length; i += BATCH_SAFE) {
+    const batch = writeBatch(db);
+    entries.slice(i, i + BATCH_SAFE).forEach(([id, { stableKey, hand }]) => {
+      batch.set(doc(colRef, id), {
+        stableKey,
+        hand,
+        phrUpdatedAt: serverTimestamp(),
+      });
+    });
+    await batch.commit();
+  }
+}
+
+export async function saveUserHandsOnly(
+  uid: string,
+  hands: Record<string, unknown>[],
+  stableKeyForHand: (hand: Record<string, unknown>) => string,
+): Promise<void> {
+  await syncUserHandsCollection(uid, hands, stableKeyForHand);
+}
+
 export async function saveUserCloudData(
   uid: string,
   hands: Record<string, unknown>[],
