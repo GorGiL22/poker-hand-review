@@ -2793,15 +2793,7 @@ export default function Home() {
           );
           if (viewSpotReview && spotReviewPost) {
             return (
-              <PhrSpotReviewShell
-                post={spotReviewPost}
-                transportReadout={spotReviewTransport}
-                onBack={closeSpotReview}
-                onPrevStep={prevStep}
-                onNextStep={nextStep}
-                canPrevStep={clampedStepIndex > 0}
-                canNextStep={clampedStepIndex < maxUiStepIndex}
-              >
+              <PhrSpotReviewShell post={spotReviewPost} onBack={closeSpotReview}>
                 {spotTable}
               </PhrSpotReviewShell>
             );
