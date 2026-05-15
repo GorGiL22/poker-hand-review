@@ -2255,84 +2255,24 @@ export default function Home() {
   return (
     <main className={`flex h-screen flex-col overflow-hidden text-zinc-100 ${PHR_PAGE_BG}`}>
       {viewPublicHome && <PhrAuthBar minimal />}
-      {hands.length > 0 && showMesMainsFullPage && (
-        <div
-          data-phr-mes-mains-page
-          className="fixed inset-0 z-[90] flex flex-col border border-white/10 bg-zinc-950/98 text-zinc-100 shadow-[0_0_0_1px_rgba(0,0,0,0.5)] backdrop-blur-xl"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="phr-mon-espace-title"
-        >
-          <header className="flex shrink-0 flex-wrap items-center gap-3 border-b border-white/10 bg-black/20 px-4 py-3 backdrop-blur-md">
-            <button
-              type="button"
-              onClick={() => setShowMesMainsFullPage(false)}
-              className={PHR_BTN_TOOL}
-            >
-              Fermer
-            </button>
-            <h1 id="phr-mon-espace-title" className="text-lg font-black tracking-tight text-zinc-50">
-              Mon espace
-            </h1>
-            <div className="ml-auto flex min-w-[12rem] flex-1 flex-wrap items-center justify-end gap-2 sm:max-w-md">
-              <label className="flex min-w-0 flex-1 flex-col gap-1 text-[10px] font-bold uppercase tracking-wide text-zinc-500 sm:flex-none sm:min-w-[14rem]">
-                Tournoi
-                <select
-                  value={selectedTournament}
-                  onChange={(event) => {
-                    setSelectedTournament(event.target.value);
-                    setStepIndex(0);
-                  }}
-                  className={PHR_FIELD_SELECT_COMPACT}
-                >
-                  {tournamentOptions.map((option) => (
-                    <option key={`mesmains-t-${option.key}`} value={option.key}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
-          </header>
-          <div className="grid min-h-0 flex-1 grid-cols-1 overflow-hidden lg:grid-cols-[minmax(17rem,22rem)_1fr]">
-            <aside className="max-h-[40vh] overflow-y-auto border-b border-white/10 bg-black/20 p-4 lg:max-h-none lg:border-b-0 lg:border-r lg:border-white/10">
-              {mesMainsFiltersColumn}
-            </aside>
-            <div className="flex min-h-0 flex-col gap-2 p-4">
-              <h2 className="shrink-0 text-[11px] font-bold uppercase tracking-[0.14em] text-zinc-500">Toutes les mains filtrées</h2>
-              {filteredHands.length === 0 ? (
-                <p className="rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-8 text-center text-sm text-zinc-500 backdrop-blur-sm">
-                  Aucune main ne correspond à ces filtres.
-                </p>
-              ) : (
-                <ul className="min-h-0 flex-1 space-y-0.5 overflow-y-auto rounded-2xl border border-white/10 bg-black/25 py-1 backdrop-blur-sm">
-                  {filteredHands.map((hand) => {
-                    const active = hand.id === selectedHand.id;
-                    return (
-                      <li key={`mesmains-li-${hand.sourceFile ?? "local"}::${hand.id}`}>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            loadHand(hand.id);
-                            setShowMesMainsFullPage(false);
-                          }}
-                          className={`w-full px-3 py-2.5 text-left text-sm transition hover:bg-zinc-800/60 ${
-                            active ? "bg-violet-600/20 text-violet-100" : "text-zinc-200"
-                          }`}
-                        >
-                          <span className="block truncate font-medium">{mesMainsRowLabel(hand)}</span>
-                          {hand.tournamentName && (
-                            <span className="mt-0.5 block truncate text-[11px] text-zinc-500">{hand.tournamentName}</span>
-                          )}
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-            </div>
-          </div>
-        </div>
+      {showMesMainsFullPage && (
+        <PhrMonEspace
+          overlay
+          onBack={closeMonEspace}
+          onOpenSpot={openSpotFromMonEspace}
+          onOpenHand={openHandFromMonEspace}
+          onReplayTournament={replayTournamentFromMonEspace}
+          onImportClick={() => fileInputRef.current?.click()}
+          libraryHands={libraryHands}
+          rowLabel={mesMainsRowLabel}
+          tournamentKey={deriveTournamentKey}
+          handFilters={handFilters}
+          onHandFiltersChange={(next) => {
+            setHandFilters(next);
+            setStepIndex(0);
+          }}
+          selectedHandId={selectedHand.id}
+        />
       )}
       <div className="mx-auto flex min-h-0 w-full max-w-[1520px] flex-1 flex-col px-3 pb-3 pt-2 sm:px-5 sm:pb-4 sm:pt-3">
         <section className={PHR_APP_SHELL}>
