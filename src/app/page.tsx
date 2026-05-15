@@ -1286,7 +1286,9 @@ export default function Home() {
   const viewSpotReview = spotReviewPost !== null;
   const viewTournamentReview = tournamentReview !== null;
   const viewPublicHome =
-    (hands.length === 0 || showPublicHome) && !viewSpotReview && !viewTournamentReview;
+    (hands.length === 0 || showPublicHome) &&
+    !viewSpotReview &&
+    !viewTournamentReview;
   /** Mise en avant de la zone drop sur l’accueil (aucune main). */
   const [welcomeDropActive, setWelcomeDropActive] = useState(false);
   /** Message court après partage de main (presse-papiers / partage natif). */
