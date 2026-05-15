@@ -17,6 +17,7 @@ import { PhrGroupsHub } from "@/components/phr-groups-hub";
 import { PhrHomeLanding } from "@/components/phr-home-landing";
 import { PhrMonEspace, type MonEspaceHand } from "@/components/phr-mon-espace";
 import { PhrPublishSpotModal } from "@/components/phr-publish-spot-modal";
+import { PhrPublishTournamentModal } from "@/components/phr-publish-tournament-modal";
 import { PhrTournamentReviewPanel } from "@/components/phr-tournament-review-panel";
 import { PhrSpotReviewInfoBar } from "@/components/phr-spot-review-info-bar";
 import { PhrSpotReviewShell } from "@/components/phr-spot-review-shell";
