@@ -1518,15 +1518,40 @@ export default function Home() {
 
   useEffect(() => {
     if (!user || skipCloudSaveRef.current || cloudLoading) return;
-    const uid = user.uid;
-    const payload = hands.map((hand) => hand as unknown as Record<string, unknown>);
-    const timer = window.setTimeout(() => {
-      void saveUserHandsOnly(uid, payload, handStableKeyFromRecord).catch(() => {
-        /* sauvegarde silencieuse — l’import local reste utilisable */
+
+    const flushAll = () => {
+      void persistHandsToCloud().catch(() => {
+        /* sauvegarde silencieuse */
       });
-    }, 1500);
-    return () => window.clearTimeout(timer);
-  }, [user, hands, cloudLoading]);
+      void persistReplaySessionToCloud().catch(() => {
+        /* sauvegarde silencieuse */
+      });
+    };
+
+    const timer = window.setTimeout(flushAll, 800);
+    return () => {
+      window.clearTimeout(timer);
+      if (!skipCloudSaveRef.current && handsRef.current.length > 0) {
+        flushAll();
+      }
+    };
+  }, [user, hands, cloudLoading, selectedHandId, stepIndex, selectedTournament, displayUnit, soundEnabled, firebaseConfigured]);
+
+  useEffect(() => {
+    function flushOnLeave() {
+      if (document.visibilityState !== "hidden") return;
+      if (!userRef.current || skipCloudSaveRef.current || handsRef.current.length === 0) return;
+      void persistHandsToCloud().catch(() => {});
+      void persistReplaySessionToCloud().catch(() => {});
+    }
+
+    window.addEventListener("pagehide", flushOnLeave);
+    document.addEventListener("visibilitychange", flushOnLeave);
+    return () => {
+      window.removeEventListener("pagehide", flushOnLeave);
+      document.removeEventListener("visibilitychange", flushOnLeave);
+    };
+  }, [firebaseConfigured]);
 
   useEffect(() => {
     if (!showSettingsPanel) return;
