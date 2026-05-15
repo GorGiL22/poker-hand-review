@@ -146,6 +146,8 @@ function PhrAuthModal({
     setEmail,
     password,
     setPassword,
+    pseudoInput,
+    setPseudoInput,
     formError,
     busy,
     onSubmit,
