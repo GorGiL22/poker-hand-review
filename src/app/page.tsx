@@ -2290,6 +2290,40 @@ export default function Home() {
     setShowPublicHome(false);
   }
 
+  function deleteTournamentFromMonEspace(tournamentKey: string) {
+    const remaining = hands.filter(
+      (hand) => deriveTournamentKey(hand) !== tournamentKey,
+    );
+    const removedCount = hands.length - remaining.length;
+    if (removedCount === 0) return;
+
+    if (selectedTournament === tournamentKey) {
+      setSelectedTournament("ALL");
+    }
+
+    if (remaining.length === 0) {
+      setHands([]);
+      setSelectedHandId(EMPTY_HAND.id);
+      setStepIndex(0);
+      setShowPublicHome(true);
+      setShowMesMainsFullPage(false);
+      void clearLocalHands();
+    } else {
+      const selectedStillThere = remaining.some((h) => h.id === selectedHand.id);
+      setHands(remaining);
+      if (!selectedStillThere) {
+        setSelectedHandId(remaining[0]!.id);
+        setStepIndex(0);
+      }
+      saveLibraryToIndexedDb(remaining);
+    }
+
+    setShareToast(
+      `Tournoi supprimé · ${removedCount} main${removedCount > 1 ? "s" : ""} retirée${removedCount > 1 ? "s" : ""} de la bibliothèque.`,
+    );
+    window.setTimeout(() => setShareToast(null), 3200);
+  }
+
   function prevHand() {
     if (viewTournamentReview && tournamentReview) {
       const idx = tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId);
