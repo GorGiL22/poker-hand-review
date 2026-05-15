@@ -1645,6 +1645,36 @@ export default function Home() {
   const discordInviteHref =
     process.env.NEXT_PUBLIC_DISCORD_INVITE_URL?.trim() || "https://discord.com";
 
+  async function publishCurrentHandToFeed() {
+    const text = formatHandForShare(selectedHand);
+    const clearToast = () => {
+      window.setTimeout(() => setShareToast(null), 2800);
+    };
+    if (!text) {
+      setShareToast("Importe une main pour la publier.");
+      clearToast();
+      return;
+    }
+    if (!user) {
+      setShareToast("Connecte-toi pour publier sur le fil public.");
+      clearToast();
+      return;
+    }
+    try {
+      await publishPublicPost({
+        authorUid: user.uid,
+        authorPseudo: pseudo?.trim() || user.email?.split("@")[0] || "Joueur",
+        summary: text.slice(0, 4000),
+        hand: selectedHand as unknown as Record<string, unknown>,
+      });
+      setShareToast("Main publiée sur le fil SpotLab.");
+      clearToast();
+    } catch (err) {
+      setShareToast(err instanceof Error ? err.message : "Publication impossible.");
+      clearToast();
+    }
+  }
+
   async function shareCurrentHand() {
     const text = formatHandForShare(selectedHand);
     const clearToast = () => {
