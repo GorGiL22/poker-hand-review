@@ -191,7 +191,7 @@ export function PhrPublicHome({
                 <p className="text-sm font-bold text-zinc-100">{post.authorPseudo}</p>
                 <p className="text-[11px] text-zinc-500">{formatRelativeTime(post.createdAtMs)}</p>
               </div>
-              <motion.div className="text-right">
+              <div className="text-right">
                 <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
                   {post.spotMeta?.category
                     ? categoryLabel(post.spotMeta.category as SpotCategory)
