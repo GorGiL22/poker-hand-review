@@ -241,6 +241,10 @@ export async function publishSpot(input: SpotPublishInput): Promise<void> {
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
+  if (input.visibility === "group" && !input.groupId?.trim()) {
+    throw new Error("Choisis un groupe pour publier le spot.");
+  }
+
   const { replay } = input;
   const boardLine =
     replay.visibleBoard.length > 0 ? replay.visibleBoard.join(" ") : "—";
