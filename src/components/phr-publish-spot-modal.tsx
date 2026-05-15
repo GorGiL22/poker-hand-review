@@ -164,7 +164,7 @@ export function PhrPublishSpotModal({
         setError(message);
       }
     } finally {
-      setBusy(false);
+      if (!closedRef.current) setBusy(false);
     }
   }
 
