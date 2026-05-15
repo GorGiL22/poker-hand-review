@@ -9,6 +9,8 @@ import {
   runTransaction,
   serverTimestamp,
   where,
+  type Query,
+  type QuerySnapshot,
   type Unsubscribe,
 } from "firebase/firestore";
 
