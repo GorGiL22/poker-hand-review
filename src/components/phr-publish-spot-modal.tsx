@@ -32,6 +32,8 @@ type PhrPublishSpotModalProps = {
   replay: SpotReplayContext;
   authorUid: string;
   authorPseudo: string;
+  /** Buy-in tournoi (EUR) configuré dans le replayer. */
+  buyIn?: string;
   onPublished?: (visibility: SpotVisibility) => void;
 };
 
