@@ -2960,7 +2960,7 @@ export default function Home() {
             <span className="sr-only">Paramètres</span>
           </button>
         </nav>
-      </motion.div>
+      </div>
       )}
     </main>
   );
