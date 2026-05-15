@@ -258,19 +258,6 @@ function prefsToFirestoreFields(prefs: PhrCloudPrefsWrite): Record<string, unkno
   };
 }
 
-const BATCH_SAFE = 400;
-
-/** Empreinte du contenu d’une main — évite les réécritures Firestore inutiles. */
-export function handCloudFingerprint(hand: Record<string, unknown>): string {
-  const s = JSON.stringify(hand);
-  let h = 2166136261;
-  for (let i = 0; i < s.length; i++) {
-    h ^= s.charCodeAt(i);
-    h = Math.imul(h, 16777619);
-  }
-  return `${s.length}:${h >>> 0}`;
-}
-
 export function handStableKeyFromRecord(hand: Record<string, unknown>): string {
   const id = typeof hand.id === "string" ? hand.id : "unknown";
   const source = typeof hand.sourceFile === "string" ? hand.sourceFile : "local";
