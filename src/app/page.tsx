@@ -1982,6 +1982,7 @@ export default function Home() {
   }
 
   function goToPublicHome() {
+    setSpotReviewPost(null);
     setShowPublicHome(true);
     setShowMesMainsFullPage(false);
     setShowFilters(false);
