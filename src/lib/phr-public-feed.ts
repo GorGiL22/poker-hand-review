@@ -170,6 +170,62 @@ function subscribePublicSpots(
   };
 }
 
+/** Spots publiés par l’utilisateur (perso, groupe ou public). */
+export function subscribeUserSpots(
+  authorUid: string,
+  onData: (posts: PublicHandPost[]) => void,
+  onError?: (error: Error) => void,
+): Unsubscribe {
+  if (!authorUid || isFirestoreQuotaPaused()) {
+    queueMicrotask(() => onData([]));
+    return () => {};
+  }
+  const db = getFirebaseDb();
+  if (!db) {
+    queueMicrotask(() => onData([]));
+    return () => {};
+  }
+
+  const col = collection(db, "spots");
+  const primaryQuery = query(
+    col,
+    where("authorUid", "==", authorUid),
+    orderBy("createdAt", "desc"),
+    limit(50),
+  );
+  const fallbackQuery = query(col, where("authorUid", "==", authorUid), limit(60));
+
+  let activeUnsub: Unsubscribe | null = null;
+
+  const attach = (q: Query, useFallback: boolean) => {
+    activeUnsub?.();
+    activeUnsub = onSnapshot(
+      q,
+      (snap) => onData(mapSpotSnapshot(snap)),
+      (err) => {
+        if (isFirestoreQuotaError(err)) {
+          markFirestoreQuotaExceeded();
+          onError?.(new Error("Quota Firestore dépassé. Réessaie plus tard."));
+          onData([]);
+          return;
+        }
+        if (!useFallback && isFirestoreIndexError(err)) {
+          attach(fallbackQuery, true);
+          return;
+        }
+        onError?.(err instanceof Error ? err : new Error("Erreur chargement des spots"));
+        onData([]);
+      },
+    );
+  };
+
+  attach(primaryQuery, false);
+  return () => {
+    activeUnsub?.();
+    activeUnsub = null;
+  };
+}
+
 export function parseFeedDocument(
   id: string,
   data: Record<string, unknown>,
