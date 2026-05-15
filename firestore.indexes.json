@@ -1,6 +1,14 @@
 {
   "indexes": [
     {
+      "collectionGroup": "publishedTournaments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visibility", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "spots",
       "queryScope": "COLLECTION",
       "fields": [
