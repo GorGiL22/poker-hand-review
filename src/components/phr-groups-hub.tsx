@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 
 import {
   createReviewGroup,
+  generateInviteCode,
   joinReviewGroupByInviteCode,
+  normalizeInviteCode,
   subscribeUserReviewGroups,
   type ReviewGroupMembership,
 } from "@/lib/phr-review-groups";
@@ -26,7 +28,8 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   const [groups, setGroups] = useState<ReviewGroupMembership[]>([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [inviteCode, setInviteCode] = useState("");
+  const [createInviteCode, setCreateInviteCode] = useState(() => generateInviteCode());
+  const [joinInviteCode, setJoinInviteCode] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [createdInvite, setCreatedInvite] = useState<string | null>(null);
@@ -55,8 +58,10 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
         ownerPseudo: displayName,
         name,
         description,
+        inviteCode: createInviteCode,
       });
       setCreatedInvite(code);
+      setCreateInviteCode(code);
       setName("");
       setDescription("");
       onOpenGroup(groupId);
@@ -78,9 +83,9 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
       const groupId = await joinReviewGroupByInviteCode({
         uid: user.uid,
         pseudo: displayName,
-        inviteCode,
+        inviteCode: joinInviteCode,
       });
-      setInviteCode("");
+      setJoinInviteCode("");
       onOpenGroup(groupId);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Invitation invalide.");
@@ -90,13 +95,13 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+    <motion.div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
       <div className="flex items-center justify-between gap-2">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes privés</p>
           <h2 className="text-lg font-black text-zinc-50">Review entre joueurs</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Spots et tournois partagés uniquement avec les membres — pas de chat.
+            Spots partagés uniquement avec les membres — pas de chat.
           </p>
         </div>
         <button type="button" onClick={onClose} className={PHR_BTN}>
@@ -127,9 +132,32 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
           disabled={!user || busy}
           className={`${PHR_FIELD} resize-none`}
         />
+        <label className="block space-y-1">
+          <span className="text-xs text-zinc-500">Code d’invitation</span>
+          <motion.div className="flex gap-2">
+            <input
+              value={createInviteCode}
+              onChange={(e) => setCreateInviteCode(normalizeInviteCode(e.target.value))}
+              placeholder="Ex. SPOTLAB1"
+              disabled={!user || busy}
+              maxLength={12}
+              className={`${PHR_FIELD} min-w-0 flex-1 font-mono uppercase tracking-widest`}
+            />
+            <button
+              type="button"
+              disabled={!user || busy}
+              onClick={() => setCreateInviteCode(generateInviteCode())}
+              title="Générer un code aléatoire"
+              className={`${PHR_BTN} shrink-0 px-2.5 text-xs`}
+            >
+              Aléa.
+            </button>
+          </motion.div>
+          <p className="text-[10px] text-zinc-600">6 à 12 caractères (A–Z, 2–9). Partage ce code pour inviter.</p>
+        </label>
         <button
           type="button"
-          disabled={!user || busy || !name.trim()}
+          disabled={!user || busy || !name.trim() || createInviteCode.length < 6}
           onClick={() => void onCreate()}
           className={`${PHR_BTN} w-full border-sky-500/40 bg-sky-600/20 text-sky-100`}
         >
@@ -137,7 +165,7 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
         </button>
         {createdInvite ? (
           <p className="text-xs text-sky-200">
-            Code d’invitation : <span className="font-mono font-bold">{createdInvite}</span>
+            Groupe créé · code : <span className="font-mono font-bold">{createdInvite}</span>
           </p>
         ) : null}
       </section>
@@ -145,15 +173,16 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
       <section className="space-y-2 rounded-2xl border border-white/10 bg-zinc-950/50 p-4">
         <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Rejoindre avec un code</p>
         <input
-          value={inviteCode}
-          onChange={(e) => setInviteCode(e.target.value.toUpperCase())}
-          placeholder="Code à 8 caractères"
+          value={joinInviteCode}
+          onChange={(e) => setJoinInviteCode(normalizeInviteCode(e.target.value))}
+          placeholder="Code du groupe"
           disabled={!user || busy}
+          maxLength={12}
           className={`${PHR_FIELD} font-mono uppercase tracking-widest`}
         />
         <button
           type="button"
-          disabled={!user || busy || inviteCode.trim().length < 6}
+          disabled={!user || busy || joinInviteCode.length < 6}
           onClick={() => void onJoin()}
           className={`${PHR_BTN} w-full`}
         >
@@ -193,6 +222,6 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
           </ul>
         )}
       </section>
-    </div>
+    </motion.div>
   );
 }
