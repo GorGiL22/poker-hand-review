@@ -2675,6 +2675,7 @@ export default function Home() {
               welcomeDropActive={welcomeDropActive}
               onImportClick={() => fileInputRef.current?.click()}
               onOpenPost={openFeedPost}
+              onOpenTournament={(t) => void openPublishedTournament(t)}
               onDragOver={onWelcomeDragOver}
               onDragLeave={onWelcomeDragLeave}
               onDrop={onWelcomeDrop}
