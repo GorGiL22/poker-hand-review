@@ -11,7 +11,6 @@ import {
 } from "@/lib/phr-public-feed";
 import { PhrFeedSpotDiscussion } from "@/components/phr-feed-spot-discussion";
 import { PhrSpotFeedPreview } from "@/components/phr-spot-feed-preview";
-import { subscribeSpotDiscussionCount } from "@/lib/phr-spot-review";
 import {
   hasDismissedImportPanel,
   hasSeenWelcomePanel,

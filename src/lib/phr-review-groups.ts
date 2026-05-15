@@ -367,6 +367,14 @@ export function subscribeUserReviewGroups(
     },
     (err) => {
       console.error("[phr] groupMemberships subscription failed:", err);
+      if (
+        err &&
+        typeof err === "object" &&
+        "code" in err &&
+        err.code === "resource-exhausted"
+      ) {
+        markFirestoreQuotaExceeded();
+      }
       const fallback = readGroupsCache(uid);
       if (fallback) onData(fallback);
     },
