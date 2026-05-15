@@ -413,9 +413,11 @@ export type PhrReplaySessionWrite = {
 };
 
 export async function saveUserReplaySession(uid: string, session: PhrReplaySessionWrite): Promise<void> {
+  if (isFirestoreQuotaPaused()) return;
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
+  try {
   await setDoc(
     doc(db, "users", uid),
     {
