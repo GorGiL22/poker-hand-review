@@ -1453,6 +1453,18 @@ export default function Home() {
     return hands.filter((hand) => deriveTournamentKey(hand) === selectedTournament);
   }, [hands, selectedTournament]);
 
+  const filteredHands = useMemo(() => {
+    return tournamentFilteredHands.filter((hand) => handMatchesPhrFilters(hand, handFilters));
+  }, [handFilters, tournamentFilteredHands]);
+  const selectedHand = useMemo(
+    () =>
+      filteredHands.find((hand) => hand.id === selectedHandId) ??
+      filteredHands[0] ??
+      hands[0] ??
+      EMPTY_HAND,
+    [filteredHands, hands, selectedHandId],
+  );
+
   /** Nom affiché dans le replayer (sélection du tournoi = Mon espace uniquement). */
   const replayerTournamentLabel = useMemo(() => {
     if (selectedTournament !== "ALL") {
@@ -1470,17 +1482,6 @@ export default function Home() {
     return key === "Tournoi inconnu" ? "—" : key;
   }, [selectedTournament, tournamentFilteredHands, selectedHand]);
 
-  const filteredHands = useMemo(() => {
-    return tournamentFilteredHands.filter((hand) => handMatchesPhrFilters(hand, handFilters));
-  }, [handFilters, tournamentFilteredHands]);
-  const selectedHand = useMemo(
-    () =>
-      filteredHands.find((hand) => hand.id === selectedHandId) ??
-      filteredHands[0] ??
-      hands[0] ??
-      EMPTY_HAND,
-    [filteredHands, hands, selectedHandId],
-  );
   const selectedHandIndex = useMemo(
     () => filteredHands.findIndex((hand) => hand.id === selectedHand.id),
     [filteredHands, selectedHand.id],
@@ -2608,39 +2609,18 @@ export default function Home() {
 
           {hands.length > 0 && !viewPublicHome && !viewSpotReview && !viewTournamentReview && (
             <div className={PHR_TOURNAMENT_RAIL}>
-              <div className="flex min-w-0 flex-1 items-center gap-1.5">
-                <span className="shrink-0 text-[9px] font-bold uppercase leading-none tracking-wide text-zinc-500">
-                  Tournois
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5 sm:pr-2">
+                <span className="text-[9px] font-bold uppercase leading-none tracking-wide text-zinc-500">
+                  Tournoi
                 </span>
-                <div
-                  className="flex min-h-0 min-w-0 gap-1 overflow-x-auto py-0.5 [-ms-overflow-style:none] [scrollbar-width:none] sm:[scrollbar-width:thin] [&::-webkit-scrollbar]:h-0.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-zinc-600"
-                  role="tablist"
-                  aria-label="Filtrer par tournoi"
-                >
-                  {tournamentOptions.map((option) => {
-                    const active = selectedTournament === option.key;
-                    return (
-                      <button
-                        key={`tbar-${option.key}`}
-                        type="button"
-                        role="tab"
-                        aria-selected={active}
-                        onClick={() => {
-                          setSelectedTournament(option.key);
-                          setStepIndex(0);
-                        }}
-                        title={option.label}
-                        className={`max-w-[min(100%,12rem)] shrink-0 truncate rounded-full border px-2 py-0.5 text-left text-[11px] font-semibold leading-tight transition sm:max-w-[16rem] sm:py-1 ${
-                          active
-                            ? "border-violet-500/70 bg-violet-600/25 text-violet-100"
-                            : "border-zinc-600/70 bg-zinc-800/60 text-zinc-300 hover:border-zinc-500 hover:bg-zinc-800"
-                        }`}
-                      >
-                        {option.label}
-                      </button>
-                    );
-                  })}
-                </div>
+                <p className="truncate text-sm font-semibold text-zinc-100" title={replayerTournamentLabel}>
+                  {replayerTournamentLabel}
+                </p>
+                {selectedTournament !== "ALL" ? (
+                  <p className="text-[10px] text-zinc-500">
+                    Session filtrée depuis Mon espace · {tournamentFilteredHands.length} mains
+                  </p>
+                ) : null}
               </div>
               <div className="flex shrink-0 items-center border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
                 <div className="flex max-w-full flex-wrap items-baseline gap-x-2 gap-y-0.5 rounded-xl border border-white/10 bg-black/30 px-2 py-1 text-[10px] font-medium leading-tight text-zinc-300 backdrop-blur-sm">
