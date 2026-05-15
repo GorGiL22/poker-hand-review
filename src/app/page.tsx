@@ -2181,11 +2181,37 @@ export default function Home() {
 
   function handleMonEspaceClick() {
     if (cloudLoading) return;
-    if (hands.length > 0) {
-      setShowMesMainsFullPage(true);
+    if (viewPublicHome) {
+      setHomeSection("espace");
       return;
     }
-    fileInputRef.current?.click();
+    setShowMesMainsFullPage(true);
+  }
+
+  function closeMonEspace() {
+    setShowMesMainsFullPage(false);
+    if (viewPublicHome) setHomeSection("menu");
+  }
+
+  function openHandFromMonEspace(handId: string) {
+    loadHand(handId);
+    closeMonEspace();
+    setShowPublicHome(false);
+  }
+
+  function openSpotFromMonEspace(post: PublicHandPost): boolean {
+    const ok = openFeedPost(post);
+    if (ok) closeMonEspace();
+    return ok;
+  }
+
+  function replayTournamentFromMonEspace(tournamentKey: string) {
+    const tourHands = libraryHands.filter((hand) => deriveTournamentKey(hand) === tournamentKey);
+    if (tourHands.length === 0) return;
+    setSelectedTournament(tournamentKey);
+    loadHand(tourHands[0]!.id);
+    closeMonEspace();
+    setShowPublicHome(false);
   }
 
   function prevHand() {
