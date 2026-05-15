@@ -183,7 +183,7 @@ export function PhrGroupsHub({
     setCreatedInvite(null);
     try {
       const { groupId, inviteCode: code } = await createReviewGroup({
-        ownerUid: user.uid,
+        ownerUid: effectiveUid,
         ownerPseudo: displayName,
         name: name.trim(),
         description,
