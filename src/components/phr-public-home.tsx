@@ -211,7 +211,7 @@ export function PhrPublicHome({
 
       {user && cloudLoading && (
         <p className="shrink-0 rounded-xl border border-violet-500/25 bg-violet-950/25 px-3 py-2 text-sm text-violet-100">
-          Chargement de tes mains depuis ton compte…
+          Chargement de tes préférences de session…
         </p>
       )}
       {cloudSyncWarning ? (
