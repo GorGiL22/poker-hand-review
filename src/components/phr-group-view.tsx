@@ -1,0 +1,199 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+import { PhrFeedSpotDiscussion } from "@/components/phr-feed-spot-discussion";
+import { PhrSpotFeedPreview } from "@/components/phr-spot-feed-preview";
+import {
+  ensureGroupInviteCode,
+  subscribeGroupMembers,
+  subscribeGroupSpots,
+  subscribeReviewGroup,
+  type ReviewGroup,
+  type ReviewGroupMember,
+} from "@/lib/phr-review-groups";
+import type { PublicHandPost } from "@/lib/phr-public-feed";
+import { sourceValidationLabel, type SpotSourceValidation } from "@/lib/phr-spots";
+import { usePhrFirebase } from "@/lib/use-phr-firebase";
+
+function formatRelativeTime(ms: number): string {
+  const delta = Date.now() - ms;
+  const minutes = Math.floor(delta / 60_000);
+  if (minutes < 1) return "À l’instant";
+  if (minutes < 60) return `Il y a ${minutes} min`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `Il y a ${hours} h`;
+  return `Il y a ${Math.floor(hours / 24)} j`;
+}
+
+type PhrGroupViewProps = {
+  groupId: string;
+  onBack: () => void;
+  onOpenSpot: (post: PublicHandPost) => boolean;
+};
+
+export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps) {
+  const { user, firebaseConfigured } = usePhrFirebase();
+  const [group, setGroup] = useState<ReviewGroup | null>(null);
+  const [members, setMembers] = useState<ReviewGroupMember[]>([]);
+  const [posts, setPosts] = useState<PublicHandPost[]>([]);
+  const [inviteCode, setInviteCode] = useState<string | null>(null);
+  const [showMembers, setShowMembers] = useState(false);
+  const [discussionPostId, setDiscussionPostId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const isOwner = user && group?.ownerUid === user.uid;
+
+  useEffect(() => {
+    if (!firebaseConfigured) return;
+    const unsubGroup = subscribeReviewGroup(groupId, setGroup);
+    const unsubMembers = subscribeGroupMembers(groupId, setMembers);
+    const unsubPosts = subscribeGroupSpots(groupId, setPosts, (err) => setError(err.message));
+    return () => {
+      unsubGroup();
+      unsubMembers();
+      unsubPosts();
+    };
+  }, [groupId, firebaseConfigured]);
+
+  useEffect(() => {
+    if (!user || !isOwner || !firebaseConfigured) return;
+    void ensureGroupInviteCode(groupId, user.uid)
+      .then(setInviteCode)
+      .catch(() => setInviteCode(null));
+  }, [groupId, user, isOwner, firebaseConfigured]);
+
+  async function copyInvite() {
+    if (!inviteCode) return;
+    try {
+      await navigator.clipboard.writeText(inviteCode);
+    } catch {
+      /* ignore */
+    }
+  }
+
+  return (
+    <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto">
+      <div className="flex flex-wrap items-start justify-between gap-2">
+        <div className="min-w-0">
+          <button type="button" onClick={onBack} className="text-xs font-semibold text-zinc-500 hover:text-zinc-300">
+            ← Groupes
+          </button>
+          <h2 className="mt-1 text-lg font-black text-zinc-50">{group?.name ?? "Groupe"}</h2>
+          {group?.description ? (
+            <p className="mt-1 text-sm text-zinc-400">{group.description}</p>
+          ) : null}
+          <p className="mt-1 text-[11px] text-zinc-600">
+            {members.length} membre{members.length > 1 ? "s" : ""} · {posts.length} spot
+            {posts.length > 1 ? "s" : ""}
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={() => setShowMembers((v) => !v)}
+            className="rounded-lg border border-white/10 px-2.5 py-1 text-xs font-semibold text-zinc-300 hover:bg-zinc-800"
+          >
+            Membres
+          </button>
+          {isOwner && inviteCode ? (
+            <button
+              type="button"
+              onClick={() => void copyInvite()}
+              className="rounded-lg border border-sky-500/40 bg-sky-950/30 px-2.5 py-1 font-mono text-xs font-bold text-sky-100"
+              title="Copier le code d’invitation"
+            >
+              {inviteCode}
+            </button>
+          ) : null}
+        </div>
+      </div>
+
+      {showMembers ? (
+        <ul className="flex flex-wrap gap-2 rounded-xl border border-white/10 bg-zinc-950/50 p-3">
+          {members.map((m) => (
+            <li
+              key={m.uid}
+              className="rounded-full border border-white/10 bg-zinc-900/60 px-2.5 py-1 text-xs text-zinc-300"
+            >
+              {m.pseudo}
+              {m.role === "owner" ? " · admin" : ""}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      {error ? (
+        <p className="rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-sm text-rose-200">
+          {error}
+        </p>
+      ) : null}
+
+      {posts.length === 0 ? (
+        <p className="rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-8 text-center text-sm text-zinc-500">
+          Aucun spot dans ce groupe. Publie depuis le replayer en choisissant « Groupe privé ».
+        </p>
+      ) : (
+        <ul className="space-y-3">
+          {posts.map((post) => {
+            const discussionOpen = discussionPostId === post.id;
+            return (
+              <li
+                key={post.id}
+                className="flex flex-col gap-0 rounded-2xl border border-white/10 bg-zinc-950/55 sm:flex-row"
+              >
+                <button
+                  type="button"
+                  onClick={() => setDiscussionPostId((id) => (id === post.id ? null : post.id))}
+                  className={`flex w-12 shrink-0 flex-col items-center justify-center rounded-l-2xl border-r border-white/10 text-center text-[10px] font-bold ${
+                    discussionOpen ? "bg-sky-600/25 text-sky-100" : "text-zinc-500 hover:bg-zinc-900"
+                  }`}
+                >
+                  💬
+                </button>
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => {
+                    if (!onOpenSpot(post)) setError("Impossible d’ouvrir ce spot.");
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      if (!onOpenSpot(post)) setError("Impossible d’ouvrir ce spot.");
+                    }
+                  }}
+                  className="min-w-0 flex-1 cursor-pointer p-4"
+                >
+                  <p className="text-sm font-bold text-zinc-100">{post.authorPseudo}</p>
+                  <p className="text-[11px] text-zinc-500">{formatRelativeTime(post.createdAtMs)}</p>
+                  {post.spotMeta ? (
+                    <div className="mt-3 flex gap-3">
+                      <PhrSpotFeedPreview post={post} />
+                      <div className="min-w-0 flex-1 space-y-1">
+                        <p className="text-sm text-zinc-200">{post.spotMeta.question}</p>
+                        <p className="text-xs text-zinc-500">
+                          {post.spotMeta.heroAction.toUpperCase()}
+                          {post.spotMeta.heroAmount != null ? ` ${post.spotMeta.heroAmount}` : ""}
+                          {" · "}
+                          {sourceValidationLabel(
+                            post.spotMeta.sourceValidation as SpotSourceValidation,
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+                {discussionOpen ? (
+                  <div className="w-full border-t border-white/10 p-3 sm:border-l sm:border-t-0">
+                    <PhrFeedSpotDiscussion post={post} />
+                  </div>
+                ) : null}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+}
