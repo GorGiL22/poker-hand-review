@@ -2827,7 +2827,25 @@ export default function Home() {
       </div>
 
       {hands.length > 0 && !viewPublicHome && (
-        <div className="pointer-events-none fixed bottom-4 left-3 z-[70] sm:bottom-5 sm:left-5">
+        <div className="pointer-events-none fixed bottom-4 left-3 z-[70] flex flex-col gap-2 sm:bottom-5 sm:left-5">
+          <button
+            type="button"
+            onClick={() => {
+              if (!user) {
+                setShareToast("Connecte-toi pour publier un spot.");
+                window.setTimeout(() => setShareToast(null), 2800);
+                return;
+              }
+              setShowPublishSpotModal(true);
+            }}
+            title="Publier un spot"
+            className="pointer-events-auto inline-flex h-11 items-center justify-center gap-2 rounded-full border border-violet-500/45 bg-violet-600/30 px-4 text-xs font-bold text-violet-100 shadow-[0_4px_24px_rgba(139,92,246,0.28)] backdrop-blur-md transition hover:border-violet-400/55 hover:bg-violet-600/40 active:scale-[0.98]"
+          >
+            <svg className="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
+              <path d="M12 5v14M5 12h14" strokeLinecap="round" />
+            </svg>
+            Publier un spot
+          </button>
           <button
             type="button"
             onClick={() => setBlurHandActions((value) => !value)}
