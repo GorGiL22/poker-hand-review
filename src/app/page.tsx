@@ -2591,8 +2591,8 @@ export default function Home() {
                         <span
                           className={
                             isHero
-                              ? "-ml-8 origin-bottom-left rotate-[9deg] -translate-x-0.5"
-                              : "-ml-2"
+                              ? "-ml-11 origin-bottom-left rotate-[9deg] -translate-x-0.5"
+                              : "-ml-3"
                           }
                         >
                           <BackCard size={isHero ? "hero" : "md"} />
