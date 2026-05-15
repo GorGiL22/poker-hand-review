@@ -2014,7 +2014,8 @@ export default function Home() {
       }
       setStepIndex(0);
       setImportError(null);
-      if (user && firebaseConfigured) {
+      saveLibraryToIndexedDb(sorted);
+      if (user && firebaseConfigured && !isFirestoreQuotaPaused()) {
         await persistHandsToCloud(sorted);
         await persistReplaySessionToCloud({
           selectedHandId: sorted[0]?.id ?? "",
