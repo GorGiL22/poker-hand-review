@@ -110,6 +110,14 @@ function isFeedViewerHand(hand: ParsedHand): boolean {
   return hand.sourceFile?.startsWith("spotlab-feed/") ?? false;
 }
 
+function isTournamentViewerHand(hand: ParsedHand): boolean {
+  return hand.sourceFile?.startsWith("spotlab-tournament/") ?? false;
+}
+
+function isEphemeralViewerHand(hand: ParsedHand): boolean {
+  return isFeedViewerHand(hand) || isTournamentViewerHand(hand);
+}
+
 function dedupeSortParsedHands(hands: ParsedHand[]): ParsedHand[] {
   const deduped = new Map<string, ParsedHand>();
   hands.forEach((hand) => deduped.set(handStableKey(hand), hand));
