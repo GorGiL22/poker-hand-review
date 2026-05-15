@@ -281,7 +281,7 @@ export function PhrGroupsHub({
             >
               Aléa.
             </button>
-          </motion.div>
+          </div>
           <p className="text-[10px] text-zinc-600">6 à 12 caractères (A–Z, 2–9). Partage ce code pour inviter.</p>
         </label>
         <button
