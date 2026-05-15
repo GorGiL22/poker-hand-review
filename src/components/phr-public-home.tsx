@@ -78,6 +78,7 @@ export function PhrPublicHome({
   const [discussionPostId, setDiscussionPostId] = useState<string | null>(null);
   const [discussionCounts, setDiscussionCounts] = useState<Record<string, number>>({});
   const [showWelcomePanel, setShowWelcomePanel] = useState(false);
+  const [showImportPanel, setShowImportPanel] = useState(false);
 
   useEffect(() => {
     if (authLoading) return;
