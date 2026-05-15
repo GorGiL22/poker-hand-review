@@ -1624,26 +1624,14 @@ export default function Home() {
     };
   }, [user?.uid]);
 
-  /** Mains : debounce long, sans flush au démontage (évite N syncs complètes à chaque pas du replayer). */
-  useEffect(() => {
-    if (!user || skipCloudSaveRef.current || cloudLoading) return;
-
-    const timer = window.setTimeout(() => {
-      void persistHandsToCloud().catch(() => {
-        /* sauvegarde silencieuse */
-      });
-    }, 4000);
-
-    return () => window.clearTimeout(timer);
-  }, [user, hands, cloudLoading, firebaseConfigured]);
-
-  /** Session replayer seule : léger (1 doc utilisateur), pas de resync des mains. */
+  /** Session replayer : 1 doc léger, debounce long (pas de sync des mains à chaque pas). */
   useEffect(() => {
     if (!user || skipCloudSaveRef.current || cloudLoading || hands.length === 0) return;
+    if (isFirestoreQuotaPaused()) return;
 
     const timer = window.setTimeout(() => {
       void persistReplaySessionToCloud();
-    }, 1500);
+    }, 8000);
 
     return () => window.clearTimeout(timer);
   }, [
