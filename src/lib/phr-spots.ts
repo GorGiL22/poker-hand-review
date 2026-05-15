@@ -25,7 +25,7 @@ export type SpotHeroAction = "fold" | "call" | "raise";
 
 export type SpotSourceValidation = "coach" | "gto" | "population" | "unvalidated";
 
-export type SpotVisibility = "public" | "private";
+export type SpotVisibility = "public" | "private" | "group";
 
 export const SPOT_CATEGORIES: { id: SpotCategory; label: string }[] = [
   { id: "open", label: "Open" },
