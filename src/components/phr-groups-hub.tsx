@@ -37,12 +37,13 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   const displayName = pseudo ?? user?.displayName ?? "Joueur";
 
   useEffect(() => {
-    if (!user || !firebaseConfigured) {
+    if (!firebaseConfigured || authLoading) return;
+    if (!user) {
       queueMicrotask(() => setGroups([]));
       return;
     }
     return subscribeUserReviewGroups(user.uid, setGroups);
-  }, [user, firebaseConfigured]);
+  }, [user, authLoading, firebaseConfigured]);
 
   async function onCreate() {
     if (!user) {
