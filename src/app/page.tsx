@@ -598,6 +598,8 @@ function parseBetclicHand(rawHand: string, fallbackIndex: number, sourceFile?: s
     totalPot,
     dateTime,
     tag,
+    buyInEuro,
+    platform,
   };
 }
 
