@@ -333,7 +333,7 @@ export function PhrGroupsHub({
       </section>
 
       {localGroups || (user && !authLoading && firebaseConfigured) ? (
-        <motion.div className="shrink-0 space-y-2 border-t border-white/10 pt-4">
+        <div className="shrink-0 space-y-2 border-t border-white/10 pt-4">
           {localGroups ? (
             <button
               type="button"
