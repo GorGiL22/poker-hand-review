@@ -174,7 +174,7 @@ const PHR_BTN_TOOL =
   "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
 
 const PHR_POPOVER =
-  "absolute left-0 top-12 z-40 w-[min(100vw-2rem,22rem)] rounded-2xl border border-white/12 bg-zinc-950/96 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.58)] backdrop-blur-xl sm:top-14";
+  "absolute left-0 top-12 z-[2] w-[min(100vw-2rem,22rem)] rounded-2xl border border-white/12 bg-zinc-950/96 p-3 shadow-[0_24px_70px_rgba(0,0,0,0.58)] backdrop-blur-xl sm:top-14";
 
 const PHR_TOURNAMENT_RAIL =
   "mb-2 flex flex-col gap-1 rounded-2xl border border-white/10 bg-zinc-950/45 px-2.5 py-1.5 shadow-inner backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between sm:gap-2";
