@@ -1335,7 +1335,7 @@ export default function Home() {
     const activeHand =
       handsRef.current.find((hand) => hand.id === (session?.selectedHandId ?? selectedHandId)) ??
       handsRef.current[0];
-    if (activeHand && isFeedViewerHand(activeHand)) return;
+    if (activeHand && isEphemeralViewerHand(activeHand)) return;
     await saveUserReplaySession(uid, {
       selectedHandId: session?.selectedHandId ?? selectedHandId,
       stepIndex: session?.stepIndex ?? stepIndex,
