@@ -43,6 +43,7 @@ export function PhrPublishSpotModal({
   replay,
   authorUid,
   authorPseudo,
+  buyIn,
   onPublished,
 }: PhrPublishSpotModalProps) {
   const [question, setQuestion] = useState("");
