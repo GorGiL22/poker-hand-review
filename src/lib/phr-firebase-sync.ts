@@ -196,6 +196,9 @@ export async function loadUserCloudData(uid: string): Promise<{
   hands: Record<string, unknown>[];
   prefs: PhrCloudPrefsRead | null;
 }> {
+  if (isFirestoreQuotaPaused()) {
+    return { hands: [], prefs: null };
+  }
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
