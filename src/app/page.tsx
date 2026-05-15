@@ -1006,54 +1006,79 @@ function buildSeatLayout(players: Player[], heroName?: string): Record<
   return layout;
 }
 
+const CARD_SIZE_STYLES = {
+  md: {
+    box: "h-[5.25rem] w-[3.75rem] rounded-xl",
+    rank: "text-[1.35rem]",
+    cornerSuit: "text-[0.65rem]",
+    centerSuit: "text-[2.35rem]",
+    corner: "left-1.5 top-1.5 gap-0",
+    cornerBottom: "bottom-1.5 right-1.5 gap-0",
+  },
+  lg: {
+    box: "h-[7.25rem] w-[5.1rem] rounded-2xl",
+    rank: "text-[1.85rem]",
+    cornerSuit: "text-[0.8rem]",
+    centerSuit: "text-[3.35rem]",
+    corner: "left-2 top-2 gap-0",
+    cornerBottom: "bottom-2 right-2 gap-0",
+  },
+  hero: {
+    box: "h-[7.25rem] w-[5.1rem] rounded-2xl",
+    rank: "text-[1.85rem]",
+    cornerSuit: "text-[0.8rem]",
+    centerSuit: "text-[3.35rem]",
+    corner: "left-2 top-2 gap-0",
+    cornerBottom: "bottom-2 right-2 gap-0",
+  },
+} as const;
+
 function Card({ card, size = "md" }: { card: string; size?: "md" | "lg" | "hero" }) {
   const rank = card.slice(0, -1).toUpperCase();
   const suit = card.slice(-1).toLowerCase();
   const suitMap: Record<string, string> = { s: "♠", h: "♥", d: "♦", c: "♣" };
   const symbol = suitMap[suit] ?? "?";
   const isRed = suit === "h" || suit === "d";
-  const large = size === "lg";
-  const heroLarge = size === "hero";
+  const tone = isRed ? "text-rose-600" : "text-zinc-900";
+  const s = CARD_SIZE_STYLES[size === "hero" ? "hero" : size === "lg" ? "lg" : "md"];
+
+  const corner = (
+    <span className={`flex flex-col items-center leading-none ${tone}`}>
+      <span className={`font-black tabular-nums tracking-tighter ${s.rank}`}>{rank}</span>
+      <span className={`leading-none ${s.cornerSuit}`} aria-hidden>
+        {symbol}
+      </span>
+    </span>
+  );
+
   return (
     <span
-      className={`relative inline-flex items-center justify-center rounded-md border border-zinc-300 bg-white shadow-sm ${
-        heroLarge ? "h-24 w-17" : large ? "h-24 w-16" : "h-16 w-11"
-      }`}
+      className={`relative inline-flex shrink-0 items-center justify-center border border-zinc-200/90 bg-gradient-to-br from-white via-white to-zinc-100 shadow-[0_6px_18px_rgba(0,0,0,0.28),inset_0_1px_0_rgba(255,255,255,0.95)] ring-1 ring-zinc-950/5 ${s.box}`}
     >
+      <span className={`absolute ${s.corner}`}>{corner}</span>
       <span
-        className={`absolute left-1 top-1 font-bold ${heroLarge ? "text-sm" : large ? "text-sm" : "text-xs"} ${
-          isRed ? "text-rose-600" : "text-zinc-900"
-        }`}
-      >
-        {rank}
-      </span>
-      <span
-        className={`${isRed ? "text-rose-600" : "text-zinc-900"} ${heroLarge ? "text-4xl" : large ? "text-4xl" : "text-xl"}`}
+        className={`select-none leading-none ${tone} ${s.centerSuit}`}
+        style={{ fontFamily: "var(--font-geist-sans), system-ui, sans-serif" }}
+        aria-hidden
       >
         {symbol}
       </span>
-      <span
-        className={`absolute bottom-1 right-1 rotate-180 font-bold ${heroLarge ? "text-sm" : large ? "text-sm" : "text-xs"} ${
-          isRed ? "text-rose-600" : "text-zinc-900"
-        }`}
-      >
-        {rank}
-      </span>
+      <span className={`absolute rotate-180 ${s.cornerBottom}`}>{corner}</span>
     </span>
   );
 }
 
-function BackCard({ size = "md" }: { size?: "md" | "hero" }) {
-  const heroLarge = size === "hero";
+function BackCard({ size = "md" }: { size?: "md" | "hero" | "lg" }) {
+  const large = size === "hero" || size === "lg";
   return (
     <span
-      className={`relative inline-flex items-center justify-center rounded-md border border-rose-200/70 bg-gradient-to-b from-rose-700 to-red-900 shadow-sm ${
-        heroLarge ? "h-24 w-17" : "h-14 w-10"
+      className={`relative inline-flex shrink-0 items-center justify-center border border-rose-300/40 bg-gradient-to-br from-rose-600 via-rose-700 to-red-950 shadow-[0_6px_18px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.12)] ${
+        large ? "h-[7.25rem] w-[5.1rem] rounded-2xl" : "h-[5.25rem] w-[3.75rem] rounded-xl"
       }`}
     >
       <span
-        className={`rounded border border-rose-200/60 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.18)_1px,_transparent_1px)] bg-[length:4px_4px] ${
-          heroLarge ? "h-16 w-11" : "h-9 w-6"
+        className={`rounded-lg border border-rose-200/35 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_1px,_transparent_1px)] bg-[length:5px_5px] ${
+          large ? "h-[4.75rem] w-[3.35rem]" : "h-[3.5rem] w-[2.45rem]"
         }`}
       />
     </span>
