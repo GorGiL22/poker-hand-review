@@ -281,18 +281,21 @@ export function PhrPublicHome({
               </div>
             </div>
             {post.spotMeta ? (
-              <div className="mt-3 space-y-2">
-                <p className="text-[11px] font-medium text-violet-300/90">{post.spotMeta.stepLabel}</p>
-                <p className="text-sm leading-relaxed text-zinc-200">{post.spotMeta.question}</p>
-                <p className="text-xs text-zinc-500">
-                  Ma ligne :{" "}
-                  <span className="font-semibold text-zinc-300">
-                    {post.spotMeta.heroAction.toUpperCase()}
-                    {post.spotMeta.heroAmount != null ? ` ${post.spotMeta.heroAmount}` : ""}
-                  </span>
-                  {" · "}
-                  {sourceValidationLabel(post.spotMeta.sourceValidation as SpotSourceValidation)}
-                </p>
+              <div className="mt-3 flex gap-3">
+                <PhrSpotFeedPreview post={post} />
+                <div className="min-w-0 flex-1 space-y-2">
+                  <p className="text-[11px] font-medium text-violet-300/90">{post.spotMeta.stepLabel}</p>
+                  <p className="text-sm leading-relaxed text-zinc-200">{post.spotMeta.question}</p>
+                  <p className="text-xs text-zinc-500">
+                    Ma ligne :{" "}
+                    <span className="font-semibold text-zinc-300">
+                      {post.spotMeta.heroAction.toUpperCase()}
+                      {post.spotMeta.heroAmount != null ? ` ${post.spotMeta.heroAmount}` : ""}
+                    </span>
+                    {" · "}
+                    {sourceValidationLabel(post.spotMeta.sourceValidation as SpotSourceValidation)}
+                  </p>
+                </div>
               </div>
             ) : (
               <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-xl border border-white/8 bg-black/25 p-3 font-mono text-[11px] leading-relaxed text-zinc-300">
