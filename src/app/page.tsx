@@ -1444,28 +1444,6 @@ export default function Home() {
     return Number.isFinite(normalized) ? Math.max(0, normalized) : 0;
   }
 
-  const tournamentOptions = useMemo(() => {
-    const groups = new Map<string, { name: string; date: string | null; count: number }>();
-    hands.forEach((hand) => {
-      const key = deriveTournamentKey(hand);
-      const date = formatTournamentDate(hand.dateTime);
-      const prev = groups.get(key);
-      if (!prev) {
-        groups.set(key, { name: key, date, count: 1 });
-      } else {
-        groups.set(key, { name: key, date: prev.date ?? date, count: prev.count + 1 });
-      }
-    });
-    return [
-      { key: "ALL", label: `Tous les tournois (${hands.length} mains)` },
-      ...Array.from(groups.entries())
-        .sort((a, b) => a[0].localeCompare(b[0], "fr"))
-        .map(([key, value]) => ({
-          key,
-          label: value.date ? `${value.name} - ${value.date} (${value.count})` : `${value.name} (${value.count})`,
-        })),
-    ];
-  }, [hands]);
   const libraryHands = useMemo(
     () => hands.filter((hand) => !isEphemeralViewerHand(hand)) as MonEspaceHand[],
     [hands],
