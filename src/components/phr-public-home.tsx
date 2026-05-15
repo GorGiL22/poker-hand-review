@@ -238,11 +238,65 @@ export function PhrPublicHome({
             {feedError}
           </p>
         )}
-        {!loading && !feedError && posts.length === 0 && (
+        {!loading && !feedError && posts.length === 0 && tournaments.length === 0 && !tournamentsLoading && (
           <p className="rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-8 text-center text-sm text-zinc-500">
             Aucune main publiée pour l’instant. Importe tes historiques puis publie une main pour lancer la
             discussion.
           </p>
+        )}
+
+        {(tournamentsLoading || tournaments.length > 0) && (
+          <section className="space-y-2">
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-emerald-400/90">
+              Tournois partagés
+            </p>
+            {tournamentsLoading && (
+              <p className="rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-4 text-center text-sm text-zinc-500">
+                Chargement des tournois…
+              </p>
+            )}
+            {tournaments.map((tournament) => (
+              <article
+                key={tournament.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => onOpenTournament?.(tournament)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    onOpenTournament?.(tournament);
+                  }
+                }}
+                className="cursor-pointer rounded-2xl border border-emerald-500/25 bg-emerald-950/15 p-4 transition hover:border-emerald-400/40 hover:bg-emerald-950/25 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-500/50"
+              >
+                <motion.div className="flex flex-wrap items-start justify-between gap-2">
+                  <div>
+                    <p className="text-sm font-bold text-emerald-50">{tournament.tournamentName}</p>
+                    <p className="text-[11px] text-zinc-500">
+                      {tournament.authorPseudo} · {formatRelativeTime(tournament.createdAtMs)}
+                    </p>
+                  </div>
+                  <p className="text-[11px] font-semibold text-emerald-300/90">
+                    {tournament.handCount} mains →
+                  </p>
+                </motion.div>
+                {tournament.description ? (
+                  <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-zinc-300">
+                    {tournament.description}
+                  </p>
+                ) : (
+                  <p className="mt-2 text-xs text-zinc-500">{tournament.summary.split("\n")[0]}</p>
+                )}
+                {tournament.buyIn ? (
+                  <p className="mt-1 text-[11px] text-zinc-500">Buy-in {tournament.buyIn} €</p>
+                ) : null}
+              </article>
+            ))}
+          </section>
+        )}
+
+        {posts.length > 0 && (
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-violet-300/90">Spots & mains</p>
         )}
         {posts.map((post) => {
           const isSpot = post.feedSource === "spots";
