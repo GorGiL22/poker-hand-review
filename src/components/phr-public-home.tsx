@@ -9,6 +9,7 @@ import {
   type PublicHandPost,
   type PublicReaction,
 } from "@/lib/phr-public-feed";
+import { hasSeenWelcomePanel, markWelcomePanelSeen } from "@/lib/phr-welcome";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
 const PHR_BTN_TOOL =
@@ -44,7 +45,6 @@ type PhrPublicHomeProps = {
   cloudLoading?: boolean;
   cloudLoadError?: string | null;
   importError?: string | null;
-  onMonEspaceClick?: () => void;
 };
 
 export function PhrPublicHome({
@@ -56,13 +56,29 @@ export function PhrPublicHome({
   cloudLoading = false,
   cloudLoadError = null,
   importError = null,
-  onMonEspaceClick,
 }: PhrPublicHomeProps) {
-  const { user, firebaseConfigured } = usePhrFirebase();
+  const { user, authLoading, firebaseConfigured } = usePhrFirebase();
   const [posts, setPosts] = useState<PublicHandPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [feedError, setFeedError] = useState<string | null>(null);
   const [reactBusyId, setReactBusyId] = useState<string | null>(null);
+  const [showWelcomePanel, setShowWelcomePanel] = useState(false);
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      queueMicrotask(() => setShowWelcomePanel(false));
+      return;
+    }
+    queueMicrotask(() => setShowWelcomePanel(!hasSeenWelcomePanel(user.uid)));
+  }, [user, authLoading]);
+
+  useEffect(() => {
+    if (!showWelcomePanel || !user) return;
+    return () => {
+      markWelcomePanelSeen(user.uid);
+    };
+  }, [showWelcomePanel, user]);
 
   useEffect(() => {
     if (!firebaseConfigured) {
@@ -106,37 +122,33 @@ export function PhrPublicHome({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-4">
-      <header className="shrink-0 rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-4 backdrop-blur-sm sm:px-5">
-        <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/90">Fil public</p>
-        <h1 className="mt-1 text-xl font-black tracking-tight text-zinc-50 sm:text-2xl">Bienvenue sur SpotLab</h1>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
-          Analyse tes mains simplement et partage-les avec les autres pour obtenir leur avis.
+      {showWelcomePanel ? (
+        <header className="shrink-0 rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-4 backdrop-blur-sm sm:px-5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/90">Fil public</p>
+          <h1 className="mt-1 text-xl font-black tracking-tight text-zinc-50 sm:text-2xl">Bienvenue sur SpotLab</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
+            Analyse tes mains simplement et partage-les avec les autres pour obtenir leur avis.
+          </p>
+        </header>
+      ) : (
+        <p className="shrink-0 text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/90">Fil public</p>
+      )}
+
+      {user && cloudLoading && (
+        <p className="shrink-0 rounded-xl border border-violet-500/25 bg-violet-950/25 px-3 py-2 text-sm text-violet-100">
+          Chargement de tes mains depuis ton compte…
         </p>
-        {user && cloudLoading && (
-          <p className="mt-3 rounded-xl border border-violet-500/25 bg-violet-950/25 px-3 py-2 text-sm text-violet-100">
-            Chargement de tes mains depuis ton compte…
-          </p>
-        )}
-        {user && !cloudLoading && cloudLoadError && (
-          <p className="mt-3 rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-sm text-rose-200">
-            {cloudLoadError}
-          </p>
-        )}
-        {user && !cloudLoading && !cloudLoadError && onMonEspaceClick && (
-          <button
-            type="button"
-            onClick={onMonEspaceClick}
-            className="mt-3 rounded-xl border border-violet-500/35 bg-violet-600/20 px-4 py-2 text-sm font-semibold text-violet-100 transition hover:border-violet-400/50 hover:bg-violet-600/30"
-          >
-            Ouvrir mon espace replayer
-          </button>
-        )}
-        {importError && (
-          <p className="mt-3 rounded-xl border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm text-amber-100">
-            {importError}
-          </p>
-        )}
-      </header>
+      )}
+      {user && !cloudLoading && cloudLoadError && (
+        <p className="shrink-0 rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-sm text-rose-200">
+          {cloudLoadError}
+        </p>
+      )}
+      {importError && (
+        <p className="shrink-0 rounded-xl border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm text-amber-100">
+          {importError}
+        </p>
+      )}
 
       <div className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1">
         {loading && (
@@ -160,7 +172,7 @@ export function PhrPublicHome({
             key={post.id}
             className="rounded-2xl border border-white/10 bg-zinc-950/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm"
           >
-            <div className="flex flex-wrap items-center justify-between gap-2">
+            <motion.div className="flex flex-wrap items-center justify-between gap-2">
               <div>
                 <p className="text-sm font-bold text-zinc-100">{post.authorPseudo}</p>
                 <p className="text-[11px] text-zinc-500">{formatRelativeTime(post.createdAtMs)}</p>
@@ -168,7 +180,7 @@ export function PhrPublicHome({
               <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
                 {handPreviewLine(post.hand)}
               </p>
-            </div>
+            </motion.div>
             <pre className="mt-3 max-h-48 overflow-auto whitespace-pre-wrap rounded-xl border border-white/8 bg-black/25 p-3 font-mono text-[11px] leading-relaxed text-zinc-300">
               {post.summary}
             </pre>
@@ -215,7 +227,7 @@ export function PhrPublicHome({
           <div>
             <p className="text-sm font-semibold text-zinc-100">Analyser tes propres mains</p>
             <p className="text-xs text-zinc-500">Importe un historique .txt pour ouvrir le replayer.</p>
-          </div>
+          </motion.div>
           <button type="button" onClick={onImportClick} className={PHR_BTN_TOOL}>
             Importer des fichiers
           </button>
