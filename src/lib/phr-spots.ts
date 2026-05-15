@@ -8,7 +8,7 @@ import {
 
 import { getFirebaseDb } from "./firebase";
 import { sanitizeForFirestore } from "./phr-firebase-sync";
-import { emptyReactionCounts, type PublicReaction } from "./phr-public-feed";
+import { emptyReactionCounts, type PublicHandPost, type PublicReaction } from "./phr-public-feed";
 
 export type SpotCategory =
   | "open"
