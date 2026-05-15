@@ -48,6 +48,38 @@ export type ReviewGroupMember = {
 
 const INVITE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
 
+function groupsCacheKey(uid: string): string {
+  return `phr-review-groups:${uid}`;
+}
+
+function readGroupsCache(uid: string): ReviewGroupMembership[] | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(groupsCacheKey(uid));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return null;
+    return parsed.filter(
+      (g): g is ReviewGroupMembership =>
+        typeof g === "object" &&
+        g !== null &&
+        typeof (g as ReviewGroupMembership).groupId === "string" &&
+        typeof (g as ReviewGroupMembership).name === "string",
+    );
+  } catch {
+    return null;
+  }
+}
+
+function writeGroupsCache(uid: string, groups: ReviewGroupMembership[]): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(groupsCacheKey(uid), JSON.stringify(groups));
+  } catch {
+    /* quota / mode privé */
+  }
+}
+
 export function generateInviteCode(length = 8): string {
   let code = "";
   for (let i = 0; i < length; i += 1) {
