@@ -90,6 +90,26 @@ function handStableKey(hand: ParsedHand): string {
   return `${hand.sourceFile ?? "local"}::${hand.id}`;
 }
 
+function dedupeSortParsedHands(hands: ParsedHand[]): ParsedHand[] {
+  const deduped = new Map<string, ParsedHand>();
+  hands.forEach((hand) => deduped.set(handStableKey(hand), hand));
+  return Array.from(deduped.values()).sort((a, b) => {
+    const ta = deriveTournamentKey(a);
+    const tb = deriveTournamentKey(b);
+    const byTournament = ta.localeCompare(tb, "fr");
+    if (byTournament !== 0) return byTournament;
+    return (a.dateTime ?? "").localeCompare(b.dateTime ?? "");
+  });
+}
+
+function mergeParsedHandLists(...lists: ParsedHand[]): ParsedHand[] {
+  return dedupeSortParsedHands(lists.flat());
+}
+
+function parsedHandsToCloudRecords(hands: ParsedHand[]): Record<string, unknown>[] {
+  return hands.map((hand) => hand as unknown as Record<string, unknown>);
+}
+
 function storedRecordToParsedHand(raw: Record<string, unknown>): ParsedHand | null {
   if (!parseStoredHand(raw)) return null;
   return raw as ParsedHand;
