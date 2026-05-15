@@ -15,7 +15,15 @@ import {
 } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
-import { sanitizeForFirestore } from "./phr-firebase-sync";
+import { parseStoredHand, sanitizeForFirestore } from "./phr-firebase-sync";
+
+export const FEED_VIEWER_SOURCE_PREFIX = "spotlab-feed/";
+
+export type FeedReplayerSession = {
+  handRecord: Record<string, unknown>;
+  uiStepIndex: number;
+  displayUnit: "bb" | "chips";
+};
 
 export type PublicReaction = "like" | "fire" | "think";
 
