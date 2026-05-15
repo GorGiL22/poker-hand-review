@@ -175,7 +175,16 @@ export function PhrPublicHome({
         {posts.map((post) => (
           <article
             key={post.id}
-            className="rounded-2xl border border-white/10 bg-zinc-950/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm"
+            role="button"
+            tabIndex={0}
+            onClick={() => onOpenPost(post)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onOpenPost(post);
+              }
+            }}
+            className="cursor-pointer rounded-2xl border border-white/10 bg-zinc-950/55 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-sm transition hover:border-violet-500/35 hover:bg-zinc-900/65 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500/50"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
