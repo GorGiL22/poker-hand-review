@@ -308,8 +308,13 @@ export function PhrPublicHome({
                 );
               })}
             </div>
+            {discussionOpen && isSpot && (
+              <PhrFeedSpotDiscussion post={post} onClose={() => setDiscussionPostId(null)} />
+            )}
+            </div>
           </article>
-        ))}
+          );
+        })}
       </div>
 
       <div
