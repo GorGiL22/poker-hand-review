@@ -40,7 +40,7 @@ function handPreviewLine(hand: Record<string, unknown>): string {
 type PhrPublicHomeProps = {
   welcomeDropActive: boolean;
   onImportClick: () => void;
-  onOpenPost: (post: PublicHandPost) => void;
+  onOpenPost: (post: PublicHandPost) => boolean;
   onDragOver: (event: DragEvent<HTMLDivElement>) => void;
   onDragLeave: (event: DragEvent<HTMLDivElement>) => void;
   onDrop: (event: DragEvent<HTMLDivElement>) => void;
