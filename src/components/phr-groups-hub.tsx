@@ -30,6 +30,7 @@ const PHR_BTN_TOOL =
 
 type PhrGroupsHubProps = {
   onOpenGroup: (groupId: string) => void;
+  onBack?: () => void;
   welcomeDropActive?: boolean;
   onImportClick?: () => void;
   onDragOver?: (event: DragEvent<HTMLDivElement>) => void;
