@@ -105,6 +105,11 @@ export function PhrPublishSpotModal({
       return;
     }
 
+    if (visibility === "group" && !selectedGroupId) {
+      setError("Choisis un groupe ou crée-en un depuis l’accueil.");
+      return;
+    }
+
     setBusy(true);
     setError(null);
     try {
@@ -118,9 +123,10 @@ export function PhrPublishSpotModal({
         heroAmount: needsAmount ? parsedAmount : null,
         sourceValidation,
         visibility,
+        groupId: visibility === "group" ? selectedGroupId : undefined,
         buyIn,
       });
-      onPublished?.(visibility);
+      onPublished?.(visibility, visibility === "group" ? selectedGroupId : undefined);
       onClose();
     } catch (err) {
       const message = err instanceof Error ? err.message : "Publication impossible.";
