@@ -1450,6 +1450,10 @@ export default function Home() {
         })),
     ];
   }, [hands]);
+  const libraryHands = useMemo(
+    () => hands.filter((hand) => !isEphemeralViewerHand(hand)) as MonEspaceHand[],
+    [hands],
+  );
   const tournamentFilteredHands = useMemo(() => {
     if (selectedTournament === "ALL") return hands;
     return hands.filter((hand) => deriveTournamentKey(hand) === selectedTournament);
