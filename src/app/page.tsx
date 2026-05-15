@@ -1327,12 +1327,28 @@ export default function Home() {
   userRef.current = user;
   handsRef.current = hands;
 
+  function pauseCloudSyncForQuota(): void {
+    skipCloudSaveRef.current = true;
+    setCloudSyncWarning(
+      "Quota Firestore dépassé (plan gratuit). La synchro cloud est en pause — tes mains restent sur cet appareil. Réessaie demain ou active la facturation Blaze dans la console Firebase.",
+    );
+  }
+
   async function persistHandsToCloud(handsToSave?: ParsedHand[]): Promise<void> {
     const uid = userRef.current?.uid;
     if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
     const list = (handsToSave ?? handsRef.current).filter((hand) => !isEphemeralViewerHand(hand));
     if (list.length === 0) return;
-    await saveUserHandsOnly(uid, parsedHandsToCloudRecords(list), handStableKeyFromRecord);
+    try {
+      await saveUserHandsOnly(uid, parsedHandsToCloudRecords(list), handStableKeyFromRecord);
+      setCloudSyncWarning(null);
+    } catch (err) {
+      if (isFirestoreQuotaError(err)) {
+        pauseCloudSyncForQuota();
+        return;
+      }
+      throw err;
+    }
   }
 
   async function persistReplaySessionToCloud(session?: {
