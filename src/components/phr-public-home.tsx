@@ -107,6 +107,13 @@ export function PhrPublicHome({
     return unsub;
   }, [firebaseConfigured]);
 
+  function handleOpenPost(post: PublicHandPost) {
+    setFeedError(null);
+    if (!onOpenPost(post)) {
+      setFeedError("Impossible d’ouvrir cette main dans le replayer.");
+    }
+  }
+
   async function onReact(postId: string, reaction: PublicReaction) {
     if (!user) {
       setFeedError("Connecte-toi pour réagir aux mains.");
