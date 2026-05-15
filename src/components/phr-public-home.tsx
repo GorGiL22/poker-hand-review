@@ -229,7 +229,10 @@ export function PhrPublicHome({
                     key={`${post.id}-${reaction}`}
                     type="button"
                     disabled={reactBusyId === post.id}
-                    onClick={() => void onReact(post.id, reaction)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      void onReact(post.id, reaction);
+                    }}
                     className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition disabled:opacity-50 ${
                       active
                         ? "border-violet-400/50 bg-violet-600/25 text-violet-100"
