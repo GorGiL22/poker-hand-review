@@ -48,6 +48,11 @@ export type PublicHandPost = {
     sourceValidation: string;
     visibleBoard: string[];
     potLabel: string;
+    tournamentName?: string;
+    buyIn?: string;
+    levelLabel?: string;
+    blindsSb?: number | null;
+    blindsBb?: number | null;
   };
 };
 
