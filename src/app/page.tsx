@@ -1324,6 +1324,14 @@ export default function Home() {
   const [showSettingsPanel, setShowSettingsPanel] = useState(false);
   const [showPublishSpotModal, setShowPublishSpotModal] = useState(false);
   const [spotPublishContext, setSpotPublishContext] = useState<SpotReplayContext | null>(null);
+  const [showPublishTournamentModal, setShowPublishTournamentModal] = useState(false);
+  const [publishTournamentContext, setPublishTournamentContext] = useState<{
+    tournamentKey: string;
+    tournamentName: string;
+    tournamentVariant?: string;
+    buyIn?: string;
+    hands: Record<string, unknown>[];
+  } | null>(null);
   const [blurHandActions, setBlurHandActions] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [showOddsModule, setShowOddsModule] = useState(false);
