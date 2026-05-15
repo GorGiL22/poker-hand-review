@@ -197,7 +197,7 @@ export function PhrPublicHome({
                     {post.spotMeta.heroAmount != null ? ` ${post.spotMeta.heroAmount}` : ""}
                   </span>
                   {" · "}
-                  {post.spotMeta.sourceValidation}
+                  {sourceValidationLabel(post.spotMeta.sourceValidation as SpotSourceValidation)}
                 </p>
               </div>
             ) : (
