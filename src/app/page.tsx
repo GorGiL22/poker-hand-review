@@ -2283,7 +2283,7 @@ export default function Home() {
             className="hidden"
             aria-hidden
           />
-          {hands.length > 0 && !viewPublicHome && !viewSpotReview && (
+          {hands.length > 0 && !viewPublicHome && !viewSpotReview && !viewTournamentReview && (
           <header className={`${PHR_REVIEW_TOPBAR} mb-2 flex flex-wrap items-center gap-2 sm:mb-3`}>
             <button
               type="button"
