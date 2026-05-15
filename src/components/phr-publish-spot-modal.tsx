@@ -46,6 +46,7 @@ export function PhrPublishSpotModal({
   authorUid,
   authorPseudo,
   buyIn,
+  myGroups = [],
   onPublished,
 }: PhrPublishSpotModalProps) {
   const [question, setQuestion] = useState("");
