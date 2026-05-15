@@ -1569,6 +1569,7 @@ export default function Home() {
         if (merged.length === 0) return;
 
         handsToPersist = merged;
+        shouldPersistAfterLoad = local.length > 0 && merged.length >= local.length;
 
         if (local.length === 0 && parsed.length > 0) {
           setShowPublicHome(false);
