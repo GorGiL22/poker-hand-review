@@ -836,7 +836,7 @@ function formatHandForShare(hand: ParsedHand): string {
   const boardLine =
     finalBoard.length > 0 ? `Plateau: ${finalBoard.join(" ")}` : "Plateau: (preflop)";
 
-  const lines: string[] = ["--- Poker Hand Review ---"];
+  const lines: string[] = ["--- SpotLab ---"];
   if (hand.tournamentName) lines.push(`Tournoi: ${hand.tournamentName}`);
   if (hand.dateTime) lines.push(`Date: ${hand.dateTime}`);
   if (hand.levelLabel) lines.push(`Niveau: ${hand.levelLabel}`);
