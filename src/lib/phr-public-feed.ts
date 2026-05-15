@@ -101,7 +101,7 @@ export async function publishPublicPost(input: {
     authorUid: input.authorUid,
     authorPseudo: input.authorPseudo.trim() || "Joueur",
     summary: input.summary.trim(),
-    hand: input.hand,
+    hand: sanitizeForFirestore(input.hand),
     reactions: {},
     reactionCounts: emptyCounts(),
     createdAt: serverTimestamp(),
