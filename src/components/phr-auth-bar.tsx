@@ -47,12 +47,13 @@ function mapAuthError(error: unknown): string {
 }
 
 function usePhrAuthForm() {
-  const { user, authLoading, firebaseConfigured, signUpWithEmail, signInWithEmail, signOutUser } =
+  const { user, pseudo, authLoading, firebaseConfigured, signUpWithEmail, signInWithEmail, signOutUser } =
     usePhrFirebase();
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<AuthMode>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [pseudoInput, setPseudoInput] = useState("");
   const [busy, setBusy] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -60,6 +61,7 @@ function usePhrAuthForm() {
     setOpen(false);
     setFormError(null);
     setPassword("");
+    setPseudoInput("");
   }, []);
 
   async function onSubmit(event: FormEvent) {
@@ -68,12 +70,13 @@ function usePhrAuthForm() {
     setBusy(true);
     try {
       if (mode === "signup") {
-        await signUpWithEmail(email, password);
+        await signUpWithEmail(email, password, pseudoInput);
       } else {
         await signInWithEmail(email, password);
       }
       closeModal();
       setEmail("");
+      setPseudoInput("");
     } catch (err) {
       setFormError(mapAuthError(err));
     } finally {
