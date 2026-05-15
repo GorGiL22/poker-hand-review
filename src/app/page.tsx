@@ -2364,7 +2364,7 @@ export default function Home() {
             >
               SpotLab
             </button>
-            <div className="relative flex min-w-0 flex-1 flex-wrap items-center gap-2">
+            <div className="relative z-[1] flex min-w-0 flex-1 flex-wrap items-center gap-2">
               <button
                 type="button"
                 onClick={() => {
