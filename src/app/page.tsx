@@ -2266,6 +2266,26 @@ export default function Home() {
     return ok;
   }
 
+  async function deleteSpotFromMonEspace(post: PublicHandPost) {
+    if (!user) {
+      setShareToast("Connecte-toi pour supprimer un spot.");
+      window.setTimeout(() => setShareToast(null), 2800);
+      return;
+    }
+    try {
+      await deleteSpot(post.id, user.uid);
+      if (spotReviewPost?.id === post.id) {
+        closeSpotReview();
+      }
+      setShareToast("Spot supprimé.");
+      window.setTimeout(() => setShareToast(null), 2800);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Suppression impossible.";
+      setShareToast(message);
+      window.setTimeout(() => setShareToast(null), 3200);
+    }
+  }
+
   function parsedHandToPublishRecord(hand: ParsedHand): Record<string, unknown> {
     return { ...hand } as Record<string, unknown>;
   }
