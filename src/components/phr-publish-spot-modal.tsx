@@ -296,7 +296,13 @@ export function PhrPublishSpotModal({
             onClick={() => void onSubmit()}
             className="w-full rounded-xl border border-violet-500/50 bg-gradient-to-r from-violet-600/80 to-fuchsia-600/70 py-2.5 text-sm font-bold text-white shadow-[0_4px_24px_rgba(139,92,246,0.35)] transition hover:border-violet-400/60 disabled:opacity-50"
           >
-            {busy ? "Publication…" : visibility === "public" ? "Publier le spot" : "Enregistrer en privé"}
+            {busy
+              ? "Publication…"
+              : visibility === "public"
+                ? "Publier le spot"
+                : visibility === "group"
+                  ? "Publier dans le groupe"
+                  : "Enregistrer en perso"}
           </button>
         </footer>
       </div>
