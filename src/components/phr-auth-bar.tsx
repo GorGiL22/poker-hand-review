@@ -433,7 +433,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick, minimal = false 
     <>
       <header className="relative z-[100] shrink-0 border-b border-white/10 bg-zinc-950/90 shadow-[inset_0_-1px_0_rgba(255,255,255,0.04)] backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-[1520px] flex-col gap-2 px-3 py-2 sm:px-5">
-          <motion.div
+          <div
             className={`${PHR_REVIEW_TOPBAR} grid w-full items-center gap-2 ${
               minimal ? "grid-cols-[1fr_auto]" : "grid-cols-[1fr_auto_1fr]"
             }`}
@@ -441,16 +441,18 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick, minimal = false 
             <span className="min-w-0 justify-self-start truncate text-xs font-black tracking-tight text-zinc-100 sm:text-sm">
               SpotLab
             </span>
-            <div className="flex flex-wrap items-center justify-center gap-2 justify-self-center">
-              <button type="button" onClick={onMonEspace} className={PHR_MON_ESPACE_BTN}>
-                Mon espace
-              </button>
-              {onReplayerClick ? (
-                <button type="button" onClick={onReplayerClick} className={PHR_REPLAYER_BTN}>
-                  Replayer
+            {!minimal ? (
+              <div className="flex flex-wrap items-center justify-center gap-2 justify-self-center">
+                <button type="button" onClick={onMonEspace} className={PHR_MON_ESPACE_BTN}>
+                  Mon espace
                 </button>
-              ) : null}
-            </div>
+                {onReplayerClick ? (
+                  <button type="button" onClick={onReplayerClick} className={PHR_REPLAYER_BTN}>
+                    Replayer
+                  </button>
+                ) : null}
+              </motion.div>
+            ) : null}
             <div className="flex min-w-0 shrink-0 flex-wrap items-center justify-end justify-self-end gap-2">
               {!auth.firebaseConfigured && (
                 <span className="max-w-[min(100vw-12rem,12rem)] text-right text-[10px] leading-snug text-amber-200/90 sm:max-w-[14rem] sm:text-[11px]">
