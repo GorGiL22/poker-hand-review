@@ -47,6 +47,65 @@ export function emptyReactionCounts(): Record<PublicReaction, number> {
   return { like: 0, fire: 0, think: 0 };
 }
 
+function isFirestoreIndexError(err: unknown): boolean {
+  const code =
+    err && typeof err === "object" && "code" in err && typeof err.code === "string" ? err.code : "";
+  const message = err instanceof Error ? err.message : "";
+  return code === "failed-precondition" && /index/i.test(message);
+}
+
+function mapSpotSnapshot(snap: QuerySnapshot): PublicHandPost[] {
+  return snap.docs
+    .map((d) => parseFeedDocument(d.id, d.data() as Record<string, unknown>, "spots"))
+    .sort((a, b) => b.createdAtMs - a.createdAtMs)
+    .slice(0, 40);
+}
+
+/** Abonnement aux spots publics ; repli sans `orderBy` tant que l’index composite se construit. */
+function subscribePublicSpots(
+  onData: (posts: PublicHandPost[]) => void,
+  onError?: (error: Error) => void,
+): Unsubscribe {
+  const db = getFirebaseDb();
+  if (!db) {
+    queueMicrotask(() => onData([]));
+    return () => {};
+  }
+
+  const col = collection(db, "spots");
+  const primaryQuery = query(
+    col,
+    where("visibility", "==", "public"),
+    orderBy("createdAt", "desc"),
+    limit(40),
+  );
+  const fallbackQuery = query(col, where("visibility", "==", "public"), limit(80));
+
+  let activeUnsub: Unsubscribe | null = null;
+
+  const attach = (q: Query, useFallback: boolean) => {
+    activeUnsub?.();
+    activeUnsub = onSnapshot(
+      q,
+      (snap) => onData(mapSpotSnapshot(snap)),
+      (err) => {
+        if (!useFallback && isFirestoreIndexError(err)) {
+          attach(fallbackQuery, true);
+          return;
+        }
+        onError?.(err instanceof Error ? err : new Error("Erreur chargement des spots"));
+        onData([]);
+      },
+    );
+  };
+
+  attach(primaryQuery, false);
+  return () => {
+    activeUnsub?.();
+    activeUnsub = null;
+  };
+}
+
 export function parseFeedDocument(
   id: string,
   data: Record<string, unknown>,
