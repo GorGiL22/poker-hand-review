@@ -263,7 +263,7 @@ export function PhrGroupsHub({
         />
         <label className="block space-y-1">
           <span className="text-xs text-zinc-500">Code d’invitation</span>
-          <motion.div className="flex gap-2">
+          <div className="flex gap-2">
             <input
               value={createInviteCode}
               onChange={(e) => setCreateInviteCode(normalizeInviteCode(e.target.value))}
