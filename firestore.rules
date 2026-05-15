@@ -12,6 +12,7 @@ service cloud.firestore {
           && request.auth.uid == userId
           && request.resource.data.groupId == groupId
           && request.resource.data.name is string
+          && request.resource.data.description is string
           && request.resource.data.role in ['owner', 'member'];
         allow update, delete: if false;
       }
