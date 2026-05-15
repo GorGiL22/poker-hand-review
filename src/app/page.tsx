@@ -14,6 +14,7 @@ import {
 import { PhrAccountSettingsCard, PhrAuthBar } from "@/components/phr-auth-bar";
 import { PhrPublishSpotModal } from "@/components/phr-publish-spot-modal";
 import { PhrPublicHome } from "@/components/phr-public-home";
+import { PhrSpotReviewInfoBar } from "@/components/phr-spot-review-info-bar";
 import { PhrSpotReviewShell } from "@/components/phr-spot-review-shell";
 import { PhrHandFiltersPanel } from "@/components/phr-hand-filters";
 import {
