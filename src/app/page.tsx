@@ -71,6 +71,7 @@ import {
 } from "@/lib/phr-review-groups";
 import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
 import {
+  parseBetclicHandBuyIn,
   parseBuyInFromTournamentName,
   parseWinamaxHeaderBuyIn,
 } from "@/lib/phr-tournament-library";
