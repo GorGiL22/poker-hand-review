@@ -1259,6 +1259,7 @@ function playTableChipSound(ctx: AudioContext) {
 
 export default function Home() {
   const { user, pseudo, authLoading, firebaseConfigured } = usePhrFirebase();
+  // authLoading évite de vider la liste des groupes pendant la reconnexion Firebase au refresh.
   const [hands, setHands] = useState<ParsedHand[]>([]);
   const [selectedHandId, setSelectedHandId] = useState<string>("");
   const [stepIndex, setStepIndex] = useState(0);
