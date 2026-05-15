@@ -122,16 +122,7 @@ export function PhrPublicHome({
             {cloudLoadError}
           </p>
         )}
-        {onReturnToReplayer && (
-          <button
-            type="button"
-            onClick={onReturnToReplayer}
-            className="mt-3 rounded-xl border border-emerald-500/35 bg-emerald-600/20 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:border-emerald-400/50 hover:bg-emerald-600/30"
-          >
-            Retour au replayer
-          </button>
-        )}
-        {user && !cloudLoading && !cloudLoadError && onMonEspaceClick && !onReturnToReplayer && (
+        {user && !cloudLoading && !cloudLoadError && onMonEspaceClick && (
           <button
             type="button"
             onClick={onMonEspaceClick}
