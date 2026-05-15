@@ -1345,12 +1345,58 @@ export default function Home() {
     setCloudSyncWarning(FIRESTORE_QUOTA_USER_MESSAGE);
   }
 
+  function persistableHandsList(list?: ParsedHand[]): ParsedHand[] {
+    return (list ?? handsRef.current).filter(isPersistableLocalHand);
+  }
+
+  function saveLibraryToIndexedDb(list?: ParsedHand[]): void {
+    const library = persistableHandsList(list);
+    if (library.length === 0) return;
+    void saveLocalHands(parsedHandsToCloudRecords(library)).catch(() => {
+      /* bibliothèque locale best-effort */
+    });
+  }
+
   useEffect(() => {
     if (isFirestoreQuotaPaused()) {
       skipCloudSaveRef.current = true;
       setCloudSyncWarning(FIRESTORE_QUOTA_USER_MESSAGE);
     }
   }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    void requestPersistentLocalStorage();
+    void loadLocalHands()
+      .then((rawRows) => {
+        if (cancelled) return;
+        const parsed: ParsedHand[] = [];
+        for (const raw of rawRows) {
+          const hand = storedRecordToParsedHand(raw);
+          if (hand) parsed.push(hand);
+        }
+        if (parsed.length === 0) return;
+
+        setHands((prev) => mergeParsedHandLists(parsed, prev));
+        setSelectedHandId((prevId) => prevId || parsed[0]!.id);
+        setShowPublicHome(false);
+      })
+      .catch(() => {
+        /* IndexedDB indisponible (mode privé strict, etc.) */
+      })
+      .finally(() => {
+        if (!cancelled) setLocalHandsReady(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!localHandsReady) return;
+    const timer = window.setTimeout(() => saveLibraryToIndexedDb(), 600);
+    return () => window.clearTimeout(timer);
+  }, [hands, localHandsReady]);
 
   async function persistHandsToCloud(handsToSave?: ParsedHand[]): Promise<void> {
     const uid = userRef.current?.uid;
