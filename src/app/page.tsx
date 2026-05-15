@@ -3343,6 +3343,8 @@ export default function Home() {
           buyIn={buyInInput}
           myGroups={myReviewGroups}
           onPublished={(vis) => {
+            setShowPublishSpotModal(false);
+            setSpotPublishContext(null);
             setShareToast(
               vis === "public"
                 ? "Spot publié sur le fil."
@@ -3351,7 +3353,6 @@ export default function Home() {
                   : "Spot enregistré en perso.",
             );
             window.setTimeout(() => setShareToast(null), 2800);
-            setSpotPublishContext(null);
           }}
         />
       )}

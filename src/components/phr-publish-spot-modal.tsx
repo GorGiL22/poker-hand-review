@@ -191,11 +191,10 @@ export function PhrPublishSpotModal({
           </h2>
           <button
             type="button"
-            disabled={busy}
-            onClick={onClose}
+            onClick={handleClose}
             className="rounded-lg border border-white/10 bg-zinc-900/80 px-2.5 py-1 text-xs font-semibold text-zinc-300 hover:bg-zinc-800"
           >
-            Fermer
+            {busy ? "Annuler" : "Fermer"}
           </button>
         </header>
 
