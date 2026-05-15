@@ -1190,6 +1190,9 @@ export default function Home() {
   const [selectedTournament, setSelectedTournament] = useState<string>("ALL");
   const [showFilters, setShowFilters] = useState(false);
   const [showMesMainsFullPage, setShowMesMainsFullPage] = useState(false);
+  /** Fil public / accueil (distinct du replayer quand des mains sont chargées). */
+  const [showPublicHome, setShowPublicHome] = useState(true);
+  const viewPublicHome = hands.length === 0 || showPublicHome;
   /** Mise en avant de la zone drop sur l’accueil (aucune main). */
   const [welcomeDropActive, setWelcomeDropActive] = useState(false);
   /** Message court après partage de main (presse-papiers / partage natif). */
