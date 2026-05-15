@@ -1539,12 +1539,21 @@ export default function Home() {
       return;
     }
 
+    if (isFirestoreQuotaPaused()) {
+      queueMicrotask(() => {
+        setCloudLoading(false);
+        pauseCloudSyncForQuota();
+      });
+      return;
+    }
+
     let cancelled = false;
     skipCloudSaveRef.current = true;
     setCloudLoading(true);
     setCloudLoadError(null);
 
     let handsToPersist: ParsedHand[] | null = null;
+    let shouldPersistAfterLoad = false;
 
     void loadUserCloudData(user.uid)
       .then(({ hands: rawHands, prefs }) => {
