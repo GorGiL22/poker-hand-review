@@ -77,6 +77,7 @@ export function PhrPublicHome({
   onDrop,
   cloudLoading = false,
   cloudLoadError = null,
+  cloudSyncWarning = null,
   importError = null,
   hasImportedHands = false,
 }: PhrPublicHomeProps) {
