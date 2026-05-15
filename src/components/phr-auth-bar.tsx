@@ -10,7 +10,6 @@ import {
   PHR_TOPBAR_BTN,
   PHR_TOPBAR_BTN_COMPACT,
   PHR_TOPBAR_BTN_COMPACT_SIGNOUT,
-  PHR_TOPBAR_BTN_SIGNOUT,
   PHR_TOPBAR_USER_STRIP,
 } from "@/lib/phr-chrome";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
