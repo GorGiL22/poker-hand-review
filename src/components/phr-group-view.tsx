@@ -149,7 +149,7 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
             </button>
           ) : null}
         </div>
-      </motion.div>
+      </div>
 
       {inviteToast ? (
         <p className="rounded-lg border border-sky-500/30 bg-sky-950/25 px-3 py-1.5 text-xs text-sky-100">
