@@ -5,7 +5,10 @@ import { useEffect, useState } from "react";
 import { PhrFeedSpotDiscussion } from "@/components/phr-feed-spot-discussion";
 import { PhrSpotFeedPreview } from "@/components/phr-spot-feed-preview";
 import {
-  ensureGroupInviteCode,
+  generateInviteCode,
+  getGroupInviteCode,
+  normalizeInviteCode,
+  setGroupInviteCode,
   subscribeGroupMembers,
   subscribeGroupSpots,
   subscribeReviewGroup,
