@@ -330,6 +330,11 @@ export function subscribeUserReviewGroups(
     queueMicrotask(() => onData([]));
     return () => {};
   }
+  if (isFirestoreQuotaPaused()) {
+    const cached = readGroupsCache(uid);
+    queueMicrotask(() => onData(cached ?? []));
+    return () => {};
+  }
   const db = getFirebaseDb();
   if (!db) {
     queueMicrotask(() => onData([]));
