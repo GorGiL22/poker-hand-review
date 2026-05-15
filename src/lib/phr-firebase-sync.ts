@@ -326,16 +326,14 @@ export async function saveUserReplaySession(uid: string, session: PhrReplaySessi
   }
 }
 
-export async function saveUserCloudData(
-  uid: string,
-  hands: Record<string, unknown>[],
-  prefs: PhrCloudPrefsWrite,
-  stableKeyForHand: (hand: Record<string, unknown>) => string,
-): Promise<void> {
+export async function saveUserCloudPrefs(uid: string, prefs: PhrCloudPrefsWrite): Promise<void> {
+  if (isFirestoreQuotaPaused()) return;
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
-
-  const userRef = doc(db, "users", uid);
-  await syncUserHandsCollection(uid, hands, stableKeyForHand);
-  await setDoc(userRef, prefsToFirestoreFields(prefs), { merge: true });
+  try {
+    await setDoc(doc(db, "users", uid), prefsToFirestoreFields(prefs), { merge: true });
+  } catch (err) {
+    handleFirestoreQuotaError(err);
+    throw err;
+  }
 }
