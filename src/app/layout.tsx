@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Poker Hand Review",
-  description: "Application minimaliste pour review des mains de poker",
+  title: "SpotLab",
+  description:
+    "Analyse tes mains simplement et partage-les avec les autres pour obtenir leur avis.",
 };
 
 export default function RootLayout({
