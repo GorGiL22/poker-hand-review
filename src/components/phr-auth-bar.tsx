@@ -5,6 +5,7 @@ import { type FirebaseError } from "firebase/app";
 
 import {
   PHR_MON_ESPACE_BTN,
+  PHR_REPLAYER_BTN,
   PHR_REVIEW_TOPBAR,
   PHR_TOPBAR_BTN,
   PHR_TOPBAR_BTN_COMPACT,
