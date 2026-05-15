@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { type DragEvent, useEffect, useState } from "react";
 
 import {
   createReviewGroup,
@@ -11,6 +11,12 @@ import {
   subscribeUserReviewGroups,
   type ReviewGroupMembership,
 } from "@/lib/phr-review-groups";
+import {
+  hasDismissedImportPanel,
+  hasSeenWelcomePanel,
+  markImportPanelDismissed,
+  markWelcomePanelSeen,
+} from "@/lib/phr-welcome";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
 const PHR_FIELD =
@@ -19,12 +25,36 @@ const PHR_FIELD =
 const PHR_BTN =
   "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 transition hover:border-white/18 hover:bg-zinc-700/70 disabled:opacity-50";
 
+const PHR_BTN_TOOL =
+  "rounded-xl border border-white/10 bg-zinc-800/55 px-3.5 py-2 text-sm font-semibold text-zinc-100 shadow-sm transition hover:border-white/18 hover:bg-zinc-700/70 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-40";
+
 type PhrGroupsHubProps = {
   onOpenGroup: (groupId: string) => void;
-  onClose: () => void;
+  welcomeDropActive?: boolean;
+  onImportClick?: () => void;
+  onDragOver?: (event: DragEvent<HTMLDivElement>) => void;
+  onDragLeave?: (event: DragEvent<HTMLDivElement>) => void;
+  onDrop?: (event: DragEvent<HTMLDivElement>) => void;
+  cloudLoading?: boolean;
+  cloudLoadError?: string | null;
+  cloudSyncWarning?: string | null;
+  importError?: string | null;
+  hasImportedHands?: boolean;
 };
 
-export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
+export function PhrGroupsHub({
+  onOpenGroup,
+  welcomeDropActive = false,
+  onImportClick,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  cloudLoading = false,
+  cloudLoadError = null,
+  cloudSyncWarning = null,
+  importError = null,
+  hasImportedHands = false,
+}: PhrGroupsHubProps) {
   const { user, pseudo, authLoading, firebaseConfigured } = usePhrFirebase();
   const [groups, setGroups] = useState<ReviewGroupMembership[]>([]);
   const [name, setName] = useState("");
@@ -35,6 +65,8 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   const [error, setError] = useState<string | null>(null);
   const [createdInvite, setCreatedInvite] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showWelcomePanel, setShowWelcomePanel] = useState(false);
+  const [showImportPanel, setShowImportPanel] = useState(false);
 
   const displayName = pseudo ?? user?.displayName ?? "Joueur";
   const createDisabled =
@@ -44,6 +76,31 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
     busy ||
     !name.trim() ||
     createInviteCode.length < 6;
+
+  useEffect(() => {
+    if (authLoading) return;
+    if (!user) {
+      queueMicrotask(() => setShowWelcomePanel(false));
+      return;
+    }
+    queueMicrotask(() => setShowWelcomePanel(!hasSeenWelcomePanel(user.uid)));
+  }, [user, authLoading]);
+
+  useEffect(() => {
+    if (!showWelcomePanel || !user) return;
+    return () => {
+      markWelcomePanelSeen(user.uid);
+    };
+  }, [showWelcomePanel, user]);
+
+  useEffect(() => {
+    if (hasImportedHands) {
+      markImportPanelDismissed();
+      setShowImportPanel(false);
+      return;
+    }
+    setShowImportPanel(!hasDismissedImportPanel());
+  }, [hasImportedHands]);
 
   useEffect(() => {
     if (!firebaseConfigured || authLoading) return;
@@ -119,19 +176,45 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   }
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
-      <div className="flex items-center justify-between gap-2">
+    <motion.div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+      {showWelcomePanel ? (
+        <header className="shrink-0 rounded-2xl border border-white/10 bg-zinc-950/50 px-4 py-4 backdrop-blur-sm sm:px-5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-sky-300/90">Groupes de travail</p>
+          <h1 className="mt-1 text-xl font-black tracking-tight text-zinc-50 sm:text-2xl">Bienvenue sur SpotLab</h1>
+          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-400">
+            Crée ou rejoins un groupe pour partager des spots et faire review entre joueurs.
+          </p>
+        </header>
+      ) : (
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes privés</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes de travail</p>
           <h2 className="text-lg font-black text-zinc-50">Review entre joueurs</h2>
           <p className="mt-1 text-sm text-zinc-500">
-            Spots partagés uniquement avec les membres — pas de chat.
+            Spots partagés uniquement avec les membres du groupe.
           </p>
         </div>
-        <button type="button" onClick={onClose} className={PHR_BTN}>
-          Fermer
-        </button>
-      </div>
+      )}
+
+      {user && cloudLoading && (
+        <p className="shrink-0 rounded-xl border border-violet-500/25 bg-violet-950/25 px-3 py-2 text-sm text-violet-100">
+          Chargement de tes préférences de session…
+        </p>
+      )}
+      {cloudSyncWarning ? (
+        <p className="shrink-0 rounded-xl border border-amber-500/30 bg-amber-950/25 px-3 py-2 text-sm text-amber-100">
+          {cloudSyncWarning}
+        </p>
+      ) : null}
+      {user && !cloudLoading && cloudLoadError && (
+        <p className="shrink-0 rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-sm text-rose-200">
+          {cloudLoadError}
+        </p>
+      )}
+      {importError && (
+        <p className="shrink-0 rounded-xl border border-amber-500/30 bg-amber-950/20 px-3 py-2 text-sm text-amber-100">
+          {importError}
+        </p>
+      )}
 
       {!firebaseConfigured ? (
         <p className="rounded-xl border border-rose-500/30 bg-rose-950/25 px-3 py-2 text-sm text-rose-200">
@@ -180,7 +263,7 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
         />
         <label className="block space-y-1">
           <span className="text-xs text-zinc-500">Code d’invitation</span>
-          <div className="flex gap-2">
+          <motion.div className="flex gap-2">
             <input
               value={createInviteCode}
               onChange={(e) => setCreateInviteCode(normalizeInviteCode(e.target.value))}
@@ -198,7 +281,7 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
             >
               Aléa.
             </button>
-          </div>
+          </motion.div>
           <p className="text-[10px] text-zinc-600">6 à 12 caractères (A–Z, 2–9). Partage ce code pour inviter.</p>
         </label>
         <button
@@ -275,6 +358,29 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
           </ul>
         )}
       </section>
+
+      {showImportPanel && onImportClick && onDragOver && onDragLeave && onDrop ? (
+        <div
+          className={`shrink-0 rounded-2xl border-2 border-dashed px-4 py-5 transition ${
+            welcomeDropActive
+              ? "border-emerald-400/85 bg-emerald-500/10"
+              : "border-white/15 bg-zinc-950/35"
+          }`}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
+          onDrop={onDrop}
+        >
+          <div className="flex flex-col items-center gap-3 text-center sm:flex-row sm:justify-between sm:text-left">
+            <div>
+              <p className="text-sm font-semibold text-zinc-100">Analyser tes propres mains</p>
+              <p className="text-xs text-zinc-500">Importe un historique .txt pour ouvrir le replayer.</p>
+            </div>
+            <button type="button" onClick={onImportClick} className={PHR_BTN_TOOL}>
+              Importer des fichiers
+            </button>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

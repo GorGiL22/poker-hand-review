@@ -3105,16 +3105,6 @@ export default function Home() {
 
       {hands.length > 0 && !viewPublicHome && !viewSpotReview && !viewTournamentReview && (
         <div className="pointer-events-none fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] left-3 z-[72] flex flex-col gap-2 sm:left-5">
-          {publishableTournamentMeta ? (
-            <button
-              type="button"
-              onClick={openPublishTournamentModal}
-              title="Publier toutes les mains du tournoi sélectionné"
-              className="pointer-events-auto inline-flex h-11 items-center justify-center gap-2 rounded-full border border-emerald-500/45 bg-emerald-600/30 px-4 text-xs font-bold text-emerald-100 shadow-[0_4px_24px_rgba(16,185,129,0.28)] backdrop-blur-md transition hover:border-emerald-400/55 hover:bg-emerald-600/40 active:scale-[0.98]"
-            >
-              Publier le tournoi
-            </button>
-          ) : null}
           <button
             type="button"
             onClick={() => {
