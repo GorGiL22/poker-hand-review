@@ -1703,6 +1703,7 @@ export default function Home() {
         parsedAll.push(...parsed);
       }
       if (parsedAll.length === 0) throw new Error("Aucune main valide detectee.");
+      setShowPublicHome(false);
       setHands((prev) => {
         const merged = [...prev, ...parsedAll];
         const deduped = new Map<string, ParsedHand>();
