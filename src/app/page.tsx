@@ -2937,7 +2937,11 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={prevHand}
-                  disabled={selectedHandIndex <= 0}
+                  disabled={
+                    viewTournamentReview && tournamentReview
+                      ? tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId) <= 0
+                      : selectedHandIndex <= 0
+                  }
                   title="Main precedente"
                   className={PHR_TRANSPORT_BTN}
                 >
