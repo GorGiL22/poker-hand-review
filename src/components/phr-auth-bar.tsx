@@ -424,7 +424,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
 
   return (
     <>
-      <header className="shrink-0 border-b border-white/10 bg-zinc-950/90 shadow-[inset_0_-1px_0_rgba(255,255,255,0.04)] backdrop-blur-md">
+      <header className="relative z-[100] shrink-0 border-b border-white/10 bg-zinc-950/90 shadow-[inset_0_-1px_0_rgba(255,255,255,0.04)] backdrop-blur-md">
         <div className="mx-auto flex w-full max-w-[1520px] flex-col gap-2 px-3 py-2 sm:px-5">
           <div className={`${PHR_REVIEW_TOPBAR} grid w-full grid-cols-[1fr_auto_1fr] items-center gap-2`}>
             <span className="min-w-0 justify-self-start truncate text-xs font-black tracking-tight text-zinc-100 sm:text-sm">
