@@ -1871,7 +1871,7 @@ export default function Home() {
 
   return (
     <main className={`flex h-screen flex-col overflow-hidden text-zinc-100 ${PHR_PAGE_BG}`}>
-      {hands.length === 0 && <PhrAuthBar />}
+      {hands.length === 0 && <PhrAuthBar onMonEspaceClick={handleMonEspaceClick} />}
       {hands.length > 0 && showMesMainsFullPage && (
         <div
           data-phr-mes-mains-page
