@@ -323,7 +323,7 @@ async function syncUserHandsCollection(
   for (const hand of hands) {
     const stableKey = stableKeyForHand(hand);
     const id = handStableKeyToFirestoreDocId(stableKey);
-    want.set(id, { stableKey, hand });
+    want.set(id, { stableKey, hand: sanitizeForFirestore(hand) });
   }
 
   const existingSnap = await getDocs(colRef);
