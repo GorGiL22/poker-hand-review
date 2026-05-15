@@ -96,6 +96,10 @@ function handStableKey(hand: ParsedHand): string {
   return `${hand.sourceFile ?? "local"}::${hand.id}`;
 }
 
+function isFeedViewerHand(hand: ParsedHand): boolean {
+  return hand.sourceFile?.startsWith("spotlab-feed/") ?? false;
+}
+
 function dedupeSortParsedHands(hands: ParsedHand[]): ParsedHand[] {
   const deduped = new Map<string, ParsedHand>();
   hands.forEach((hand) => deduped.set(handStableKey(hand), hand));
