@@ -498,6 +498,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
                     typeof document !== "undefined" &&
                     createPortal(
                       <div
+                        ref={accountMenuPanelRef}
                         role="menu"
                         style={{
                           position: "fixed",
