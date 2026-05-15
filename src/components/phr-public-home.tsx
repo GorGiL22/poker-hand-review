@@ -18,6 +18,10 @@ import {
   markImportPanelDismissed,
   markWelcomePanelSeen,
 } from "@/lib/phr-welcome";
+import {
+  subscribePublicTournaments,
+  type PublishedTournament,
+} from "@/lib/phr-published-tournaments";
 import { categoryLabel, sourceValidationLabel, type SpotCategory, type SpotSourceValidation } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
