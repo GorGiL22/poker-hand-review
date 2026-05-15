@@ -2693,13 +2693,13 @@ export default function Home() {
                     </span>
                   )}
                 </div>
-              </motion.div>
-              <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
+              </div>
+              <motion.div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
                 {publishableTournamentMeta ? (
                   <button
                     type="button"
                     onClick={openPublishTournamentModal}
-                    title={`Publier ${publishableTournamentMeta.handCount ?? publishableTournamentMeta.hands.length} mains`}
+                    title={`Publier ${publishableTournamentMeta.hands.length} mains`}
                     className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/50 bg-emerald-600/25 px-2.5 py-1 text-[11px] font-bold text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-600/35"
                   >
                     <span aria-hidden>📤</span>
