@@ -112,13 +112,16 @@ export function PhrGroupsHub({
   }, [hasImportedHands]);
 
   useEffect(() => {
+    if (localGroups) {
+      return subscribeUserReviewGroups(user?.uid ?? null, setGroups);
+    }
     if (!firebaseConfigured || authLoading) return;
     if (!user) {
       queueMicrotask(() => setGroups([]));
       return;
     }
     return subscribeUserReviewGroups(user.uid, setGroups);
-  }, [user, authLoading, firebaseConfigured]);
+  }, [user, authLoading, firebaseConfigured, localGroups]);
 
   function openCreatePanel() {
     setShowJoinPanel(false);
