@@ -191,12 +191,15 @@ export function PhrPublicHome({
                 <p className="text-sm font-bold text-zinc-100">{post.authorPseudo}</p>
                 <p className="text-[11px] text-zinc-500">{formatRelativeTime(post.createdAtMs)}</p>
               </div>
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
-                {post.spotMeta?.category
-                  ? categoryLabel(post.spotMeta.category as SpotCategory)
-                  : handPreviewLine(post.hand)}
-              </p>
-            </div>
+              <motion.div className="text-right">
+                <p className="text-[11px] font-semibold uppercase tracking-wide text-zinc-500">
+                  {post.spotMeta?.category
+                    ? categoryLabel(post.spotMeta.category as SpotCategory)
+                    : handPreviewLine(post.hand)}
+                </p>
+                <p className="mt-0.5 text-[10px] font-medium text-violet-300/80">Ouvrir le replayer →</p>
+              </motion.div>
+            </motion.div>
             {post.spotMeta ? (
               <div className="mt-3 space-y-2">
                 <p className="text-[11px] font-medium text-violet-300/90">{post.spotMeta.stepLabel}</p>
