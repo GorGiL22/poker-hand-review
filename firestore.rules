@@ -6,6 +6,66 @@ service cloud.firestore {
       match /hands/{handId} {
         allow read, write: if request.auth != null && request.auth.uid == userId;
       }
+      match /groupMemberships/{groupId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow create: if request.auth != null
+          && request.auth.uid == userId
+          && request.resource.data.groupId == groupId
+          && request.resource.data.name is string
+          && request.resource.data.role in ['owner', 'member'];
+        allow update, delete: if false;
+      }
+    }
+
+    function isGroupMember(groupId) {
+      return request.auth != null
+        && exists(/databases/$(database)/documents/reviewGroups/$(groupId)/members/$(request.auth.uid));
+    }
+
+    function isGroupOwner(groupId) {
+      return request.auth != null
+        && get(/databases/$(database)/documents/reviewGroups/$(groupId)/members/$(request.auth.uid)).data.role == 'owner';
+    }
+
+    match /groupInvites/{inviteCode} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null
+        && request.resource.data.groupId is string
+        && request.resource.data.createdBy == request.auth.uid
+        && isGroupOwner(request.resource.data.groupId);
+      allow update, delete: if false;
+    }
+
+    match /reviewGroups/{groupId} {
+      allow read: if isGroupMember(groupId);
+      allow create: if request.auth != null
+        && request.auth.uid == request.resource.data.ownerUid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 80
+        && request.resource.data.description is string
+        && request.resource.data.memberCount == 1;
+      allow update: if request.auth != null
+        && isGroupOwner(groupId)
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name', 'description', 'memberCount'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0;
+      allow delete: if request.auth != null && request.auth.uid == resource.data.ownerUid;
+
+      match /members/{memberUid} {
+        allow read: if isGroupMember(groupId);
+        allow create: if request.auth != null
+          && (
+            (memberUid == request.auth.uid
+              && request.resource.data.uid == request.auth.uid
+              && request.resource.data.role == 'member'
+              && request.resource.data.pseudo is string)
+            || (request.auth.uid == get(/databases/$(database)/documents/reviewGroups/$(groupId)).data.ownerUid
+              && memberUid == request.auth.uid
+              && request.resource.data.role == 'owner')
+          );
+        allow update, delete: if false;
+      }
     }
 
     match /publicPosts/{postId} {
@@ -22,18 +82,27 @@ service cloud.firestore {
     function spotReadable(spotId) {
       let spot = get(/databases/$(database)/documents/spots/$(spotId));
       return spot.data.visibility == 'public'
-        || (request.auth != null && request.auth.uid == spot.data.authorUid);
+        || (request.auth != null && request.auth.uid == spot.data.authorUid)
+        || (spot.data.visibility == 'group'
+          && spot.data.groupId is string
+          && isGroupMember(spot.data.groupId));
     }
 
     function publishedTournamentReadable(tournamentId) {
       let t = get(/databases/$(database)/documents/publishedTournaments/$(tournamentId));
       return t.data.visibility == 'public'
-        || (request.auth != null && request.auth.uid == t.data.authorUid);
+        || (request.auth != null && request.auth.uid == t.data.authorUid)
+        || (t.data.visibility == 'group'
+          && t.data.groupId is string
+          && isGroupMember(t.data.groupId));
     }
 
     match /publishedTournaments/{tournamentId} {
       allow read: if resource.data.visibility == 'public'
-        || (request.auth != null && request.auth.uid == resource.data.authorUid);
+        || (request.auth != null && request.auth.uid == resource.data.authorUid)
+        || (resource.data.visibility == 'group'
+          && resource.data.groupId is string
+          && isGroupMember(resource.data.groupId));
       allow create: if request.auth != null
         && request.auth.uid == request.resource.data.authorUid
         && request.resource.data.authorPseudo is string
@@ -42,8 +111,13 @@ service cloud.firestore {
         && request.resource.data.summary is string
         && request.resource.data.handCount is int
         && request.resource.data.handCount > 0
-        && (request.resource.data.visibility == 'public'
-          || request.resource.data.visibility == 'private');
+        && (
+          request.resource.data.visibility == 'public'
+          || request.resource.data.visibility == 'private'
+          || (request.resource.data.visibility == 'group'
+            && request.resource.data.groupId is string
+            && isGroupMember(request.resource.data.groupId))
+        );
       allow update: if false;
       allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
 
@@ -75,15 +149,23 @@ service cloud.firestore {
 
     match /spots/{spotId} {
       allow read: if resource.data.visibility == 'public'
-        || (request.auth != null && request.auth.uid == resource.data.authorUid);
+        || (request.auth != null && request.auth.uid == resource.data.authorUid)
+        || (resource.data.visibility == 'group'
+          && resource.data.groupId is string
+          && isGroupMember(resource.data.groupId));
       allow create: if request.auth != null
         && request.auth.uid == request.resource.data.authorUid
         && request.resource.data.authorPseudo is string
         && request.resource.data.question is string
         && request.resource.data.summary is string
         && request.resource.data.hand is map
-        && (request.resource.data.visibility == 'public'
-          || request.resource.data.visibility == 'private');
+        && (
+          request.resource.data.visibility == 'public'
+          || request.resource.data.visibility == 'private'
+          || (request.resource.data.visibility == 'group'
+            && request.resource.data.groupId is string
+            && isGroupMember(request.resource.data.groupId))
+        );
       allow update: if request.auth != null
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reactions', 'reactionCounts']);
       allow delete: if request.auth != null && request.auth.uid == resource.data.authorUid;
