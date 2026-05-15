@@ -394,7 +394,13 @@ export async function saveUserHandsOnly(
   hands: Record<string, unknown>[],
   stableKeyForHand: (hand: Record<string, unknown>) => string,
 ): Promise<void> {
-  await syncUserHandsCollection(uid, hands, stableKeyForHand);
+  if (isFirestoreQuotaPaused()) return;
+  try {
+    await syncUserHandsCollection(uid, hands, stableKeyForHand);
+  } catch (err) {
+    handleFirestoreQuotaError(err);
+    throw err;
+  }
 }
 
 /** État de replayer minimal (main courante, tournoi filtré). */
