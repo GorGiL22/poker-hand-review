@@ -95,7 +95,7 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   }
 
   return (
-    <motion.div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto">
       <div className="flex items-center justify-between gap-2">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-sky-300/90">Groupes privés</p>
