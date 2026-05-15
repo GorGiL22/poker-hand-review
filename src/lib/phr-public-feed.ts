@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
+import { sanitizeForFirestore } from "./phr-firebase-sync";
 
 export type PublicReaction = "like" | "fire" | "think";
 
