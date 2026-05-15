@@ -293,6 +293,23 @@ export function handStableKeyFromParsedFields(sourceFile: string | undefined, id
   return `${sourceFile ?? "local"}::${id}`;
 }
 
+/** Firestore rejette `undefined` — retire les champs absents récursivement. */
+export function sanitizeForFirestore<T>(value: T): T {
+  if (value === undefined) return value;
+  if (value === null || typeof value !== "object") return value;
+  if (Array.isArray(value)) {
+    return value
+      .filter((item) => item !== undefined)
+      .map((item) => sanitizeForFirestore(item)) as T;
+  }
+  const out: Record<string, unknown> = {};
+  for (const [key, nested] of Object.entries(value as Record<string, unknown>)) {
+    if (nested === undefined) continue;
+    out[key] = sanitizeForFirestore(nested);
+  }
+  return out as T;
+}
+
 async function syncUserHandsCollection(
   uid: string,
   hands: Record<string, unknown>[],
