@@ -54,6 +54,8 @@ type PhrPublicHomeProps = {
   cloudLoading?: boolean;
   cloudLoadError?: string | null;
   importError?: string | null;
+  /** Au moins une main chargée dans le replayer (import ou cloud). */
+  hasImportedHands?: boolean;
 };
 
 export function PhrPublicHome({
