@@ -1823,6 +1823,15 @@ export default function Home() {
     setChipTick((value) => value + 1);
   }
 
+  function handleMonEspaceClick() {
+    if (cloudLoading) return;
+    if (hands.length > 0) {
+      setShowMesMainsFullPage(true);
+      return;
+    }
+    fileInputRef.current?.click();
+  }
+
   function prevHand() {
     if (selectedHandIndex <= 0) return;
     loadHand(filteredHands[selectedHandIndex - 1].id);
