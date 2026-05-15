@@ -2,6 +2,8 @@ import { initializeApp, getApps, getApp, type FirebaseApp } from "firebase/app";
 import { connectAuthEmulator, getAuth, type Auth } from "firebase/auth";
 import { connectFirestoreEmulator, getFirestore, type Firestore } from "firebase/firestore";
 
+import { isFirestoreQuotaPaused } from "./phr-firestore-quota";
+
 const measurementId = process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID?.trim();
 
 const firebaseConfig = {
