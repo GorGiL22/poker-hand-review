@@ -2130,6 +2130,52 @@ export default function Home() {
     };
   }, [selectedTournament, tournamentFilteredHands]);
 
+  /** Tournoi publiable : filtre actif, ou un seul tournoi dans la bibliothèque. */
+  const publishableTournamentMeta = useMemo(() => {
+    const libraryHands = hands.filter((hand) => !isEphemeralViewerHand(hand));
+    if (libraryHands.length === 0) return null;
+
+    const buildMeta = (key: string, filtered: ParsedHand[]) => {
+      if (filtered.length === 0) return null;
+      const sample = filtered[0];
+      const name =
+        sample?.tournamentName?.trim() || key.replace(/^\d{8}_/, "").trim() || key;
+      return {
+        key,
+        name,
+        variant: sample?.tournamentVariant,
+        hands: filtered,
+      };
+    };
+
+    if (selectedTournament !== "ALL") {
+      const filtered = libraryHands.filter((hand) => deriveTournamentKey(hand) === selectedTournament);
+      return buildMeta(selectedTournament, filtered);
+    }
+
+    const keys = [...new Set(libraryHands.map((hand) => deriveTournamentKey(hand)))];
+    if (keys.length !== 1) return null;
+    const key = keys[0]!;
+    const filtered = libraryHands.filter((hand) => deriveTournamentKey(hand) === key);
+    return buildMeta(key, filtered);
+  }, [hands, selectedTournament]);
+
+  function openPublishTournamentModal() {
+    if (!publishableTournamentMeta) {
+      setShareToast(
+        "Choisis un tournoi dans la barre « Tournois » (pas « Tous les tournois ») pour le publier.",
+      );
+      window.setTimeout(() => setShareToast(null), 3200);
+      return;
+    }
+    if (!user) {
+      setShareToast("Connecte-toi pour publier un tournoi.");
+      window.setTimeout(() => setShareToast(null), 2800);
+      return;
+    }
+    setShowPublishTournamentModal(true);
+  }
+
   function handleMonEspaceClick() {
     if (cloudLoading) return;
     if (hands.length > 0) {
