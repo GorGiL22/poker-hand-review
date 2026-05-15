@@ -139,6 +139,25 @@ export function PhrPublicHome({
   }, [firebaseConfigured]);
 
   useEffect(() => {
+    if (!firebaseConfigured) {
+      queueMicrotask(() => {
+        setTournaments([]);
+        setTournamentsLoading(false);
+      });
+      return;
+    }
+    setTournamentsLoading(true);
+    const unsub = subscribePublicTournaments(
+      (next) => {
+        setTournaments(next);
+        setTournamentsLoading(false);
+      },
+      () => setTournamentsLoading(false),
+    );
+    return unsub;
+  }, [firebaseConfigured]);
+
+  useEffect(() => {
     if (!firebaseConfigured) return;
     const spotPosts = posts.filter((p) => p.feedSource === "spots");
     if (spotPosts.length === 0) {
