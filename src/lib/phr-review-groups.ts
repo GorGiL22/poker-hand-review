@@ -292,22 +292,36 @@ export function subscribeUserReviewGroups(
     return () => {};
   }
 
-  const q = query(userMembershipsCol(uid), orderBy("joinedAt", "desc"));
-  return onSnapshot(q, (snap) => {
-    const groups = snap.docs.map((d) => {
-      const data = d.data() as Record<string, unknown>;
-      const joinedAt = data.joinedAt as { toMillis?: () => number } | undefined;
-      return {
-        groupId: d.id,
-        name: typeof data.name === "string" ? data.name : "Groupe",
-        description: typeof data.description === "string" ? data.description : "",
-        role: data.role === "owner" ? "owner" : "member",
-        joinedAtMs:
-          typeof joinedAt?.toMillis === "function" ? joinedAt.toMillis() : Date.now(),
-      } satisfies ReviewGroupMembership;
-    });
-    onData(groups);
-  });
+  const cached = readGroupsCache(uid);
+  if (cached?.length) onData(cached);
+
+  const q = query(userMembershipsCol(uid));
+  return onSnapshot(
+    q,
+    (snap) => {
+      const groups = snap.docs
+        .map((d) => {
+          const data = d.data() as Record<string, unknown>;
+          const joinedAt = data.joinedAt as { toMillis?: () => number } | undefined;
+          return {
+            groupId: d.id,
+            name: typeof data.name === "string" ? data.name : "Groupe",
+            description: typeof data.description === "string" ? data.description : "",
+            role: data.role === "owner" ? "owner" : "member",
+            joinedAtMs:
+              typeof joinedAt?.toMillis === "function" ? joinedAt.toMillis() : Date.now(),
+          } satisfies ReviewGroupMembership;
+        })
+        .sort((a, b) => b.joinedAtMs - a.joinedAtMs);
+      writeGroupsCache(uid, groups);
+      onData(groups);
+    },
+    (err) => {
+      console.error("[phr] groupMemberships subscription failed:", err);
+      const fallback = readGroupsCache(uid);
+      if (fallback) onData(fallback);
+    },
+  );
 }
 
 export function subscribeReviewGroup(
