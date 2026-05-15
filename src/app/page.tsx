@@ -2247,45 +2247,6 @@ export default function Home() {
                 {displayUnit === "bb" ? "BB ◎" : "Jetons ◉"}
               </button>
             )}
-            {hands.length === 0 && (
-              <div
-                className="absolute inset-4 z-[30] flex cursor-pointer flex-col items-center justify-center gap-4 rounded-[999px] bg-black/35 px-4 py-8 text-center ring-1 ring-white/10 backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400/80"
-                onClick={() => fileInputRef.current?.click()}
-                onDragOver={onWelcomeDragOver}
-                onDragLeave={onWelcomeDragLeave}
-                onDrop={onWelcomeDrop}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    fileInputRef.current?.click();
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-                aria-label="Importer des mains depuis des fichiers .txt"
-              >
-                <div className="pointer-events-none space-y-2">
-                  <h1 className="text-balance text-xl font-bold tracking-tight text-zinc-50 drop-shadow-md sm:text-2xl">
-                    Bienvenue sur SpotLab
-                  </h1>
-                  <p className="text-balance text-sm text-zinc-200/95 drop-shadow">
-                    Analyse tes mains simplement et partage-les avec les autres pour obtenir leur avis.
-                  </p>
-                </div>
-                <div
-                  className={`pointer-events-none mx-auto flex min-h-[160px] w-[min(92%,440px)] max-w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed px-6 py-10 transition ${
-                    welcomeDropActive
-                      ? "border-emerald-400/85 bg-emerald-500/12 text-emerald-50 shadow-[0_0_24px_rgba(52,211,153,0.2)]"
-                      : "border-white/15 bg-zinc-950/35 text-zinc-100 shadow-inner"
-                  }`}
-                >
-                  <span className="text-lg font-semibold sm:text-xl">Glisse tes fichiers ici</span>
-                  <span className="text-xs font-normal text-zinc-300 sm:text-sm">
-                    ou clique n&apos;importe où pour choisir des historiques (.txt)
-                  </span>
-                </div>
-              </div>
-            )}
             {chipAnimation && !sweepAnimation && (
               <div
                 key={chipAnimation.key}
