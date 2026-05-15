@@ -34,8 +34,16 @@ export function PhrGroupsHub({ onOpenGroup, onClose }: PhrGroupsHubProps) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [createdInvite, setCreatedInvite] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   const displayName = pseudo ?? user?.displayName ?? "Joueur";
+  const createDisabled =
+    !firebaseConfigured ||
+    authLoading ||
+    !user ||
+    busy ||
+    !name.trim() ||
+    createInviteCode.length < 6;
 
   useEffect(() => {
     if (!firebaseConfigured || authLoading) return;
