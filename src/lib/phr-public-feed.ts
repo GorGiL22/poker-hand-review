@@ -267,6 +267,10 @@ export function subscribePublicPosts(
   onData: (posts: PublicHandPost[]) => void,
   onError?: (error: Error) => void,
 ): Unsubscribe {
+  if (isFirestoreQuotaPaused()) {
+    queueMicrotask(() => onData([]));
+    return () => {};
+  }
   const db = getFirebaseDb();
   if (!db) {
     queueMicrotask(() => onData([]));
