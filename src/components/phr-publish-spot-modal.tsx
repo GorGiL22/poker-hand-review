@@ -177,7 +177,7 @@ export function PhrPublishSpotModal({
         type="button"
         aria-label="Fermer"
         className="absolute inset-0 bg-black/60 backdrop-blur-[2px]"
-        onClick={() => !busy && onClose()}
+        onClick={handleClose}
       />
       <div
         role="dialog"
