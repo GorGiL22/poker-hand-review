@@ -454,7 +454,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
                     {auth.displayLabel}
                   </button>
                   {accountMenuOpen ? (
-                    <motion.div
+                    <div
                       role="menu"
                       className="absolute right-0 top-[calc(100%+0.5rem)] z-50 w-[min(calc(100vw-2rem),14rem)] rounded-xl border border-white/12 bg-zinc-950/96 p-2 shadow-[0_16px_48px_rgba(0,0,0,0.45)] backdrop-blur-xl"
                     >
@@ -470,7 +470,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
                       >
                         Déconnexion
                       </button>
-                    </motion.div>
+                    </div>
                   ) : null}
                 </div>
               )}
