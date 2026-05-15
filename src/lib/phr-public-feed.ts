@@ -188,12 +188,6 @@ export function subscribePublicPosts(
   };
 
   const postsQuery = query(collection(db, "publicPosts"), orderBy("createdAt", "desc"), limit(40));
-  const spotsQuery = query(
-    collection(db, "spots"),
-    where("visibility", "==", "public"),
-    orderBy("createdAt", "desc"),
-    limit(40),
-  );
 
   const unsubPosts = onSnapshot(
     postsQuery,
