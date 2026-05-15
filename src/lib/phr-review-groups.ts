@@ -127,6 +127,11 @@ export function formatFirestoreGroupError(err: unknown): Error {
       "Permission Firestore refusée. Déploie les règles : npm run firebase:deploy:firestore",
     );
   }
+  if (code === "resource-exhausted" || /quota exceeded/i.test(message)) {
+    return new Error(
+      "Quota Firestore dépassé (plan gratuit). Réessaie plus tard ou active la facturation dans la console Firebase.",
+    );
+  }
   if (code === "unavailable" || code === "deadline-exceeded") {
     return new Error("Firestore indisponible. Vérifie ta connexion et réessaie.");
   }
