@@ -39,3 +39,7 @@ export const PHR_MON_ESPACE_BTN =
   "inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-full border border-violet-400/55 bg-gradient-to-r from-violet-600/65 via-fuchsia-600/50 to-violet-600/65 px-6 text-sm font-bold tracking-tight text-white shadow-[0_4px_28px_rgba(139,92,246,0.42),inset_0_1px_0_rgba(255,255,255,0.18)] transition hover:border-violet-300/75 hover:from-violet-500/75 hover:via-fuchsia-500/55 hover:to-violet-500/75 hover:shadow-[0_6px_34px_rgba(139,92,246,0.5)] active:scale-[0.97] sm:px-7";
 
 export const PHR_MON_ESPACE_BTN_ACTIVE = `${PHR_MON_ESPACE_BTN} border-emerald-400/60 from-emerald-700/65 via-teal-600/50 to-emerald-700/65 shadow-[0_4px_28px_rgba(16,185,129,0.38),inset_0_1px_0_rgba(255,255,255,0.16)] hover:border-emerald-300/70`;
+
+/** CTA « Replayer » — à côté de Mon espace sur l’accueil. */
+export const PHR_REPLAYER_BTN =
+  "inline-flex h-11 shrink-0 items-center justify-center rounded-full border border-emerald-500/45 bg-emerald-600/22 px-5 text-sm font-bold text-emerald-100 shadow-[0_4px_20px_rgba(16,185,129,0.22),inset_0_1px_0_rgba(255,255,255,0.1)] transition hover:border-emerald-400/60 hover:bg-emerald-600/32 active:scale-[0.97] sm:px-6";
