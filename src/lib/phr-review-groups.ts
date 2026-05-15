@@ -16,7 +16,21 @@ import {
 } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
+import {
+  createLocalReviewGroup,
+  ensureLocalTestGroup,
+  getLocalGroupInviteCode,
+  getLocalGroupMembers,
+  getLocalGroupSpots,
+  getLocalReviewGroup,
+  getLocalUserReviewGroups,
+  isLocalGroupId,
+  isLocalGroupsEnabled,
+  joinLocalReviewGroupByInviteCode,
+} from "./phr-local-groups";
 import { isFirestoreQuotaPaused, markFirestoreQuotaExceeded } from "./phr-firestore-quota";
+
+export { ensureLocalTestGroup, isLocalGroupsEnabled, isLocalGroupId };
 import { sanitizeForFirestore } from "./phr-firebase-sync";
 import { parseFeedDocument, type PublicHandPost } from "./phr-public-feed";
 
