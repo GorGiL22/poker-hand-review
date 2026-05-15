@@ -2237,16 +2237,14 @@ export default function Home() {
           ) : (
           <div className={PHR_TABLE_FRAME}>
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-white/18 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)]" />
-            {hands.length > 0 && (
-              <button
-                type="button"
-                onClick={() => setDisplayUnit((u) => (u === "bb" ? "chips" : "bb"))}
-                title={displayUnit === "bb" ? "Passer en jetons" : "Passer en BB"}
-                className="absolute bottom-2 right-2 z-[45] rounded-full border border-white/12 bg-gradient-to-b from-zinc-700/50 to-zinc-950/90 px-3 py-2 text-xs font-bold text-zinc-100 shadow-[0_4px_20px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition hover:border-white/20 sm:bottom-3 sm:right-3 sm:px-3.5 sm:py-2.5 sm:text-sm"
-              >
-                {displayUnit === "bb" ? "BB ◎" : "Jetons ◉"}
-              </button>
-            )}
+            <button
+              type="button"
+              onClick={() => setDisplayUnit((u) => (u === "bb" ? "chips" : "bb"))}
+              title={displayUnit === "bb" ? "Passer en jetons" : "Passer en BB"}
+              className="absolute bottom-2 right-2 z-[45] rounded-full border border-white/12 bg-gradient-to-b from-zinc-700/50 to-zinc-950/90 px-3 py-2 text-xs font-bold text-zinc-100 shadow-[0_4px_20px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-md transition hover:border-white/20 sm:bottom-3 sm:right-3 sm:px-3.5 sm:py-2.5 sm:text-sm"
+            >
+              {displayUnit === "bb" ? "BB ◎" : "Jetons ◉"}
+            </button>
             {chipAnimation && !sweepAnimation && (
               <div
                 key={chipAnimation.key}
