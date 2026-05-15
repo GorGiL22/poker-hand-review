@@ -186,7 +186,7 @@ export function PhrPublicHome({
               </p>
             </div>
             {post.spotMeta ? (
-              <motion.div className="mt-3 space-y-2">
+              <div className="mt-3 space-y-2">
                 <p className="text-[11px] font-medium text-violet-300/90">{post.spotMeta.stepLabel}</p>
                 <p className="text-sm leading-relaxed text-zinc-200">{post.spotMeta.question}</p>
                 <p className="text-xs text-zinc-500">
