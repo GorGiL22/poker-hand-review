@@ -46,6 +46,12 @@ import {
   publishPublicPost,
   type PublicHandPost,
 } from "@/lib/phr-public-feed";
+import {
+  loadPublishedTournamentHands,
+  prepareTournamentHandForViewer,
+  type PublishedTournament,
+  type PublishedTournamentHand,
+} from "@/lib/phr-published-tournaments";
 import { buildSpotReplayContext, type SpotReplayContext } from "@/lib/phr-spots";
 import { usePhrFirebase } from "@/lib/use-phr-firebase";
 
