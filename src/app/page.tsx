@@ -38,6 +38,7 @@ import {
 } from "@/lib/phr-chrome";
 import {
   handStableKeyFromRecord,
+  isFirestoreQuotaError,
   loadUserCloudData,
   parseStoredHand,
   saveUserHandsOnly,
