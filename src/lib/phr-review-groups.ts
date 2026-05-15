@@ -369,24 +369,42 @@ export async function getGroupInviteCode(groupId: string, requesterUid: string):
   return snap.docs[0]!.id;
 }
 
-export async function ensureGroupInviteCode(groupId: string, ownerUid: string): Promise<string> {
-  const existing = await getGroupInviteCode(groupId, ownerUid);
-  if (existing) return existing;
-
+/** Propriétaire : définit ou remplace le code d’invitation du groupe. */
+export async function setGroupInviteCode(
+  groupId: string,
+  ownerUid: string,
+  rawCode: string,
+): Promise<string> {
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
   const groupSnap = await getDoc(doc(db, "reviewGroups", groupId));
   if (!groupSnap.exists()) throw new Error("Groupe introuvable.");
   if ((groupSnap.data() as Record<string, unknown>).ownerUid !== ownerUid) {
-    throw new Error("Seul le propriétaire peut générer une invitation.");
+    throw new Error("Seul le propriétaire peut modifier le code.");
   }
 
-  const inviteCode = generateInviteCode();
-  await setDoc(doc(db, "groupInvites", inviteCode), {
+  const code = resolveInviteCode(rawCode);
+  const previous = await getGroupInviteCode(groupId, ownerUid);
+  if (previous === code) return code;
+
+  await assertInviteCodeAvailable(code, groupId);
+
+  if (previous) {
+    await deleteDoc(doc(db, "groupInvites", previous));
+  }
+
+  await setDoc(doc(db, "groupInvites", code), {
     groupId,
     createdBy: ownerUid,
     createdAt: serverTimestamp(),
   });
-  return inviteCode;
+
+  return code;
+}
+
+export async function ensureGroupInviteCode(groupId: string, ownerUid: string): Promise<string> {
+  const existing = await getGroupInviteCode(groupId, ownerUid);
+  if (existing) return existing;
+  return setGroupInviteCode(groupId, ownerUid, generateInviteCode());
 }
