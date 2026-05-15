@@ -1703,8 +1703,7 @@ export default function Home() {
         const merged = [...prev, ...parsedAll];
         const deduped = new Map<string, ParsedHand>();
         merged.forEach((hand) => {
-          const key = `${hand.sourceFile ?? "local"}::${hand.id}`;
-          deduped.set(key, hand);
+          deduped.set(handStableKey(hand), hand);
         });
         const sorted = Array.from(deduped.values()).sort((a, b) => {
           const ta = deriveTournamentKey(a);
