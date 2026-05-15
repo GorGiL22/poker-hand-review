@@ -210,7 +210,18 @@ export function PhrPublicHome({
           </p>
         </header>
       ) : (
-        <p className="shrink-0 text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/90">Fil public</p>
+        <motion.div className="flex shrink-0 flex-wrap items-center justify-between gap-2">
+          <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-violet-300/90">Fil public</p>
+          {onOpenGroups ? (
+            <button
+              type="button"
+              onClick={onOpenGroups}
+              className="rounded-lg border border-sky-500/40 bg-sky-950/30 px-2.5 py-1 text-[11px] font-bold text-sky-100 transition hover:bg-sky-900/40"
+            >
+              Groupes
+            </button>
+          ) : null}
+        </motion.div>
       )}
 
       {user && cloudLoading && (
