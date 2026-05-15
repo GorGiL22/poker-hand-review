@@ -53,6 +53,7 @@ type PhrPublicHomeProps = {
   welcomeDropActive: boolean;
   onImportClick: () => void;
   onOpenPost: (post: PublicHandPost) => boolean;
+  onOpenTournament?: (tournament: PublishedTournament) => void;
   onDragOver: (event: DragEvent<HTMLDivElement>) => void;
   onDragLeave: (event: DragEvent<HTMLDivElement>) => void;
   onDrop: (event: DragEvent<HTMLDivElement>) => void;
