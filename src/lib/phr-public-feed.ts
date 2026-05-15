@@ -16,6 +16,8 @@ import { sanitizeForFirestore } from "./phr-firebase-sync";
 
 export type PublicReaction = "like" | "fire" | "think";
 
+export type PublicFeedSource = "publicPosts" | "spots";
+
 export type PublicHandPost = {
   id: string;
   authorUid: string;
@@ -25,11 +27,20 @@ export type PublicHandPost = {
   createdAtMs: number;
   reactions: Record<string, PublicReaction>;
   reactionCounts: Record<PublicReaction, number>;
+  feedSource: PublicFeedSource;
+  spotMeta?: {
+    question: string;
+    category: string;
+    stepLabel: string;
+    heroAction: string;
+    heroAmount: number | null;
+    sourceValidation: string;
+  };
 };
 
 const REACTIONS: PublicReaction[] = ["like", "fire", "think"];
 
-function emptyCounts(): Record<PublicReaction, number> {
+export function emptyReactionCounts(): Record<PublicReaction, number> {
   return { like: 0, fire: 0, think: 0 };
 }
 
