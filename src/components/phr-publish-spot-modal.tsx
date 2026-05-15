@@ -131,21 +131,25 @@ export function PhrPublishSpotModal({
     setBusy(true);
     setError(null);
     try {
-      await publishSpot({
-        authorUid,
-        authorPseudo,
-        replay,
-        question: question.trim(),
-        category,
-        heroAction,
-        heroAmount: needsAmount ? parsedAmount : null,
-        sourceValidation,
-        visibility,
-        groupId: visibility === "group" ? selectedGroupId : undefined,
-        buyIn,
-      });
+      await withTimeout(
+        publishSpot({
+          authorUid,
+          authorPseudo,
+          replay,
+          question: question.trim(),
+          category,
+          heroAction,
+          heroAmount: needsAmount ? parsedAmount : null,
+          sourceValidation,
+          visibility,
+          groupId: visibility === "group" ? selectedGroupId : undefined,
+          buyIn,
+        }),
+        PUBLISH_TIMEOUT_MS,
+        "La publication a pris trop de temps. Vérifie ta connexion et réessaie.",
+      );
+      handleClose();
       onPublished?.(visibility, visibility === "group" ? selectedGroupId : undefined);
-      onClose();
     } catch (err) {
       const message = err instanceof Error ? err.message : "Publication impossible.";
       const code =
