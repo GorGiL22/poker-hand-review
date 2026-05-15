@@ -2971,7 +2971,12 @@ export default function Home() {
                 <button
                   type="button"
                   onClick={nextHand}
-                  disabled={selectedHandIndex >= filteredHands.length - 1}
+                  disabled={
+                    viewTournamentReview && tournamentReview
+                      ? tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId) >=
+                        tournamentReview.hands.length - 1
+                      : selectedHandIndex >= filteredHands.length - 1
+                  }
                   title="Main suivante"
                   className={PHR_TRANSPORT_BTN}
                 >
@@ -2979,7 +2984,9 @@ export default function Home() {
                 </button>
               </div>
               <span className="text-[11px] font-semibold tabular-nums text-zinc-500">
-                {`Main ${Math.max(selectedHandIndex + 1, 1)} / ${Math.max(filteredHands.length, 1)}`}
+                {viewTournamentReview && tournamentReview
+                  ? `Main ${Math.max(tournamentReview.hands.findIndex((h) => h.id === tournamentSelectedHandDocId) + 1, 1)} / ${tournamentReview.hands.length}`
+                  : `Main ${Math.max(selectedHandIndex + 1, 1)} / ${Math.max(filteredHands.length, 1)}`}
               </span>
             </div>
           </div>
