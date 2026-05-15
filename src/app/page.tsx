@@ -1267,9 +1267,32 @@ export default function Home() {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const lastActionSoundSigRef = useRef<string>("");
   const prevUserRef = useRef<typeof user>(null);
+  const userRef = useRef(user);
   const handsRef = useRef(hands);
   const skipCloudSaveRef = useRef(true);
+  userRef.current = user;
   handsRef.current = hands;
+
+  async function persistHandsToCloud(handsToSave?: ParsedHand[]): Promise<void> {
+    const uid = userRef.current?.uid;
+    if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
+    const list = handsToSave ?? handsRef.current;
+    if (list.length === 0) return;
+    await saveUserHandsOnly(uid, parsedHandsToCloudRecords(list), handStableKeyFromRecord);
+  }
+
+  async function persistReplaySessionToCloud(): Promise<void> {
+    const uid = userRef.current?.uid;
+    if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
+    if (handsRef.current.length === 0) return;
+    await saveUserReplaySession(uid, {
+      selectedHandId,
+      stepIndex,
+      selectedTournament,
+      displayUnit,
+      soundEnabled,
+    });
+  }
 
   function parseNumericInput(value: string): number {
     const normalized = Number.parseFloat(value.replace(",", "."));
