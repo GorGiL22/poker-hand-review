@@ -1991,13 +1991,22 @@ export default function Home() {
     if (files.length === 0) return;
     try {
       const parsedAll: ParsedHand[] = [];
+      const summaries: WinamaxTournamentSummaryMeta[] = [];
       for (const file of files) {
         const text = await file.text();
+        if (isWinamaxTournamentSummaryText(text, file.name)) {
+          const summary = parseWinamaxTournamentSummary(text);
+          if (summary) summaries.push(summary);
+          continue;
+        }
         const parsed = parseHandHistoryText(text, file.name);
         parsedAll.push(...parsed);
       }
-      if (parsedAll.length === 0) throw new Error("Aucune main valide detectee.");
-      const sorted = dedupeSortParsedHands([...handsRef.current, ...parsedAll]);
+      if (parsedAll.length === 0 && summaries.length === 0) {
+        throw new Error("Aucune main valide detectee.");
+      }
+      const withBuyIn = applyWinamaxSummaryBuyIns(parsedAll, summaries);
+      const sorted = dedupeSortParsedHands([...handsRef.current, ...withBuyIn]);
       setShowPublicHome(false);
       setHands(sorted);
       if (sorted.length > 0) {
