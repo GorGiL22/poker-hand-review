@@ -490,6 +490,8 @@ function parseBetclicHand(rawHand: string, fallbackIndex: number, sourceFile?: s
     ?.replace("Game Name:", "")
     .trim();
   const tournamentVariant = detectTournamentVariant(tournamentName);
+  const buyInEuro = parseBuyInFromTournamentName(tournamentName);
+  const platform = "Betclic";
 
   const players: Player[] = [];
   let heroName: string | undefined;
