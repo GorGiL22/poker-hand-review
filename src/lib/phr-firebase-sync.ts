@@ -1,6 +1,13 @@
 import { collection, doc, getDoc, getDocs, serverTimestamp, setDoc, writeBatch } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
+import {
+  handleFirestoreQuotaError,
+  isFirestoreQuotaPaused,
+  isFirestoreQuotaError,
+} from "./phr-firestore-quota";
+
+export { isFirestoreQuotaError } from "./phr-firestore-quota";
 
 /** Préférences utilisateur persistées sur `users/{uid}` (champs préfixés `phr`). */
 export type PhrCloudPrefsWrite = {

@@ -84,6 +84,7 @@ export function getFirebaseAuth(): Auth | null {
 }
 
 export function getFirebaseDb(): Firestore | null {
+  if (isFirestoreQuotaPaused()) return null;
   const app = getOrInitApp();
   if (!app) return null;
   const auth = getAuth(app);
