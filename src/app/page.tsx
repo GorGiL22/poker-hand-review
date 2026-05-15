@@ -1387,6 +1387,7 @@ export default function Home() {
           if (hand) parsed.push(hand);
         }
         if (parsed.length > 0 && handsRef.current.length === 0) {
+          setShowPublicHome(false);
           setHands(parsed);
           const preferredId = prefs?.selectedHandId?.trim();
           const pick =
