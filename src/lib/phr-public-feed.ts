@@ -111,15 +111,64 @@ export function subscribePublicPosts(
     return () => {};
   }
 
-  const q = query(collection(db, "publicPosts"), orderBy("createdAt", "desc"), limit(40));
-  return onSnapshot(
-    q,
+  let legacyPosts: PublicHandPost[] = [];
+  let spotPosts: PublicHandPost[] = [];
+
+  const emit = () => {
+    const merged = [...spotPosts, ...legacyPosts]
+      .sort((a, b) => b.createdAtMs - a.createdAtMs)
+      .slice(0, 40);
+    onData(merged);
+  };
+
+  const postsQuery = query(collection(db, "publicPosts"), orderBy("createdAt", "desc"), limit(40));
+  const spotsQuery = query(
+    collection(db, "spots"),
+    where("visibility", "==", "public"),
+    orderBy("createdAt", "desc"),
+    limit(40),
+  );
+
+  const unsubPosts = onSnapshot(
+    postsQuery,
     (snap) => {
-      const posts = snap.docs.map((d) => parsePost(d.id, d.data() as Record<string, unknown>));
-      onData(posts);
+      legacyPosts = snap.docs.map((d) =>
+        parseFeedDocument(d.id, d.data() as Record<string, unknown>, "publicPosts"),
+      );
+      emit();
     },
     (err) => onError?.(err instanceof Error ? err : new Error("Erreur fil public")),
   );
+
+  const unsubSpots = onSnapshot(
+    spotsQuery,
+    (snap) => {
+      spotPosts = snap.docs.map((d) =>
+        parseFeedDocument(d.id, d.data() as Record<string, unknown>, "spots"),
+      );
+      emit();
+    },
+    (err) => onError?.(err instanceof Error ? err : new Error("Erreur fil public")),
+  );
+
+  return () => {
+    unsubPosts();
+    unsubSpots();
+  };
+}
+
+export async function toggleFeedReaction(
+  feedSource: PublicFeedSource,
+  postId: string,
+  uid: string,
+  reaction: PublicReaction,
+): Promise<void> {
+  if (feedSource === "spots") {
+    const { toggleSpotReaction } = await import("./phr-spots");
+    await toggleSpotReaction(postId, uid, reaction);
+    return;
+  }
+  await togglePublicReaction(postId, uid, reaction);
 }
 
 export async function publishPublicPost(input: {
