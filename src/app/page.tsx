@@ -2726,8 +2726,9 @@ export default function Home() {
                 onBack={() => setActiveGroupId(null)}
                 onOpenSpot={openFeedPost}
               />
-            ) : (
+            ) : homeSection === "groups" ? (
               <PhrGroupsHub
+                onBack={() => setHomeSection("menu")}
                 onOpenGroup={(groupId) => {
                   setShowPublicHome(true);
                   setActiveGroupId(groupId);
@@ -2742,6 +2743,19 @@ export default function Home() {
                 cloudSyncWarning={cloudSyncWarning}
                 importError={importError}
                 hasImportedHands={hands.length > 0}
+              />
+            ) : (
+              <PhrHomeLanding
+                onGroups={() => setHomeSection("groups")}
+                onMonEspace={handleMonEspaceClick}
+                onReplayer={() => {
+                  if (hands.length > 0) goToReplayer();
+                  else fileInputRef.current?.click();
+                }}
+                hasHands={hands.length > 0}
+                cloudLoading={cloudLoading}
+                cloudSyncWarning={cloudSyncWarning}
+                importError={importError}
               />
             )
           ) : (() => {
