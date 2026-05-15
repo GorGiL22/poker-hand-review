@@ -88,7 +88,6 @@ export function PhrPublicHome({
   const [feedError, setFeedError] = useState<string | null>(null);
   const [reactBusyId, setReactBusyId] = useState<string | null>(null);
   const [discussionPostId, setDiscussionPostId] = useState<string | null>(null);
-  const [discussionCounts, setDiscussionCounts] = useState<Record<string, number>>({});
   const [showWelcomePanel, setShowWelcomePanel] = useState(false);
   const [showImportPanel, setShowImportPanel] = useState(false);
 
