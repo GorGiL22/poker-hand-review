@@ -2702,29 +2702,6 @@ export default function Home() {
                   )}
                 </div>
               </div>
-              <div className="flex shrink-0 flex-wrap items-center gap-2 border-t border-zinc-700/60 pt-1 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0">
-                {publishableTournamentMeta ? (
-                  <button
-                    type="button"
-                    onClick={openPublishTournamentModal}
-                    title={`Publier ${publishableTournamentMeta.hands.length} mains`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/50 bg-emerald-600/25 px-2.5 py-1 text-[11px] font-bold text-emerald-100 transition hover:border-emerald-400/60 hover:bg-emerald-600/35"
-                  >
-                    <span aria-hidden>📤</span>
-                    Publier le tournoi
-                    <span className="tabular-nums text-emerald-200/80">
-                      ({publishableTournamentMeta.hands.length})
-                    </span>
-                  </button>
-                ) : (
-                  <span
-                    className="max-w-[14rem] text-[10px] leading-tight text-zinc-500"
-                    title="Filtre un tournoi précis dans la liste"
-                  >
-                    Publier : choisis un tournoi (pas « Tous »)
-                  </span>
-                )}
-              </div>
             </div>
           )}
 
@@ -2754,31 +2731,17 @@ export default function Home() {
             activeGroupId ? (
               <PhrGroupView
                 groupId={activeGroupId}
-                onBack={() => {
-                  setActiveGroupId(null);
-                  setShowGroupsHub(true);
-                }}
+                onBack={() => setActiveGroupId(null)}
                 onOpenSpot={openFeedPost}
               />
-            ) : showGroupsHub ? (
+            ) : (
               <PhrGroupsHub
                 onOpenGroup={(groupId) => {
                   setShowPublicHome(true);
                   setActiveGroupId(groupId);
-                  setShowGroupsHub(false);
                 }}
-                onClose={() => setShowGroupsHub(false)}
-              />
-            ) : (
-              <PhrPublicHome
                 welcomeDropActive={welcomeDropActive}
                 onImportClick={() => fileInputRef.current?.click()}
-                onOpenPost={openFeedPost}
-                onOpenTournament={(t) => void openPublishedTournament(t)}
-                onOpenGroups={() => {
-                  setShowGroupsHub(true);
-                  setActiveGroupId(null);
-                }}
                 onDragOver={onWelcomeDragOver}
                 onDragLeave={onWelcomeDragLeave}
                 onDrop={onWelcomeDrop}
