@@ -2840,6 +2840,7 @@ export default function Home() {
                 onDrop={onWelcomeDrop}
                 cloudLoading={cloudLoading}
                 cloudLoadError={cloudLoadError}
+                cloudSyncWarning={cloudSyncWarning}
                 importError={importError}
                 hasImportedHands={hands.length > 0}
               />
