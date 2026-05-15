@@ -53,7 +53,8 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
 
   useEffect(() => {
     if (!firebaseConfigured) return;
-    const unsubGroup = subscribeReviewGroup(groupId, setGroup);
+    setError(null);
+    const unsubGroup = subscribeReviewGroup(groupId, setGroup, (err) => setError(err.message));
     const unsubMembers = subscribeGroupMembers(groupId, setMembers);
     const unsubPosts = subscribeGroupSpots(groupId, setPosts, (err) => setError(err.message));
     return () => {
