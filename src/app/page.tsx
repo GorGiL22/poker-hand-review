@@ -102,7 +102,7 @@ function dedupeSortParsedHands(hands: ParsedHand[]): ParsedHand[] {
   });
 }
 
-function mergeParsedHandLists(...lists: ParsedHand[]): ParsedHand[] {
+function mergeParsedHandLists(...lists: ParsedHand[][]): ParsedHand[] {
   return dedupeSortParsedHands(lists.flat());
 }
 
