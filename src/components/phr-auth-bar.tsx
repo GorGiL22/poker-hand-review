@@ -360,6 +360,7 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
   const accountMenuRef = useRef<HTMLDivElement>(null);
   const accountBtnRef = useRef<HTMLButtonElement>(null);
+  const accountMenuPanelRef = useRef<HTMLDivElement>(null);
   const [accountMenuStyle, setAccountMenuStyle] = useState<{
     top: number;
     right: number;
