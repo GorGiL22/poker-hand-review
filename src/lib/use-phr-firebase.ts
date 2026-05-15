@@ -76,10 +76,12 @@ export function usePhrFirebase() {
     const auth = getFirebaseAuth();
     if (!auth) return;
     await signOut(auth);
+    setPseudo(null);
   }, []);
 
   return {
     user,
+    pseudo,
     authLoading,
     firebaseConfigured,
     signUpWithEmail,
