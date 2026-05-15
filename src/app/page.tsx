@@ -3341,8 +3341,15 @@ export default function Home() {
           authorUid={user.uid}
           authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
           buyIn={buyInInput}
+          myGroups={myReviewGroups}
           onPublished={(vis) => {
-            setShareToast(vis === "public" ? "Spot publié sur le fil." : "Spot enregistré en privé.");
+            setShareToast(
+              vis === "public"
+                ? "Spot publié sur le fil."
+                : vis === "group"
+                  ? "Spot publié dans le groupe."
+                  : "Spot enregistré en perso.",
+            );
             window.setTimeout(() => setShareToast(null), 2800);
             setSpotPublishContext(null);
           }}
