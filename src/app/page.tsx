@@ -2051,6 +2051,82 @@ export default function Home() {
     setHands((prev) => prev.filter((hand) => !isFeedViewerHand(hand)));
   }
 
+  async function openPublishedTournament(tournament: PublishedTournament) {
+    if (tournamentOpenBusy) return;
+    setTournamentOpenBusy(true);
+    setShareToast(null);
+    try {
+      const tourHands = await loadPublishedTournamentHands(tournament.id);
+      if (tourHands.length === 0) {
+        setShareToast("Ce tournoi ne contient aucune main.");
+        window.setTimeout(() => setShareToast(null), 2800);
+        return;
+      }
+      const parsedList: ParsedHand[] = [];
+      for (const entry of tourHands) {
+        const raw = prepareTournamentHandForViewer(tournament.id, entry.id, entry.hand);
+        const parsed = storedRecordToParsedHand(raw);
+        if (parsed) parsedList.push(parsed);
+      }
+      if (parsedList.length === 0) {
+        setShareToast("Impossible de charger les mains du tournoi.");
+        window.setTimeout(() => setShareToast(null), 2800);
+        return;
+      }
+      setHands((prev) =>
+        mergeParsedHandLists(
+          prev.filter((hand) => !isTournamentViewerHand(hand)),
+          parsedList,
+        ),
+      );
+      setTournamentReview({ tournament, hands: tourHands });
+      setTournamentSelectedHandDocId(tourHands[0]!.id);
+      setSelectedHandId(parsedList[0]!.id);
+      setStepIndex(0);
+      setSpotReviewPost(null);
+      setShowPublicHome(false);
+      setShowMesMainsFullPage(false);
+      setChipTick((tick) => tick + 1);
+    } catch (err) {
+      setShareToast(err instanceof Error ? err.message : "Ouverture du tournoi impossible.");
+      window.setTimeout(() => setShareToast(null), 3200);
+    } finally {
+      setTournamentOpenBusy(false);
+    }
+  }
+
+  function closeTournamentReview() {
+    setTournamentReview(null);
+    setTournamentSelectedHandDocId(null);
+    setShowPublicHome(true);
+    setHands((prev) => prev.filter((hand) => !isTournamentViewerHand(hand)));
+  }
+
+  function loadTournamentHandByDocId(handDocId: string) {
+    if (!tournamentReview) return;
+    const entry = tournamentReview.hands.find((h) => h.id === handDocId);
+    if (!entry) return;
+    const raw = prepareTournamentHandForViewer(tournamentReview.tournament.id, entry.id, entry.hand);
+    const parsed = storedRecordToParsedHand(raw);
+    if (!parsed) return;
+    setTournamentSelectedHandDocId(handDocId);
+    setSelectedHandId(parsed.id);
+    setStepIndex(0);
+    setChipTick((tick) => tick + 1);
+  }
+
+  const selectedTournamentMeta = useMemo(() => {
+    if (selectedTournament === "ALL") return null;
+    const option = tournamentOptions.find((o) => o.key === selectedTournament);
+    const sample = tournamentFilteredHands[0];
+    return {
+      key: selectedTournament,
+      name: option?.label.replace(/\s*\(\d+\s*mains?\)\s*$/i, "").trim() || selectedTournament,
+      variant: sample?.tournamentVariant,
+      hands: tournamentFilteredHands,
+    };
+  }, [selectedTournament, tournamentOptions, tournamentFilteredHands]);
+
   function handleMonEspaceClick() {
     if (cloudLoading) return;
     if (hands.length > 0) {
