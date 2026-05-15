@@ -215,12 +215,6 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
         </ul>
       ) : null}
 
-      {error ? (
-        <p className="rounded-xl border border-rose-500/30 bg-rose-950/20 px-3 py-2 text-sm text-rose-200">
-          {error}
-        </p>
-      ) : null}
-
       {posts.length === 0 ? (
         <p className="rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-8 text-center text-sm text-zinc-500">
           Aucun spot dans ce groupe. Publie depuis le replayer en choisissant « Groupe privé ».
