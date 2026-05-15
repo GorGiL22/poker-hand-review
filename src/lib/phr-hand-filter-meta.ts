@@ -280,6 +280,17 @@ export function handMatchesPhrFilters(hand: PhrHandFilterShape, sel: PhrHandFilt
   );
 }
 
+export function handHeroResult(hand: PhrHandFilterShape): "GAIN" | "PERTE" | "UNKNOWN" {
+  return heroCollectedNet(hand);
+}
+
+export function handHeroResultLabel(hand: PhrHandFilterShape): string {
+  const r = heroCollectedNet(hand);
+  if (r === "GAIN") return "Gagné";
+  if (r === "PERTE") return "Perdu";
+  return "—";
+}
+
 export function phrFiltersAreActive(sel: PhrHandFilterSelection): boolean {
   return (
     sel.heroPreflop.length > 0 ||
