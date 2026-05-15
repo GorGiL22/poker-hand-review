@@ -3108,7 +3108,7 @@ export default function Home() {
       </div>
 
       {hands.length > 0 && !viewPublicHome && !viewSpotReview && !viewTournamentReview && (
-        <div className="pointer-events-none fixed bottom-4 left-3 z-[70] flex flex-col gap-2 sm:bottom-5 sm:left-5">
+        <motion.div className="pointer-events-none fixed bottom-[calc(5.25rem+env(safe-area-inset-bottom))] left-3 z-[72] flex flex-col gap-2 sm:left-5">
           {publishableTournamentMeta ? (
             <button
               type="button"
