@@ -70,6 +70,8 @@ export type SpotPublishInput = {
   heroAmount: number | null;
   sourceValidation: SpotSourceValidation;
   visibility: SpotVisibility;
+  /** Requis si visibility === "group". */
+  groupId?: string;
   /** Buy-in tournoi (EUR) au moment de la publication. */
   buyIn?: string;
 };
