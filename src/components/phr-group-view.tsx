@@ -14,6 +14,7 @@ import {
   subscribeReviewGroup,
   type ReviewGroup,
   type ReviewGroupMember,
+  isLocalGroupId,
 } from "@/lib/phr-review-groups";
 import type { PublicHandPost } from "@/lib/phr-public-feed";
 import { sourceValidationLabel, type SpotSourceValidation } from "@/lib/phr-spots";
