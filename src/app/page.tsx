@@ -668,6 +668,8 @@ function parseWinamaxHand(rawHand: string, fallbackIndex: number, sourceFile?: s
   const sb = blindMatch ? normalizeAmount(blindMatch[2]) : undefined;
   const bb = blindMatch ? normalizeAmount(blindMatch[3]) : undefined;
   const dateTime = header.match(/-\s(\d{4}\/\d{2}\/\d{2}\s+\d{2}:\d{2}:\d{2}\s+UTC)$/)?.[1];
+  const buyInEuro = parseWinamaxHeaderBuyIn(header) ?? parseBuyInFromTournamentName(tournamentName);
+  const platform = "Winamax";
 
   const buttonSeat =
     lines.find((line) => line.includes("is the button"))?.match(/Seat\s+#(\d+)/)?.[1];
