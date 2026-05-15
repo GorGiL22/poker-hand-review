@@ -2567,11 +2567,6 @@ export default function Home() {
               importError={importError}
             />
           ) : (() => {
-          const spotReviewTransport =
-            spotReviewPost?.spotMeta?.stepLabel ??
-            (currentStep
-              ? `${clampedStepIndex}/${maxUiStepIndex} · ${currentStep.action.street.toUpperCase()}`
-              : `${clampedStepIndex}/${maxUiStepIndex}`);
           const spotTable = (
           <div className={`${PHR_TABLE_FRAME}${viewSpotReview ? " min-h-[min(52vh,28rem)] flex-1 lg:min-h-0" : ""}`}>
             <div className="absolute inset-4 rounded-[999px] border-[6px] border-white/18 bg-[radial-gradient(circle_at_50%_45%,rgba(61,110,52,0.95),rgba(32,62,29,0.96))] shadow-[inset_0_0_70px_rgba(0,0,0,0.45),inset_0_0_0_1px_rgba(255,255,255,0.04)]" />
