@@ -2531,7 +2531,7 @@ export default function Home() {
                 {visibleBoard.length > 0 ? (
                   visibleBoard.map((card) => <Card key={`board-${card}`} card={card} size="lg" />)
                 ) : (
-                  <span className="h-24 w-[390px]" />
+                  <span className="h-[7.25rem] w-[26rem]" />
                 )}
               </div>
             </div>
