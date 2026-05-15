@@ -219,7 +219,9 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
       {posts.length === 0 ? (
         <p className="rounded-2xl border border-white/10 bg-zinc-950/40 px-4 py-8 text-center text-sm text-zinc-500">
           Aucun spot dans ce groupe. Publie depuis le replayer en choisissant « Groupe privé ».
-          {groupId.startsWith("local-") ? " (Les spots partagés nécessitent Firestore ; le groupe local sert surtout à tester la navigation.)" : ""}
+          {isLocalGroupId(groupId)
+            ? " (Les spots partagés nécessitent Firestore ; le groupe local sert surtout à tester la navigation.)"
+            : ""}
         </p>
       ) : (
         <ul className="space-y-3">
