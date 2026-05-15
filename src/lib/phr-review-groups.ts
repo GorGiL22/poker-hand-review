@@ -16,6 +16,7 @@ import {
 } from "firebase/firestore";
 
 import { getFirebaseDb } from "./firebase";
+import { isFirestoreQuotaPaused, markFirestoreQuotaExceeded } from "./phr-firestore-quota";
 import { sanitizeForFirestore } from "./phr-firebase-sync";
 import { parseFeedDocument, type PublicHandPost } from "./phr-public-feed";
 

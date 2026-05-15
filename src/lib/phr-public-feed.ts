@@ -110,7 +110,7 @@ function mapSpotSnapshot(snap: QuerySnapshot): PublicHandPost[] {
   return snap.docs
     .map((d) => parseFeedDocument(d.id, d.data() as Record<string, unknown>, "spots"))
     .sort((a, b) => b.createdAtMs - a.createdAtMs)
-    .slice(0, 40);
+    .slice(0, 25);
 }
 
 /** Abonnement aux spots publics ; repli sans `orderBy` tant que l’index composite se construit. */
