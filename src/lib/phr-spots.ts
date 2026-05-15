@@ -288,6 +288,11 @@ export async function publishSpot(input: SpotPublishInput): Promise<void> {
     sourceValidation: input.sourceValidation,
     visibility: input.visibility,
     summary,
+    tournamentName: tour.tournamentName ?? undefined,
+    levelLabel: tour.levelLabel ?? undefined,
+    blindsSb: tour.blindsSb ?? undefined,
+    blindsBb: tour.blindsBb ?? undefined,
+    buyIn: buyIn ?? undefined,
     reactions: {},
     reactionCounts: emptyReactionCounts(),
   });
