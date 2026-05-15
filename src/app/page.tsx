@@ -2223,10 +2223,10 @@ export default function Home() {
               >
                 <div className="pointer-events-none space-y-2">
                   <h1 className="text-balance text-xl font-bold tracking-tight text-zinc-50 drop-shadow-md sm:text-2xl">
-                    Bienvenue sur PokerReview Hand
+                    Bienvenue sur SpotLab
                   </h1>
                   <p className="text-balance text-sm text-zinc-200/95 drop-shadow">
-                    Analyse simplement tes mains pour progresser
+                    Analyse tes mains simplement et partage-les avec les autres pour obtenir leur avis.
                   </p>
                 </div>
                 <div
