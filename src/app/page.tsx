@@ -3241,6 +3241,38 @@ export default function Home() {
           }}
         />
       )}
+      {showPublishTournamentModal && user && selectedTournamentMeta && (
+        <PhrPublishTournamentModal
+          open={showPublishTournamentModal}
+          onClose={() => setShowPublishTournamentModal(false)}
+          tournamentKey={selectedTournamentMeta.key}
+          tournamentName={selectedTournamentMeta.name}
+          tournamentVariant={selectedTournamentMeta.variant}
+          buyIn={buyInInput}
+          hands={parsedHandsToCloudRecords(selectedTournamentMeta.hands)}
+          authorUid={user.uid}
+          authorPseudo={pseudo?.trim() || user.email?.split("@")[0] || "Joueur"}
+          onPublished={(id, vis) => {
+            setShareToast(
+              vis === "public" ? "Tournoi publié sur le fil." : "Tournoi enregistré en privé.",
+            );
+            window.setTimeout(() => setShareToast(null), 2800);
+            void openPublishedTournament({
+              id,
+              authorUid: user.uid,
+              authorPseudo: pseudo?.trim() || user.email?.split("@")[0] || "Joueur",
+              tournamentKey: selectedTournamentMeta.key,
+              tournamentName: selectedTournamentMeta.name,
+              tournamentVariant: selectedTournamentMeta.variant,
+              buyIn: buyInInput.trim() || undefined,
+              handCount: selectedTournamentMeta.hands.length,
+              visibility: vis,
+              createdAtMs: Date.now(),
+              summary: `${selectedTournamentMeta.name}\n${selectedTournamentMeta.hands.length} mains`,
+            });
+          }}
+        />
+      )}
     </main>
   );
 }
