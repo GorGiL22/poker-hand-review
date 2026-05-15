@@ -2568,6 +2568,7 @@ export default function Home() {
               cloudLoading={cloudLoading}
               cloudLoadError={cloudLoadError}
               importError={importError}
+              hasImportedHands={hands.length > 0}
             />
           ) : (() => {
           const spotTable = (
