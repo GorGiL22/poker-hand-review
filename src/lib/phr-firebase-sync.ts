@@ -345,36 +345,6 @@ export async function saveUserCloudData(
   if (!db) throw new Error("Firestore non initialisé");
 
   const userRef = doc(db, "users", uid);
-  const colRef = collection(db, "users", uid, "hands");
-
-  const want = new Map<string, { stableKey: string; hand: Record<string, unknown> }>();
-  for (const hand of hands) {
-    const stableKey = stableKeyForHand(hand);
-    const id = handStableKeyToFirestoreDocId(stableKey);
-    want.set(id, { stableKey, hand });
-  }
-
-  const existingSnap = await getDocs(colRef);
-
-  const toDelete = existingSnap.docs.filter((d) => !want.has(d.id));
-  for (let i = 0; i < toDelete.length; i += BATCH_SAFE) {
-    const batch = writeBatch(db);
-    toDelete.slice(i, i + BATCH_SAFE).forEach((d) => batch.delete(d.ref));
-    await batch.commit();
-  }
-
-  const entries = [...want.entries()];
-  for (let i = 0; i < entries.length; i += BATCH_SAFE) {
-    const batch = writeBatch(db);
-    entries.slice(i, i + BATCH_SAFE).forEach(([id, { stableKey, hand }]) => {
-      batch.set(doc(colRef, id), {
-        stableKey,
-        hand,
-        phrUpdatedAt: serverTimestamp(),
-      });
-    });
-    await batch.commit();
-  }
-
+  await syncUserHandsCollection(uid, hands, stableKeyForHand);
   await setDoc(userRef, prefsToFirestoreFields(prefs), { merge: true });
 }
