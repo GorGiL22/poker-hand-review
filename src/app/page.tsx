@@ -1267,8 +1267,17 @@ export default function Home() {
   /** Fil public / accueil (distinct du replayer quand des mains sont chargées). */
   const [showPublicHome, setShowPublicHome] = useState(true);
   const [spotReviewPost, setSpotReviewPost] = useState<PublicHandPost | null>(null);
+  const [tournamentReview, setTournamentReview] = useState<{
+    tournament: PublishedTournament;
+    hands: PublishedTournamentHand[];
+  } | null>(null);
+  const [tournamentSelectedHandDocId, setTournamentSelectedHandDocId] = useState<string | null>(null);
+  const [tournamentOpenBusy, setTournamentOpenBusy] = useState(false);
+  const [showPublishTournamentModal, setShowPublishTournamentModal] = useState(false);
   const viewSpotReview = spotReviewPost !== null;
-  const viewPublicHome = (hands.length === 0 || showPublicHome) && !viewSpotReview;
+  const viewTournamentReview = tournamentReview !== null;
+  const viewPublicHome =
+    (hands.length === 0 || showPublicHome) && !viewSpotReview && !viewTournamentReview;
   /** Mise en avant de la zone drop sur l’accueil (aucune main). */
   const [welcomeDropActive, setWelcomeDropActive] = useState(false);
   /** Message court après partage de main (presse-papiers / partage natif). */
