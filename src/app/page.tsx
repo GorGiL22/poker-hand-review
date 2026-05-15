@@ -1602,26 +1602,39 @@ export default function Home() {
     };
   }, [user?.uid]);
 
+  /** Mains : debounce long, sans flush au démontage (évite N syncs complètes à chaque pas du replayer). */
   useEffect(() => {
     if (!user || skipCloudSaveRef.current || cloudLoading) return;
 
-    const flushAll = () => {
+    const timer = window.setTimeout(() => {
       void persistHandsToCloud().catch(() => {
         /* sauvegarde silencieuse */
       });
-      void persistReplaySessionToCloud().catch(() => {
-        /* sauvegarde silencieuse */
-      });
-    };
+    }, 4000);
 
-    const timer = window.setTimeout(flushAll, 800);
-    return () => {
-      window.clearTimeout(timer);
-      if (!skipCloudSaveRef.current && handsRef.current.length > 0) {
-        flushAll();
-      }
-    };
-  }, [user, hands, cloudLoading, selectedHandId, stepIndex, selectedTournament, displayUnit, soundEnabled, firebaseConfigured]);
+    return () => window.clearTimeout(timer);
+  }, [user, hands, cloudLoading, firebaseConfigured]);
+
+  /** Session replayer seule : léger (1 doc utilisateur), pas de resync des mains. */
+  useEffect(() => {
+    if (!user || skipCloudSaveRef.current || cloudLoading || hands.length === 0) return;
+
+    const timer = window.setTimeout(() => {
+      void persistReplaySessionToCloud();
+    }, 1500);
+
+    return () => window.clearTimeout(timer);
+  }, [
+    user,
+    hands.length,
+    cloudLoading,
+    firebaseConfigured,
+    selectedHandId,
+    stepIndex,
+    selectedTournament,
+    displayUnit,
+    soundEnabled,
+  ]);
 
   useEffect(() => {
     function flushOnLeave() {
