@@ -59,6 +59,7 @@ export type PublicHandPost = {
     blindsSb?: number | null;
     blindsBb?: number | null;
   };
+  visibility?: "public" | "private" | "group";
 };
 
 const REACTIONS: PublicReaction[] = ["like", "fire", "think"];
