@@ -311,7 +311,7 @@ export function PhrPublishSpotModal({
               {error}
             </p>
           )}
-        </motion.div>
+        </div>
 
         <footer className="shrink-0 border-t border-white/10 p-4">
           <button
