@@ -397,7 +397,11 @@ export function PhrAuthBar({ onMonEspaceClick, onReplayerClick }: PhrAuthBarProp
     if (!accountMenuOpen) return;
     function onPointerDown(event: MouseEvent) {
       const target = event.target as Node;
-      if (accountMenuRef.current?.contains(target) || accountBtnRef.current?.contains(target)) {
+      if (
+        accountMenuRef.current?.contains(target) ||
+        accountBtnRef.current?.contains(target) ||
+        accountMenuPanelRef.current?.contains(target)
+      ) {
         return;
       }
       setAccountMenuOpen(false);
