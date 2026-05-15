@@ -332,8 +332,18 @@ export function PhrGroupsHub({
         )}
       </section>
 
-      {user && !authLoading && firebaseConfigured ? (
-        <div className="shrink-0 space-y-2 border-t border-white/10 pt-4">
+      {localGroups || (user && !authLoading && firebaseConfigured) ? (
+        <motion.div className="shrink-0 space-y-2 border-t border-white/10 pt-4">
+          {localGroups ? (
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => void onSeedLocalTestGroup()}
+              className={`${PHR_BTN} w-full border-sky-500/40 bg-sky-950/40 text-sky-100`}
+            >
+              {busy ? "Création…" : "Créer un groupe de test (local)"}
+            </button>
+          ) : null}
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
