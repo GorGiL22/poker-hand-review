@@ -548,6 +548,10 @@ export async function setGroupInviteCode(
   ownerUid: string,
   rawCode: string,
 ): Promise<string> {
+  if (isLocalGroupsEnabled() || isLocalGroupId(groupId)) {
+    throw new Error("Modification du code désactivée en mode groupes locaux.");
+  }
+
   const db = getFirebaseDb();
   if (!db) throw new Error("Firestore non initialisé");
 
