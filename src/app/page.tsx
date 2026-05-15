@@ -1288,7 +1288,7 @@ export default function Home() {
   async function persistHandsToCloud(handsToSave?: ParsedHand[]): Promise<void> {
     const uid = userRef.current?.uid;
     if (!uid || !firebaseConfigured || skipCloudSaveRef.current) return;
-    const list = handsToSave ?? handsRef.current;
+    const list = (handsToSave ?? handsRef.current).filter((hand) => !isFeedViewerHand(hand));
     if (list.length === 0) return;
     await saveUserHandsOnly(uid, parsedHandsToCloudRecords(list), handStableKeyFromRecord);
   }
