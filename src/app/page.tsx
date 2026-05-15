@@ -1278,6 +1278,7 @@ export default function Home() {
   const [cloudLoading, setCloudLoading] = useState(false);
   const [cloudLoadError, setCloudLoadError] = useState<string | null>(null);
   const [cloudSyncWarning, setCloudSyncWarning] = useState<string | null>(null);
+  const [localHandsReady, setLocalHandsReady] = useState(false);
   const [chipTick, setChipTick] = useState(0);
   const [displayUnit, setDisplayUnit] = useState<"bb" | "chips">("bb");
   const [selectedTournament, setSelectedTournament] = useState<string>("ALL");
