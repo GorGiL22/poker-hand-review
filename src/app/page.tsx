@@ -2777,6 +2777,7 @@ export default function Home() {
             ) : showGroupsHub ? (
               <PhrGroupsHub
                 onOpenGroup={(groupId) => {
+                  setShowPublicHome(true);
                   setActiveGroupId(groupId);
                   setShowGroupsHub(false);
                 }}
