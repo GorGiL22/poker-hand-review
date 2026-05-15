@@ -335,6 +335,7 @@ export function PhrPublicHome({
         })}
       </div>
 
+      {showImportPanel && (
       <div
         className={`shrink-0 rounded-2xl border-2 border-dashed px-4 py-5 transition ${
           welcomeDropActive
