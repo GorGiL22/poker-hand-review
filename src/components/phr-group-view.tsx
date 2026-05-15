@@ -125,7 +125,7 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
           >
             Membres
           </button>
-          {isOwner && inviteCode ? (
+          {inviteCode ? (
             <button
               type="button"
               onClick={() => void copyInvite()}
@@ -135,8 +135,58 @@ export function PhrGroupView({ groupId, onBack, onOpenSpot }: PhrGroupViewProps)
               {inviteCode}
             </button>
           ) : null}
+          {isOwner ? (
+            <button
+              type="button"
+              onClick={() => setShowInviteSettings((v) => !v)}
+              className={`rounded-lg border px-2.5 py-1 text-xs font-semibold ${
+                showInviteSettings
+                  ? "border-sky-500/50 bg-sky-600/25 text-sky-100"
+                  : "border-white/10 text-zinc-300 hover:bg-zinc-800"
+              }`}
+            >
+              Code
+            </button>
+          ) : null}
         </div>
-      </div>
+      </motion.div>
+
+      {inviteToast ? (
+        <p className="rounded-lg border border-sky-500/30 bg-sky-950/25 px-3 py-1.5 text-xs text-sky-100">
+          {inviteToast}
+        </p>
+      ) : null}
+
+      {showInviteSettings && isOwner ? (
+        <section className="space-y-2 rounded-xl border border-sky-500/25 bg-sky-950/20 p-3">
+          <p className="text-xs font-bold uppercase tracking-wide text-sky-300/80">Configurer le code</p>
+          <div className="flex gap-2">
+            <input
+              value={inviteDraft}
+              onChange={(e) => setInviteDraft(normalizeInviteCode(e.target.value))}
+              maxLength={12}
+              disabled={inviteBusy}
+              className="min-w-0 flex-1 rounded-lg border border-white/10 bg-zinc-950/80 px-3 py-2 font-mono text-sm uppercase tracking-widest text-zinc-100 outline-none focus:border-sky-500/45"
+            />
+            <button
+              type="button"
+              disabled={inviteBusy}
+              onClick={() => setInviteDraft(generateInviteCode())}
+              className="shrink-0 rounded-lg border border-white/10 px-2.5 py-2 text-xs font-semibold text-zinc-300 hover:bg-zinc-800"
+            >
+              Aléa.
+            </button>
+          </div>
+          <button
+            type="button"
+            disabled={inviteBusy || inviteDraft.length < 6}
+            onClick={() => void saveInviteCode()}
+            className="w-full rounded-lg border border-sky-500/40 bg-sky-600/25 py-2 text-sm font-semibold text-sky-100 disabled:opacity-50"
+          >
+            {inviteBusy ? "Enregistrement…" : "Enregistrer le code"}
+          </button>
+        </section>
+      ) : null}
 
       {showMembers ? (
         <ul className="flex flex-wrap gap-2 rounded-xl border border-white/10 bg-zinc-950/50 p-3">
