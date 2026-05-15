@@ -1073,12 +1073,12 @@ function BackCard({ size = "md" }: { size?: "md" | "hero" | "lg" }) {
   return (
     <span
       className={`relative inline-flex shrink-0 items-center justify-center border border-rose-300/40 bg-gradient-to-br from-rose-600 via-rose-700 to-red-950 shadow-[0_6px_18px_rgba(0,0,0,0.32),inset_0_1px_0_rgba(255,255,255,0.12)] ${
-        large ? "h-[7.25rem] w-[5.1rem] rounded-2xl" : "h-[5.25rem] w-[3.75rem] rounded-xl"
+        large ? "h-[5.5rem] w-[3.85rem] rounded-xl" : "h-16 w-11 rounded-lg"
       }`}
     >
       <span
-        className={`rounded-lg border border-rose-200/35 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_1px,_transparent_1px)] bg-[length:5px_5px] ${
-          large ? "h-[4.75rem] w-[3.35rem]" : "h-[3.5rem] w-[2.45rem]"
+        className={`rounded-md border border-rose-200/35 bg-[radial-gradient(circle_at_center,_rgba(255,255,255,0.2)_1px,_transparent_1px)] bg-[length:4px_4px] ${
+          large ? "h-[3.6rem] w-[2.55rem]" : "h-9 w-6"
         }`}
       />
     </span>
