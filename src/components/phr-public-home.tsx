@@ -68,6 +68,7 @@ export function PhrPublicHome({
   cloudLoading = false,
   cloudLoadError = null,
   importError = null,
+  hasImportedHands = false,
 }: PhrPublicHomeProps) {
   const { user, authLoading, firebaseConfigured } = usePhrFirebase();
   const [posts, setPosts] = useState<PublicHandPost[]>([]);
